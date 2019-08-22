@@ -1,0 +1,34 @@
+
+.page-post{
+  display: flex;
+  width: calc(50vw + var(--primary-width) / 2);
+
+  >div:last-child{
+    flex: 1 1 auto;
+    margin: 100px 0 0 5px;
+  }
+  article{
+    width: var(--primary-width);
+    margin: 0;
+    
+    //width: calc(100% - 200px);
+    //float: right;
+  }
+  div.tool-bar{
+    display: none;
+  }
+}
+
+
+
+article{
+  width: var(--primary-width);
+
+  >div:first-child > h1{
+    margin-bottom: 70px !important;
+  }
+
+  pre {
+    //background: #fcfcfc !important;
+  }
+}

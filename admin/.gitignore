@@ -1,0 +1,9 @@
+/node_modules
+#dist
+build
+.ftpconfig
+.idea
+.umi
+/src/pages/.umi
+.temp
+
