@@ -24,3 +24,6 @@ pkg
 
 dist
 build
+backend/src/github.com
+backend/src/golang.org
+backend/src/gopkg.in
