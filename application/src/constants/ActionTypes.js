@@ -1,9 +1,0 @@
-export const UPDATE_APP = 'UPDATE_APP';
-export const UPDATE_POST = 'UPDATE_POST';
-export const UPDATE_HEADER = 'UPDATE_HEADER';
-
-export const UPDATE_CONTENT = 'UPDATE_CONTENT';
-
-
-export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';
-export const UPDATE_LOADING = 'UPDATE_LOADING';

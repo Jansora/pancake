@@ -1,34 +1,39 @@
-import RouterConfig from '../../config/router.config';
+const RouterConfig = require('../../config/config').default.routes;
+const { uniq } = require('lodash');
 
 const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
 
-function formatter(data) {
-  return data
-    .reduce((pre, item) => {
-      pre.push(item.path);
-      return pre;
-    }, [])
-    .filter(item => item);
+function formatter(routes, parentPath = '') {
+  const fixedParentPath = parentPath.replace(/\/{1,}/g, '/');
+  let result = [];
+  routes.forEach(item => {
+    if (item.path) {
+      result.push(`${fixedParentPath}/${item.path}`.replace(/\/{1,}/g, '/'));
+    }
+    if (item.routes) {
+      result = result.concat(
+        formatter(item.routes, item.path ? `${fixedParentPath}/${item.path}` : parentPath),
+      );
+    }
+  });
+  return uniq(result.filter(item => !!item));
 }
 
-describe('Homepage', async () => {
+describe('Ant Design Pro E2E test', () => {
   const testPage = path => async () => {
     await page.goto(`${BASE_URL}${path}`);
     await page.waitForSelector('footer', {
       timeout: 2000,
     });
     const haveFooter = await page.evaluate(
-      () => document.getElementsByTagName('footer').length > 0
+      () => document.getElementsByTagName('footer').length > 0,
     );
     expect(haveFooter).toBeTruthy();
   };
 
-  beforeAll(async () => {
-    jest.setTimeout(1000000);
-    await page.setCacheEnabled(false);
-  });
-  const routers = formatter(RouterConfig[1].routes);
+  const routers = formatter(RouterConfig);
+  console.log('routers', routers);
   routers.forEach(route => {
-    fit(`test pages ${route}`, testPage(route));
+    it(`test pages ${route}`, testPage(route));
   });
 });

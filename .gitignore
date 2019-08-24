@@ -1,0 +1,26 @@
+# Object file
+*.o
+
+# Ada Library Information
+*.ali
+
+.idea
+main
+main.exe
+
+yarn.lock
+
+
+node_modules
+
+.ftpconfig
+
+.umi
+/src/pages/.umi
+.temp
+
+pkg
+
+
+dist
+build
