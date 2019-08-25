@@ -26,6 +26,7 @@ const AntTab = withStyles(theme => ({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+
   },
   selected: {},
 }))(props => <Tab disableRipple {...props} />);
@@ -55,20 +56,22 @@ TabPanel.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
   },
   tabs: {
+    backgroundColor: theme.palette.background.paper,
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
 }));
 
-export default function HorizontalTabs(props) {
+export default function BootStrapTab(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(props.active);
-  const {labels, tabs} = props;
+  const {labels, tabs, bootstrap} = props;
   React.useEffect(()=> setValue(props.active), [props.active, value]);
   return (
     <div className={classes.root}>
+      {/*style={{width: '100vw', position: 'fixed'}}>*/}
       
       <Tabs
         indicatorColor="primary"
@@ -80,6 +83,7 @@ export default function HorizontalTabs(props) {
         // aria-label="Horizontal tabs example"
         className={classes.tabs}
         centered={props.centered}
+        style={bootstrap ? {width: '100vw', position: 'fixed'} : {}}>
       >
         {
           labels.map((label, index) => <AntTab label={label} key={index}  />)
@@ -91,7 +95,7 @@ export default function HorizontalTabs(props) {
         tabs.map((tab, index) =>
           <TabPanel
             
-            style={{}}
+
             key={index}
             index={index}
             value={value}
