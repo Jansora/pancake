@@ -1,6 +1,6 @@
 # pancake
 
-A opensource blog system. 
+An Opensource Blog System. 
 
 博客前台: React + Material Design
  
