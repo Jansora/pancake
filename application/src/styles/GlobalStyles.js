@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
     body{
       margin: 0;
       width: 100%;
-      background: #fafafa;
+      background: #f5f5f5;
       scroll-behavior: smooth;
       color: #595959;
       font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -37,12 +37,12 @@ export const GlobalStyle = createGlobalStyle`
       border: 3px solid  var(--primary-color);
     }
     ::-webkit-scrollbar-track {
-      width:6px;
-      background-color: white;
+      // width:6px;
+      // background-color: white;
     }
 
     body::-webkit-scrollbar {
-      display: none;
+      // display: none;
     }
 
 `;
