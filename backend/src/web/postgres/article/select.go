@@ -168,20 +168,29 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 	return As, err
 }
 
-func SelectTags(db *sql.DB, IsPublic bool) ([][]string, error) {
+func SelectTags(db *sql.DB,  c Condition, IsPublic bool) ([][]string, error) {
 
 	Tags := [][]string{}
-	querySql := fmt.Sprintf(`SELECT Tags FROM Article `)
+
+	querySql := `SELECT Tags FROM Article WHERE $1 <@ Tags `
+
+
 	if IsPublic {
-		querySql += " Where Is_public=true;"
+		querySql += " and Is_public=true "
+	}
+	querySql += " ORDER BY " + c.SortType + " " + c.Sort;
+	querySql += " LIMIT " + c.Limit + " OFFSET " + c.Offset;
+	arr := []string{}
+	if len(c.Tag) > 0 {
+		arr = c.Tag
 	}
 
-	r, err := db.Query(querySql)
-
+	r, err := db.Query(querySql,  pq.Array(arr))
 	if err != nil {
-		return Tags, err
+		fmt.Println(err)
 	}
 	defer r.Close()
+
 	for r.Next() {
 		tag := []string{};
 		r.Scan(pq.Array(&tag))

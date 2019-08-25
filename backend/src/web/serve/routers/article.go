@@ -253,8 +253,9 @@ func UpdateComment(r *gin.Engine)  {
 func GetTagList(r *gin.Engine) {
 
 	r.GET("/Golang/Tags", func(c *gin.Context) {
-
-		if as, err := article.SelectTags(pg.Client, !LoginStatus(c)); err == nil {
+		var con article.Condition;
+		con.Init(c);
+		if as, err := article.SelectTags(pg.Client, con, !LoginStatus(c)); err == nil {
 			Ret(c, true, as)
 		} else {
 			Ret(c, false, "获取 tag 失败！" + err.Error())
