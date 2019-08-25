@@ -6,7 +6,7 @@ import (
 	"web/postgres/account"
 	"web/postgres/article"
 	"web/postgres/github"
-	"web/postgres/graph"
+
 	"web/postgres/project"
 	"web/postgres/topic"
 	"web/serve"
@@ -19,7 +19,7 @@ func dbOp()  {
 	topic.Create(postgres.Client)
 	project.Create(postgres.Client)
 	github.Create(postgres.Client)
-	graph.Create(postgres.Client)
+
 	account.InsertAdminUser(postgres.Client)
 
 }
