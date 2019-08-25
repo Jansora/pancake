@@ -2,7 +2,7 @@
 
 A opensource blog system. 
 
-博客前台: React + Semantic UI 
+博客前台: React + Material Design
  
 博客后台: Ant Design Pro v4
 
