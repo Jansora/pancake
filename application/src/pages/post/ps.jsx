@@ -6,33 +6,28 @@ import Chip from '@material-ui/core/Chip';
 import { Link, withRouter} from 'react-router-dom';
 
 import Divider from '@material-ui/core/Divider';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-
-import Avatar from '@material-ui/core/Avatar';
 
 import {Icon} from "react-fa";
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {classes} from "../../utils/Router";
 
 import {client, format} from "../../utils/requests";
 import Tooltip from "@material-ui/core/Tooltip";
-import Message from "../../components/message"
+
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const PS = (props) => {
     const dispatch = (type, payload) => props.dispatch({type, payload});
-    const {breadcrumb, location} = props;
+    const {location} = props;
+    const breadcrumb = props.breadcrumb.concat(classes.filter(e => e.label === location.pathname));
     dispatch('breadcrumb', breadcrumb);
-    const class_ = breadcrumb[breadcrumb.length -1].value;
-    const prefix = props.match.path;
 
+    const prefix = breadcrumb[breadcrumb.length - 1].label;
+    const class_ = breadcrumb[breadcrumb.length - 1].value;
 
 
     const [loading, setLoading] = React.useState(false);
@@ -41,40 +36,51 @@ const PS = (props) => {
     const [offset, setOffset] = React.useState(0);
     const [data, setData] = React.useState([]);
     const [total, setTotal] = React.useState(0);
-    const [message, setMessage] = React.useState([false, 'warning', '']);
-    function fetch(init=true) {
+
+
+    // const [scrolling, setScrolling] = React.useState(false);
+    const fetch =  React.useCallback((init=true) => {
+
+
         setLoading(true);
-        if(init) setData([])
+        if(init) setData([]);
         const args = {sort, sortType, tag: class_ ==='所有' ? '' : class_, limit:10, offset : init ? 0 : offset};
 
         client.get("Article?" + format(args)).then((e)=>{
                 if(e.data.ret){
-
-                    console.log(e.data.res, data,data.concat(e.data.res))
-                    console.log(init ? e.data.res : data.concat(e.data.res))
-                    setData(init ? e.data.res : data.concat(e.data.res));
+                    const curData = init ? e.data.res : data.concat(e.data.res)
+                    setData(curData);
                     setTotal(e.data.total)
-                    setOffset(data.length + 10)
-
+                    setOffset(curData.length)
+       
+                    dispatch('message', {show: true, type: 'success', content: `已展示
+                      ${curData.length} / ${e.data.total} 条`});
+                    
+                    setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
+                      ${curData.length} / ${e.data.total} 条`}), 1000);
                  }
-                setLoading(false);
-                // setMessage([true,  'success', `共查询到 ${e.data.total} 条结果.`]) || setTimeout(()=> setMessage([false, 'success', ' ']), 1111000);
+
             }
         ).catch( e => {
             console.error(e);
-            setLoading(false);
-        })
-    }
-    const scroll = () =>{
-        const progress = (window.scrollY + 1) / (document.body.scrollHeight - document.body.clientHeight + 1) * 100;
-        // console.log(progress)
-        if(progress > 90 && !loading && data.length < total) fetch(false);
-    }
-    useEffect(()=>{
+            
+        }).finally(() => setLoading(false))
+      
+    }, [sortType, class_, offset, sort])
 
+    useEffect(()=>{
+      const scroll =() =>{
+        const progress = (window.scrollY + 1) / (document.body.scrollHeight - document.body.clientHeight + 1) * 100;
+    
+        if(progress > 92 && !loading && data.length < total) {
+          setLoading(true)
+          fetch(false);
+        }
+      
+      }
         document.addEventListener('scroll', scroll);
         return () => document.removeEventListener('scroll', scroll);
-    }, [scroll])
+    }, )
 
     useEffect(()=>{
         fetch()
@@ -121,7 +127,7 @@ const PS = (props) => {
               </Grid>
               <Grid component='div' item xs={9}>
 
-                <ContentWrapper>
+                <>
                   <MenuWrapper>
                     {
                       classes.map(_class => <Chip
@@ -136,10 +142,10 @@ const PS = (props) => {
                   </MenuWrapper>
                   <Divider style={{}}/>
                   {/*<Divider style={{margin: '10px 0'}}/>*/}
-                    <ContentWrapper >
-                        {
-                            // loading && <Loading><CircularProgress className={classes.progress} color="secondary" /></Loading>
-                        }
+                    <ContentWrapper>
+                      {
+                          loading && <Loading><CircularProgress  /></Loading>
+                      }
                     {
                         data.map((e, index) =><Card className='card' key={e.Url}
 
@@ -202,20 +208,11 @@ const PS = (props) => {
                     </Card>)
                     }
                 </ContentWrapper>
-                </ContentWrapper>
+                </>
 
               </Grid>
             </Grid>
 
-              <Message
-                  open={message[0]}
-                  autoHideDuration={1000}
-                  variant={message[1]}
-                  ContentProps={{
-                      'aria-describedby': 'message-id',
-                  }}
-                  message={<span >{message[2]}</span>}
-              />
           </PostsWrapper>
       )
 

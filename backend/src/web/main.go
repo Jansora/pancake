@@ -2,11 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"web/postgres"
 	"web/postgres/account"
 	"web/postgres/article"
-	"web/postgres/github"
-
 	"web/postgres/project"
 	"web/postgres/topic"
 	"web/serve"
@@ -18,8 +17,6 @@ func dbOp()  {
 	article.Create(postgres.Client)
 	topic.Create(postgres.Client)
 	project.Create(postgres.Client)
-	github.Create(postgres.Client)
-
 	account.InsertAdminUser(postgres.Client)
 
 }
@@ -39,7 +36,7 @@ func main()  {
 
 	dbOp()
 	serverOp()
-	//fmt.Println(tools.Sha256("s"))
+	fmt.Println("aaaaaaa")
 
 }
 

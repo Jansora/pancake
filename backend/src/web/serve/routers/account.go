@@ -12,7 +12,6 @@ import (
 
 func InitAuth(r *gin.Engine)  {
 	Login(r)
-	OauthLogin(r)
 }
 
 func Login(r *gin.Engine)  {
@@ -77,6 +76,3 @@ func LoginStatus(c *gin.Context)(bool){
 	return account.CheckLoginStatus(pg.Client, GetLoginCookie(c))
 }
 
-func OauthLoginStatus(c *gin.Context)(bool){
-	return account.CheckOauthLoginStatus(pg.Client, GetOauthCookie(c))
-}

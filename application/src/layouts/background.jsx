@@ -4,7 +4,7 @@ const Background = () => {
   
 
   React.useEffect(() => {
-    return;
+    // return;
     var canvas = document.getElementById('space')
 
     var c = canvas.getContext('2d')

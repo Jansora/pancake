@@ -11,28 +11,21 @@ const scala = keyframes`
   }
 `;
 
-const translate = keyframes`
-  from {
-    right: translateX(100%);
-  }
 
-  to {
-    transform: translateX(0);
-  }
-`;
 export const PostsWrapper = styled.main`
     padding-top: 20px;
     max-width: 1000px;
     margin: auto;
-    // overflow-x: hidden;
     animation: ${scala} 200ms;
         // background-color: white;
 `
 
+
 export const MenuWrapper = styled.div`
-    height: 50px;
+
     top: 0;
     position: sticky;
+    height: 49px;
     background: white;
     display: flex;
     justify-content: space-around;
@@ -54,7 +47,7 @@ export const MenuWrapper = styled.div`
 
 export const FilterWrapper = styled.div`
 
-    top: 91px;
+    top: 51px;
     position: sticky;
     display: flex;
     border-radius: 8px;
@@ -159,9 +152,11 @@ export const ContentWrapper = styled.div`
 `
 
 export const Loading = styled.div`
-         height: 200px;
+         height: 400px;
          position: fixed;
+         align-self: center;
          display: flex;
          align-items: center;
-         justify-content: center; 
+         justify-content: center;
+         // background: white;
    `

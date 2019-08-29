@@ -83,7 +83,7 @@ export default function BootStrapTab(props) {
         // aria-label="Horizontal tabs example"
         className={classes.tabs}
         centered={props.centered}
-        style={bootstrap ? {width: '100vw', position: 'fixed'} : {}}>
+        style={bootstrap ? {width: '100vw', position: 'fixed', zIndex: 999} : {}}>
       >
         {
           labels.map((label, index) => <AntTab label={label} key={index}  />)
@@ -94,8 +94,6 @@ export default function BootStrapTab(props) {
       {
         tabs.map((tab, index) =>
           <TabPanel
-            
-
             key={index}
             index={index}
             value={value}

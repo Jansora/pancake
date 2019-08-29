@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/lib/pq"
+	"strings"
 )
 
 func Select(db *sql.DB, Url string, IsPublic bool) (Article, error) {
@@ -125,6 +126,13 @@ func Selects(db *sql.DB,  c Condition, IsPublic bool) ([]Article, error) {
 func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 
 	As := []Article{}
+	ArticleIds := []string{}
+	//for example a := `{id:1, level: 1}`
+	for _, a := range as{
+		r := strings.Split(a, ",")[0]
+		println(a, r, "r[4:]=",r[4:])
+		ArticleIds = append(ArticleIds, r[4:])
+	}
 	if len(as) == 0 {
 		return As, nil
 	}
@@ -136,7 +144,7 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 		querySql += " and Is_public=true "
 	}
 
-	r, err := db.Query(querySql, pq.Array(as))
+	r, err := db.Query(querySql, pq.Array(ArticleIds))
 	if err != nil || !r.NextResultSet() {
 		fmt.Println(err)
 	}
@@ -162,35 +170,23 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 		As = append(As, A)
 	}
 
-
-
-	fmt.Println(As)
 	return As, err
 }
 
-func SelectTags(db *sql.DB,  c Condition, IsPublic bool) ([][]string, error) {
+func SelectTags(db *sql.DB, IsPublic bool) ([][]string, error) {
 
 	Tags := [][]string{}
-
-	querySql := `SELECT Tags FROM Article WHERE $1 <@ Tags `
-
-
+	querySql := fmt.Sprintf(`SELECT Tags FROM Article `)
 	if IsPublic {
-		querySql += " and Is_public=true "
-	}
-	querySql += " ORDER BY " + c.SortType + " " + c.Sort;
-	querySql += " LIMIT " + c.Limit + " OFFSET " + c.Offset;
-	arr := []string{}
-	if len(c.Tag) > 0 {
-		arr = c.Tag
+		querySql += " Where Is_public=true;"
 	}
 
-	r, err := db.Query(querySql,  pq.Array(arr))
+	r, err := db.Query(querySql)
+
 	if err != nil {
-		fmt.Println(err)
+		return Tags, err
 	}
 	defer r.Close()
-
 	for r.Next() {
 		tag := []string{};
 		r.Scan(pq.Array(&tag))

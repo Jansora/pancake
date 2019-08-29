@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
 import {GlobalStyle, GlobalColors} from "./styles/GlobalStyles";
+
 import App from './App';
 
 import reducer from './utils/reducer';

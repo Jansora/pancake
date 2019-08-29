@@ -1,7 +1,3 @@
-import Chip from "@material-ui/core/Chip";
-import {MenuWrapper} from "../styles/posts";
-import React from "react";
-
 
 export const classes  = [
   {label:'/post/all', value: '所有'},

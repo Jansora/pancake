@@ -62,6 +62,7 @@ func Selects(db *sql.DB,  IsPublic bool) ([]Topic, error) {
 			&A.Create_time,
 			&A.Modify_time,
 		)
+		A.ArticleObjects, err = article.SelectsByIds(db, A.Articles, IsPublic)
 
 		As = append(As, A)
 	}

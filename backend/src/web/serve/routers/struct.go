@@ -15,8 +15,7 @@ type  InsertArticleType struct {
 }
 
 type UpdateCommentType struct {
-	Comment string `json:"Comment"`
-	State string
+	Comments []string `json:"Comment"`
 }
 
 type LoginType struct {

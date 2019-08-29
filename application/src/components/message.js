@@ -12,7 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
-import Slide from '@material-ui/core/Slide';
+
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -55,8 +55,8 @@ export default (props) => {
   return (
     <Snackbar
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
+        vertical: 'top',
+        horizontal: 'right',
       }}
       // TransitionComponent={(props) => <Slide {...props}  direction="down" />}
       open={open}
@@ -64,7 +64,6 @@ export default (props) => {
       autoHideDuration={100}
     >
       <SnackbarContent
-          style={{height:40, top: 0}}
         className={clsx(classes[variant], className)}
         aria-describedby="client-snackbar"
         message={

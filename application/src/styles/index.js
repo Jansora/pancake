@@ -12,12 +12,19 @@ const scala = keyframes`
 `;
 
 export const PageWrapper = styled.main`
-      padding-top: 51px;
-    height: calc(100vh - 51px);
+    padding-top: 51px;
+    min-height: calc(100vh - 51px);
+    width: 100%;
     // overflow: scroll;
 
     animation: ${scala} 200ms;
     
 `
 
+export const FooterWrapper = styled.footer`
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 

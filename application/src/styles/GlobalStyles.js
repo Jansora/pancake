@@ -4,7 +4,7 @@ export const GlobalStyle = createGlobalStyle`
     body{
       margin: 0;
       width: 100%;
-      background: #f5f5f5;
+      // background: #f5f5f5;
       scroll-behavior: smooth;
       color: #595959;
       font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
         color: var(--primary-color);
         text-decoration: none !important;
       }
-      a:hover, a:checked, a:active{
+      a:hover, a:checked, a:active, a.active{
         color: var(--primary-active-color);
       }
       ::selection {
@@ -74,5 +74,7 @@ export const GlobalColors = createGlobalStyle`
     --footer-width: 100%;
     --min-footer-width: 1000px;
   }
+
+
 
 `;

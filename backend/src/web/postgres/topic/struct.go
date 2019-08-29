@@ -19,7 +19,6 @@ type Topic struct {
 	ArticleObjects []article.Article
 }
 
-
 func (t Topic) String() string {
 	return fmt.Sprintf(`
 Id: %d 

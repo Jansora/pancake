@@ -78,30 +78,3 @@ func CheckLoginStatus(db *sql.DB, U Account) bool {
 	return false
 }
 
-func CheckOauthLoginStatus(db *sql.DB, U Account) bool {
-
-	a := Account{}
-	querySql := fmt.Sprintf(`SELECT Id , Password FROM Account WHERE OriginId = %d `, U.OriginId)
-	err := db.QueryRow(querySql).Scan(&a.Id, &a.Password)
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	return tools.CompareHashAndPassword( a.Password,  U.Password,)
-}
-
-func SelectByOriginId(db *sql.DB, OriginId int) Account {
-
-	a := Account{}
-
-	querySql := fmt.Sprintf(`SELECT Id, Name, Password, OriginId  FROM Account WHERE OriginId = '%d'`, OriginId)
-
-	err := db.QueryRow(querySql).Scan(&a.Id, &a.Name,&a.Password, &a.OriginId)
-	if err != nil {
-		fmt.Println(err)
-		return Account{}
-	}
-
-	return a
-
-}

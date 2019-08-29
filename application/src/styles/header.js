@@ -10,21 +10,21 @@ export const Rotate = keyframes`
 `
 
 export const HeaderWrapper = styled.header`
-
+    position: fixed;
     height: 50px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
+    width:  100vw;
+    padding: 5px 20px 5px;
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
 `
 
 
 export const Left = styled.div`
-    position: fixed;
-    top: 5px;
-    left: 10px;
+    float: left;
     height: 40px;
     z-index: 1000;
-    display: flex;
+
     img {
     animation: ${Rotate} infinite 4s linear;
     height: 40px;
@@ -40,16 +40,47 @@ export const Left = styled.div`
     a{
       font-size: 13px;
     }
+    a.active{
+      font-weight: bolder;
+    }
+`
+
+export const Middle = styled.div`
+    position: absolute;
+    height: 40px;
+    line-height:40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: -1;
+    a{
+      margin:  0 25px;
+    }
 `
 
 export const Right = styled.div`
-    position: fixed;
-    top: 5px;
-    right: 10px;
+    float:right;
     height: 40px;
     line-height: 40px;
     z-index: 1000;
     a {
       padding: 0 5px;
     }
+`
+
+export const Navbar = styled.div`
+  width: 40px;
+  height: 80px;
+  position: fixed;
+  right:100px;
+  bottom: 50px;
+  svg{
+    color: #fff;
+    background-color: var(--primary-color);//rgba(0, 0, 0, 0.87);
+    cursor: pointer;
+    margin: 4px;
+    padding: 8px;
+    box-sizing: content-box;
+    border-radius: 4px;
+  }
 `

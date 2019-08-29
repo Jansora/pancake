@@ -1,33 +1,42 @@
 import React from 'react';
-import {Left, Right} from "../styles/header";
+import {Left, Right, Middle, Navbar, HeaderWrapper, HeaderPlaceHolder} from "../styles/header";
 
 import {Icon} from 'react-fa';
 import {NavLink} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import Logo from "../logo.png"
 
 import connect from "react-redux/es/connect/connect";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import {Divider} from "@material-ui/core";
 
 
 const Header = (props) => {
 
   const {breadcrumb} =props;
   return (
-    <React.Fragment>
+    <>
+    <HeaderWrapper>
       <Left>
         <Breadcrumbs separator="›" aria-label="breadcrumb" component='div'>
           <NavLink to={'/'}>
             <img src={Logo} alt='logo'/>
           </NavLink>
           {
-            breadcrumb.map( e => <NavLink to={e.label} key={e.label}>{e.value} </NavLink>)
+            breadcrumb.map( e => <NavLink to={e.label} key={e.label} exact>{e.value} </NavLink>)
           }
         </Breadcrumbs>
       </Left>
+      <Middle>
+        <NavLink to='/post'>post</NavLink>
+        <NavLink to='/topic'>topic</NavLink>
+        <NavLink to='/project'>project</NavLink>
+      </Middle>
       <Right>
           <Tooltip title="个人主页">
               <a target='_blank' rel='noopener noreferrer' href='https://zhangyangyuan.com'>
@@ -64,15 +73,14 @@ const Header = (props) => {
                   <Icon name="comments"/>
               </a>
           </Tooltip>
-
-
-
-
-
       </Right>
+      <Navbar>
+        <ArrowUpwardIcon onClick={()=>document.querySelector('body').scrollIntoView({ behavior: 'smooth' })} />
+        <ArrowDownwardIcon onClick={()=>window.scroll({ top: 250000, left: 0, behavior: 'smooth' })}/>
+      </Navbar>
+    </HeaderWrapper>
 
-    </React.Fragment>
-
+    </>
 
   )
 
