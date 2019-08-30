@@ -33,9 +33,9 @@ const Header = (props) => {
         </Breadcrumbs>
       </Left>
       <Middle>
-        <NavLink to='/post'>post</NavLink>
-        <NavLink to='/topic'>topic</NavLink>
-        <NavLink to='/project'>project</NavLink>
+        <NavLink to='/post'>博客</NavLink>
+        <NavLink to='/topic'>专栏</NavLink>
+        <NavLink to='/project'>项目</NavLink>
       </Middle>
       <Right>
           <Tooltip title="个人主页">
