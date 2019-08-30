@@ -2,12 +2,13 @@ import React, {} from 'react';
 import {Link, withRouter, Redirect,Route} from "react-router-dom";
 
 import BootStrapTab from "../components/BootStrapTab"
-import Posts from "../pages/post"
+
 import {PageWrapper} from "../styles";
 import {classes} from "../utils/Router";
-import PS from "../pages/post/ps";
-import P from "../pages/post/p";
-import Topic from "../pages/topic"
+import Post from "../pages/post";
+
+import Topic from "../pages/topic/"
+import Project from "../pages/project"
 
 const labels  = [
     {label:'/post', value: '博客'},
@@ -26,21 +27,22 @@ const BootStrap = (props) => {
         <PageWrapper id='PageWrapper'>
           
             <Route path='/' exact render={() => <Redirect to="/post"/>}/>
-            <Route path='/post' exact render={() => <Redirect to="/post/all"/>}/>
-         
             <Route
-              exact
-              path={classes.map(_class => _class.label)}
-              children={({match}) => match && <PS breadcrumb={breadcrumb}/>}
+                path='/post'
+                children={({match}) => match && <Post breadcrumb={breadcrumb}/>}
             />
-            <Route
-              path={classes.map(_class => _class.label + '/:url')}
-              children={({match}) => match && <P breadcrumb={breadcrumb}/>}
-            />
+
+
             <Route
               path='/topic'
               children={({match}) => match && <Topic breadcrumb={breadcrumb}/>}
             />
+            <Route
+                path='/project'
+                children={({match}) => match && <Project breadcrumb={breadcrumb}/>}
+            />
+
+
           {/*<BootStrapTab*/}
                 {/*    bootstrap*/}
                 {/*    centered*/}

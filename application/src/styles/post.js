@@ -1014,6 +1014,13 @@ custom-html-style .pl-11 {
 custom-html-style .pl-12 {
   padding-left: 128px!important;
 }
+
+
+.custom-html-style *{
+    white-space: pre-line;
+    overflow-wrap: break-word;
+}
+
 `
 
 export const Loading = styled.div`
@@ -1100,9 +1107,14 @@ export const Comment = styled.div`
 
 
 export const TopicInPost = styled.div`
-  margin: auto;
-  width: 250px;
-
+  // margin: auto;
+  position: fixed;
+  padding: 16px;
+  width: 300px;
+  top: 51px;
+  height: calc( 100vh - 51px);
+  border-right: 1px solid rgba(0,0,0,.07);
+  overflow: auto;
 
   div.MuiCard-root{
     width: 100%;
@@ -1119,6 +1131,8 @@ export const TopicInPost = styled.div`
       display: inline-block;
     }
     div.link-group{
+      width: 100%;
+      
       a{
         display: block;
         font-size: 14px;
@@ -1127,11 +1141,17 @@ export const TopicInPost = styled.div`
         white-space: nowrap;
         overflow: hidden;
         font-weight: 400;
-        height: 30px;
+        line-height: 30px;
         color: #505d6b;
       }
       a.level1{
         font-weight: 700;
+      }
+      a.level2{
+        margin-left: 20px;
+      }
+      a.active{
+        color: var(--primary-active-color);
       }
     }
   }

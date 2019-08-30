@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"web/postgres"
 	"web/postgres/account"
 	"web/postgres/article"
@@ -36,7 +35,6 @@ func main()  {
 
 	dbOp()
 	serverOp()
-	fmt.Println("aaaaaaa")
 
 }
 

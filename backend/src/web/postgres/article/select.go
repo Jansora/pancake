@@ -127,10 +127,10 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 
 	As := []Article{}
 	ArticleIds := []string{}
-	//for example a := `{id:1, level: 1}`
+
 	for _, a := range as{
 		r := strings.Split(a, ",")[0]
-		println(a, r, "r[4:]=",r[4:])
+
 		ArticleIds = append(ArticleIds, r[4:])
 	}
 	if len(as) == 0 {
@@ -144,9 +144,10 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 		querySql += " and Is_public=true "
 	}
 
+
 	r, err := db.Query(querySql, pq.Array(ArticleIds))
-	if err != nil || !r.NextResultSet() {
-		fmt.Println(err)
+	if err != nil {
+		fmt.Println("err:  ", err)
 	}
 	defer r.Close()
 

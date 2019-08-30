@@ -5,7 +5,7 @@ import HorizontalTab from '../../components/HoriziontalTab'
 import {PostWrapper, Article, TabWrapper, Comment, TopicInPost} from "../../styles/post";
 import connect from "react-redux/es/connect/connect";
 
-import {Link, withRouter} from 'react-router-dom';
+import {Link, NavLink, withRouter} from 'react-router-dom';
 
 
 import {client, format} from "../../utils/requests";
@@ -69,19 +69,12 @@ moment.locale('zh-CN');
 const P = (props) => {
     const dispatch = (type, payload) => props.dispatch({type, payload});
   
-
+    const {Topic, match} = props;
     const {url, topic} = props.match.params;
-    console.log(props.match.params)
-    const breadcrumb = topic
-      ? props.breadcrumb.concat(
-          [
-            {label: props.breadcrumb[props.breadcrumb.length - 1].label + '/' + topic + '/' + url, value: '获取中'},
-            {label: props.breadcrumb[props.breadcrumb.length - 1].label + '/' + topic + '/' + url, value: '获取中'},
-          ]
-        )
-      : props.breadcrumb;
-  
-  const [Id, setId] = React.useState('');
+    console.log(props)
+    const breadcrumb = props.breadcrumb.concat([{label: match.url, value: '加载中'}]);
+
+    const [Id, setId] = React.useState('');
     const [Author, setAuthor] = React.useState('');
     const [Create_time, setCreate_time] = React.useState('');
     const [Modify_time, setModify_time] = React.useState('');
@@ -120,12 +113,12 @@ const P = (props) => {
     
     
     const [Anchors, setAnchors] = React.useState([]);
-  
-    
-    const [Topic, setTopic] = React.useState([]);
-  
-    
-    
+
+
+
+
+
+
     useEffect(()=>{
       setLoading(true)
       client.get(`/Article/${url}`)
@@ -147,9 +140,12 @@ const P = (props) => {
               setTitle(data.Title);
               setContent(data.Content);
               setComments(data.Comment.map(c => JSON.parse(c)))
-              breadcrumb[breadcrumb.length - 1] = {...breadcrumb[breadcrumb.length - 1], value: data.Title}
-              console.log(breadcrumb)
-              dispatch('breadcrumb', breadcrumb);
+                console.log(data)
+              breadcrumb[breadcrumb.length - 1].value = data.Title;
+              // breadcrumb.push({...breadcrumb[breadcrumb.length - 1], value: data.Title})
+
+              // setBreadcrumb(breadcrumb.concat([{label: }]))
+
               updateToc()
             }
             
@@ -160,17 +156,7 @@ const P = (props) => {
           setLoading(false)
         })
       
-      if(topic) {
-        client.get(`Topic/${topic}`).then((r) => {
-            if (r.data.ret) {
-              breadcrumb[breadcrumb.length - 2] = {...breadcrumb[breadcrumb.length - 2], value: r.data.res.Name }
-              dispatch('breadcrumb', breadcrumb);
-              setTopic(r.data.res)
-            }
-          }
-        ).catch(e => {
-        })
-      }
+
       
     }, [url])
   
@@ -285,16 +271,18 @@ const P = (props) => {
       </div>
     })
   }
+
+  breadcrumb[breadcrumb.length - 1].value = Title;
+  dispatch('breadcrumb', breadcrumb);
   
   return (
           <PostWrapper>
             <Grid container justify={'space-around'} component='div' >
               <Grid component='div' item xs={3}>
                 {
-                  Topic.hasOwnProperty('Id') &&
+                  Topic && Topic.hasOwnProperty('Id') &&
                     <TopicInPost>
-                  
-                      <Card >
+                      <Card>
                         <CardMedia
                           style={{height: 150}}
                           image={Topic.Logo_url}
@@ -309,7 +297,7 @@ const P = (props) => {
                                 const level = parseInt(Topic.Articles[index].split("level:")[1].split("}"));
                                 const paths = breadcrumb[breadcrumb.length - 1].label.split('/');
                                 paths[paths.length - 1] = e.Url;
-                                return <Link to={paths.join('/')}  className={`level${level}`} key={e.Url}>{e.Title}</Link>
+                                return <NavLink to={paths.join('/')}  className={`level${level}`} key={e.Url}>{e.Title}</NavLink>
                               })
                             }
                           </div>
