@@ -30,6 +30,8 @@ export const Left = styled.div`
     animation: ${Rotate} infinite 4s linear;
     height: 40px;
     width: 40px;
+        display: block;
+    padding-bottom: 1px;
     }
     img:hover {
         animation-play-state: paused;
