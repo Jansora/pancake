@@ -23,7 +23,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const PS = (props) => {
     const dispatch = (type, payload) => props.dispatch({type, payload});
     const {location} = props;
-    const breadcrumb = props.breadcrumb.concat(classes.filter(e => e.label === location.pathname));
+    const breadcrumb = props.breadcrumb;//.concat(classes.filter(e => e.label === location.pathname));
     dispatch('breadcrumb', breadcrumb);
 
     const prefix = breadcrumb[breadcrumb.length - 1].label;

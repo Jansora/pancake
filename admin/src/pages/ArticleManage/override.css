@@ -957,7 +957,7 @@
 }
 
 
-.custom-html-style *{
+.custom-html-style p{
   white-space: pre-line;
   overflow-wrap: break-word;
 }

@@ -16,11 +16,12 @@ export const HeaderWrapper = styled.header`
     padding: 5px 20px 5px;
     background: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
+    z-index: 1000;
 `
 
 
 export const Left = styled.div`
+    position: absolute;
     float: left;
     height: 40px;
     z-index: 1000;
@@ -52,13 +53,14 @@ export const Middle = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: -1;
+    z-index: 999;
     a{
       margin:  0 25px;
     }
 `
 
 export const Right = styled.div`
+    // position: absolute;
     float:right;
     height: 40px;
     line-height: 40px;

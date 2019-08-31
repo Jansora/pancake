@@ -19,6 +19,7 @@ import {Divider} from "@material-ui/core";
 const Header = (props) => {
 
   const {breadcrumb} =props;
+  document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''} - Jansora个人博客`
   return (
     <>
     <HeaderWrapper>

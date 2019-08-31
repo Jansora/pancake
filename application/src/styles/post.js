@@ -1016,10 +1016,11 @@ custom-html-style .pl-12 {
 }
 
 
-.custom-html-style *{
+.custom-html-style p{
     white-space: pre-line;
     overflow-wrap: break-word;
 }
+  
 
 `
 
@@ -1039,7 +1040,7 @@ export const Loading = styled.div`
 export const TabWrapper = styled.div`
   top: 101px;
   position: sticky;
-  width: 200px;
+  width: 300px;
   margin: auto;
 
   div.MuiTypography-body1{

@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <React.Fragment>
-      {/*<Background/>*/}
+      <Background/>
       <Header/>
       <BootStrap/>
       <Footer/>

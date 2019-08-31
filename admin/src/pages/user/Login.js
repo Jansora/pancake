@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import Link from 'umi/link';
-import { Checkbox, Alert, Icon } from 'antd';
+
+import { Alert } from 'antd';
 import Login from './components/Login';
 import styles from './Login.less';
 
@@ -76,26 +75,15 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
+          <UserName name="userName" placeholder={`输入用户名`} />
+          <Password
+            name="password"
+            placeholder={`输入密码`}
+            onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+          />
 
-            <UserName
-              name="userName"
-              placeholder={`输入用户名`}
-            />
-            <Password
-              name="password"
-              placeholder={`输入密码`}
-        
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
-            />
-    
-          
-          <div>
-          
-          </div>
-          <Submit loading={submitting}>
-            登录
-          </Submit>
-
+          <div></div>
+          <Submit loading={submitting}>登录</Submit>
         </Login>
       </div>
     );
