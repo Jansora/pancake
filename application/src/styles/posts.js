@@ -102,7 +102,7 @@ export const ContentWrapper = styled.div`
         div.MuiCardContent-root{
             padding: 16px 16px 0 16px;
 
-            height: calc(100% - 16px);
+            height: 100%; //calc(100% - 16px);
             display: flex;
             flex-direction: column;
         }
@@ -111,7 +111,7 @@ export const ContentWrapper = styled.div`
            color: black;
            font-size: 16px;
            font-weight: bolder;
-           // margin-bottom: 10px;
+           margin-bottom: 16px;
         }
         p.summary{
            color: rgba(0, 0, 0, 0.64);
@@ -134,6 +134,7 @@ export const ContentWrapper = styled.div`
             flex: 1 1 auto; 
             display: flex;
             align-items: center;
+            justify-content: space-between;
             // height: 30px; 
             font-size: 13px;
             padding: 5px 0 10px 0;
