@@ -72,7 +72,7 @@ const PancakeEditor = (props) => {
     formData.append('file', file);
 
     const response = upload(formData);
-    response.then(e=> {
+    response.then(e => {
 
       if(e.ret){
         callback('https://' + e.res)
@@ -81,11 +81,6 @@ const PancakeEditor = (props) => {
       }
 
     })
-    setTimeout(() => {
-      // setTimeout 模拟异步上传图片
-      // 当异步上传获取图片地址后，执行calback回调（参数为imageUrl字符串），即可将图片地址写入markdown
-      callback('https://avatars0.githubusercontent.com/u/21263805?s=40&v=4')
-    }, 1000)
 
   }
   const renderHTML = (text) => {
