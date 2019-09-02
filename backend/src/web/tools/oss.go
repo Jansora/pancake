@@ -23,7 +23,6 @@ func client() *oss.Client {
 func bucket(client *oss.Client) *oss.Bucket {
 
 	// 获取存储空间。
-	fmt.Print(Conf.OSS.Bucket)
 	bucket, err := client.Bucket(Conf.OSS.Bucket)
 	if err != nil {
 		fmt.Println("Error:1", err)
