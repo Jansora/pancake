@@ -34,6 +34,16 @@ type Domain struct {
 	MainDomain string
 	AdminDomain string
 }
+
+type Oss struct {
+	EndPoint string
+	AccessKeyId string
+	AccessKeySecret string
+	Bucket string
+	AliasDomain string
+}
+
+
 func (p Postgres) Connect() string {
 	return fmt.Sprintf(`postgres://%s:%s@%s:%d/%s?sslmode=%s`,
 		p.User, p.Password, p.Host, p.Port, p.DataBase, p.SSLmode)
@@ -44,6 +54,7 @@ type Config struct {
 	ADMIN Admin
 	GITHUB Github
 	DOMAIN Domain
+	OSS Oss
 }
 
 func (c Config) String() string {
