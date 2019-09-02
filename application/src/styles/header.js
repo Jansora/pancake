@@ -12,8 +12,10 @@ export const Rotate = keyframes`
 export const HeaderWrapper = styled.header`
     position: fixed;
     height: 50px;
-    width:  100vw;
-    padding: 5px 20px 5px;
+    width:  calc(100vw - 40px);
+    padding: 5px 0;//20px 5px;
+    margin: 0 20px;
+    // margin: 5px;
     background: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     z-index: 1000;
@@ -22,7 +24,7 @@ export const HeaderWrapper = styled.header`
 
 export const Left = styled.div`
     position: absolute;
-    float: left;
+    left: 0;
     height: 40px;
     z-index: 1000;
 
@@ -62,8 +64,9 @@ export const Middle = styled.div`
 `
 
 export const Right = styled.div`
-    // position: absolute;
-    float:right;
+    position: absolute;
+    // float:right;
+    right: 0;
     height: 40px;
     line-height: 40px;
     z-index: 1000;
