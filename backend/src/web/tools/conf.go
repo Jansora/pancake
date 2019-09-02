@@ -41,6 +41,7 @@ type Oss struct {
 	AccessKeySecret string
 	Bucket string
 	AliasDomain string
+	Prefix string
 }
 
 

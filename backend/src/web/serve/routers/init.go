@@ -10,5 +10,8 @@ func Init(r *gin.Engine)  {
 	InitArticle(r)
 	InitTopic(r)
 	InitProject(r)
+
+
+	InitUtils(r)
 }
 

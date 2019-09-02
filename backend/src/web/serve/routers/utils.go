@@ -2,7 +2,6 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"web/tools"
 )
@@ -18,25 +17,26 @@ func InitUtils(r *gin.Engine)  {
 func Utils(r *gin.Engine)  {
 
 	r.POST("/Golang/Upload", func(c *gin.Context) {
-		var j LoginType
-		if c.BindJSON(&j) == nil {
 
-			file, _, _ := c.Request.FormFile("file")
 
-			r := tools.Upload(tools.Bucket, file, "")
 
-			if len(r) > 0{
+		file, _ := c.FormFile("file")
 
-				Ret(c, true, r)
+		src, _ := file.Open()
 
-			} else {
 
-				Ret(c, false, "")
-			}
+		r := tools.Upload(tools.Bucket, src, file.Filename)
+
+		if len(r) > 0{
+
+			Ret(c, true, r)
+
 		} else {
-			log.Println("/Login" + "-----  Decode json error -----")
+
 			Ret(c, false, "")
 		}
+
+
 	})
 
 

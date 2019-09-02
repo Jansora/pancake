@@ -5,6 +5,7 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"io"
 	"os"
+	"time"
 )
 
 
@@ -22,9 +23,10 @@ func client() *oss.Client {
 func bucket(client *oss.Client) *oss.Bucket {
 
 	// 获取存储空间。
+	fmt.Print(Conf.OSS.Bucket)
 	bucket, err := client.Bucket(Conf.OSS.Bucket)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error:1", err)
 		os.Exit(-1)
 	}
 	return bucket
@@ -34,12 +36,14 @@ func Upload(bucket *oss.Bucket, fp io.Reader, objectName string, ) string {
 
 
 	// 上传文件流。
+	objectName = Conf.OSS.Prefix + time.Now().Format("2006-01-02") + "/" + objectName
+
 	err := bucket.PutObject(objectName, fp)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error:2", err)
 		return ""
 	}
-	return Conf.OSS.AliasDomain + objectName
+	return Conf.OSS.AliasDomain + "/" + objectName
 }
 
 var Client = client()
