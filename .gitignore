@@ -30,3 +30,4 @@ backend/src/github.com/ugorji/go/codec/go.sum
 backend/src/github.com/ugorji/go/go.sum
 backend/src/golang.org/x/crypto/
 backend/src/gopkg.in/yaml.v2/go.sum
+application/package-lock.json
