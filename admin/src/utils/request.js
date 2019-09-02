@@ -50,10 +50,10 @@ const errorHandler = error => {
 
 const request = extend({
   errorHandler,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json; charset=utf-8',
-  },
+  // headers: {
+  //   Accept: 'application/json',
+  //   'Content-Type': 'application/json; charset=utf-8',
+  // },
   // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });

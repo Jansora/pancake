@@ -216,6 +216,7 @@ class ArticleInsert extends PureComponent{
                 <FormItem label={'正文'}>
                   <Editor
                       // value={content}
+                      dispatch={this.props.dispatch}
                       EditorRef={editorRef => this.setState({editorRef})}
                   />
 

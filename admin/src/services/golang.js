@@ -8,6 +8,16 @@ export async function checkLogin() {
   });
 }
 
+export async function upload(params) {
+  console.log(params, "oar")
+  return request('/Golang/Upload', {
+    method: 'post',
+    data: params,
+    // headers: { 'Content-Type': 'multipart/form-data'}
+  });
+}
+
+
 export async function fakeAccountLogin(params) {
   return request('/Golang/Login', {
     method: 'post',
