@@ -12,31 +12,30 @@ import insert from 'markdown-it-ins'
 import mark from 'markdown-it-mark'
 import tasklists from 'markdown-it-task-lists'
 import hljs from 'highlight.js'
-import mk from "markdown-it-katex"
-import mc from "markdown-it-custom-block";
+import mk from 'markdown-it-katex'
+import mc from 'markdown-it-custom-block'
 
 import 'highlight.js/styles/atom-one-light.css'
 
-import {upload} from '../../services/golang';
-import {message} from "antd";
+import { upload } from '../../services/golang';
+import { message } from 'antd';
 // import 'highlight.js/styles/github.css'
 // import "katex/dist/katex.min.css"
 
 
 const PancakeEditor = (props) => {
-  
   const mdParser = new MarkdownIt({
       html: true,
       linkify: true,
       typographer: true,
-      highlight: function (str, lang) {
+      highlight: (str, lang) => {
         if (lang && hljs.getLanguage(lang)) {
           try {
             return hljs.highlight(lang, str).value
           } catch (__) {}
         }
         return '' // use external default escaping
-      }
+      },
     })
       .use(emoji)
       .use(subscript)
@@ -64,7 +63,6 @@ const PancakeEditor = (props) => {
           </div>>`
         },
       });
-  
   const handleImageUpload = (file, callback) => {
 
 
@@ -77,12 +75,13 @@ const PancakeEditor = (props) => {
       if(e.ret){
         callback('https://' + e.res)
       } else {
-        message.error("上传失败： " + e.res)
+        message.error('上传失败： ' + e.res)
       }
 
     })
 
   }
+
   const renderHTML = (text) => {
     // 模拟异步渲染Markdown
     return new Promise((resolve) => {
@@ -92,31 +91,29 @@ const PancakeEditor = (props) => {
     })
   }
 
-  console.log(props)
+  return (
+    <div >
+      <MdEditor
+        style={{minHeight: '90vh'}}
+        ref={props.EditorRef}
+        renderHTML={renderHTML}
+        config={{
+          view: {
+            menu: true,
+            md: true,
+            html: true,
+          },
+          synchScroll: false,
+          imageUrl: 'https://octodex.github.com/images/minion.png'
+        }}
+        value=''
+        // onChange={handleEditorChange}
+        onImageUpload={handleImageUpload}
+        {...props}
+      />
+    </div>
 
-    return (
-      <div >
-        <MdEditor
-          style={{minHeight: '90vh'}}
-          ref={props.EditorRef}
-          renderHTML={renderHTML}
-          config={{
-            view: {
-              menu: true,
-              md: true,
-              html: true,
-            },
-            synchScroll: false,
-            imageUrl: 'https://octodex.github.com/images/minion.png'
-          }}
-          value=''
-          // onChange={handleEditorChange}
-          onImageUpload={handleImageUpload}
-          {...props}
-        />
-      </div>
-    
-    )
+  )
   
 }
 

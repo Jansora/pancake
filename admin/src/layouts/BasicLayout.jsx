@@ -113,15 +113,15 @@ const BasicLayout = props => {
       >
         {children}
       </ProLayout>
-      <SettingDrawer
-        settings={settings}
-        onSettingChange={config =>
-          dispatch({
-            type: 'settings/changeSetting',
-            payload: config,
-          })
-        }
-      />
+      {/*<SettingDrawer*/}
+      {/*  settings={settings}*/}
+      {/*  onSettingChange={config =>*/}
+      {/*    dispatch({*/}
+      {/*      type: 'settings/changeSetting',*/}
+      {/*      payload: config,*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*/>*/}
     </>
   );
 };
