@@ -137,7 +137,7 @@ class ProjectInsert extends PureComponent{
             </Row>
             <Row gutter={16}>
               <Col xl={24} lg={24} md={24} sm={24}>
-                <FormItem label={<FormattedMessage id="form.goal.label" />}>
+                <FormItem label={'description'}>
                   {getFieldDecorator('description', {
                     rules: [
                       {
@@ -147,7 +147,7 @@ class ProjectInsert extends PureComponent{
                   })(
                     <TextArea
                       style={{ minHeight: 64 , width:"100%"}}
-                      placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+
                       rows={6}
                       cols={24}
                     />
@@ -159,7 +159,7 @@ class ProjectInsert extends PureComponent{
         </Card>
 
         <Button type="primary" htmlType="submit" block onClick={this.handleSubmit}>
-          <FormattedMessage id="form.submit" />
+          提交
         </Button>
         <FooterToolbar >
           <div style={{'width': '100vw', position: 'absolute', left:0, padding: '10px 306px 0 50px'}}>
@@ -169,7 +169,7 @@ class ProjectInsert extends PureComponent{
             {/*  删除*/}
             {/*</Button>*/}
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float:'right'}}  >
-              <FormattedMessage id="form.submit" />
+              提交
             </Button>
           </div>
   

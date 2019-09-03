@@ -175,7 +175,7 @@ export default {
 
   reducers: {
     updateTopicInsert(state, action) {
-      console.log(action.payload, "action.payload.res")
+
       return {
         ...state,
         TopicInsert:{
@@ -195,7 +195,7 @@ export default {
       };
     },
     updateTopicEdit(state, action) {
-      console.log(action)
+
       const {res} = action.payload;
       return {
         ...state,
@@ -205,6 +205,7 @@ export default {
           toc: res.Toc,
           articles: res.Articles,
           logoUrl: res.Logo_url,
+          description: res.Description,
           isPublic: res.Is_public ? "true" : "false",
         }
       };

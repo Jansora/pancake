@@ -85,14 +85,14 @@ class Tools extends PureComponent{
               <Col sm={5} offset={1}>
                 <Form.Item label="提交">
                   <Button type="primary" htmlType="submit" onClick={this.handleSubmit} >
-                    <FormattedMessage id="form.submit" />
+                    提交
                   </Button>
                 </Form.Item>
               </Col>
               <Col sm={5} offset={1}>
                 <Form.Item label="最近一次上次文件的url">
                   <span></span>
-                  <a target='_blank' href={Tools.uploadurl} rel="noreferrer">{Tools.uploadurl}</a>
+                  <a target='_blank' href={Tools.uploadurl} rel="noopener noreferrer">{Tools.uploadurl}</a>
                 </Form.Item>
               </Col>
             </Row>

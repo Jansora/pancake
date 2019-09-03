@@ -168,7 +168,7 @@ export default {
       };
     },
     updateProjectEdit(state, action) {
-      console.log(action)
+
       const {res} = action.payload;
       return {
         ...state,
@@ -179,6 +179,7 @@ export default {
           frame: res.Frame,
           articles: res.Articles,
           logoUrl: res.Logo_url,
+          description: res.Description,
           isPublic: res.Is_public ? "true" : "false",
         }
       };

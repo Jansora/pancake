@@ -88,7 +88,7 @@ class ProjectEdit extends PureComponent{
     const { dispatch } = this.props;
     dispatch({
       type: 'Project/deleteProject',
-      payload: {url}
+      payload: {url},
     });
   };
   
@@ -128,7 +128,7 @@ class ProjectEdit extends PureComponent{
                   )}
                 </Form.Item>
               </Col>
-              <Col sm={5}  offset={1}>
+              <Col sm={5} offset={1}>
                 <Form.Item label="logo">
                   {getFieldDecorator('logoUrl', {
                     initialValue: logoUrl,
@@ -156,7 +156,6 @@ class ProjectEdit extends PureComponent{
               </Col>
             </Row>
             <Row gutter={16}>
-    
               <Col sm={5}>
                 <Form.Item label="frame地址">
                   {getFieldDecorator('frame', {
@@ -173,18 +172,18 @@ class ProjectEdit extends PureComponent{
             </Row>
             <Row gutter={16}>
               <Col xl={24} lg={24} md={24} sm={24}>
-                <FormItem label={<FormattedMessage id="form.goal.label" />}>
+                <FormItem label='摘要'>
                   {getFieldDecorator('description', {
                     initialValue: description,
                     rules: [
                       {
                         // required: true,
-                        message: "description",
+                        message: 'description',
                       },
                     ],
                   })(
                     <TextArea
-                      style={{ minHeight: 64 , width:"100%"}}
+                      style={{ minHeight: 64 , width: "100%" }}
                       placeholder={formatMessage({ id: 'form.goal.placeholder' })}
                       rows={6}
                       cols={24}
@@ -195,23 +194,17 @@ class ProjectEdit extends PureComponent{
             </Row>
           </Form>
         </Card>
-  
-        {/*<Button type="primary" htmlType="submit" block onClick={this.handleSubmit}>*/}
-        {/*  <FormattedMessage id="form.submit" />*/}
-        {/*</Button>*/}
-        
         <FooterToolbar >
-          <div style={{'width': '100vw', position: 'absolute', left:0, padding: '10px 306px 0 50px'}}>
-            <Button type="primary" style={{float:'left'}}
-                    onClick={() => message.warning('请双击来删除该文章')}
+          <div style={{ width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px' }}>
+            <Button type="primary" style={{ float: 'left' }}
+                    onClick={() => message.warning('请双击来删除该项目')}
                     onDoubleClick={() => this.deleteProject(url)} >
               删除
             </Button>
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float:'right'}}  >
-              <FormattedMessage id="form.submit" />
+              提交
             </Button>
           </div>
-  
         </FooterToolbar>
       </PageHeaderWrapper>
     );
