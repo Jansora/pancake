@@ -65,6 +65,9 @@ type Condition struct {
 	Sort string
 	SortType string
 	Tag []string
+	AmbiguousTitle string
+	
+	
 }
 
 
@@ -84,6 +87,7 @@ func (c *Condition) Init (e *gin.Context) {
 	c.Offset = e.DefaultQuery("offset", "0")
 	c.Sort = e.DefaultQuery("sort", "desc")
 	c.SortType = e.DefaultQuery("sortType", "id")
+	c.AmbiguousTitle = e.DefaultQuery("AmbiguousTitle", "")
 	arrStr := strings.Split(e.DefaultQuery("tag", ""), ",")
 
 	if arrStr[0] == "" {

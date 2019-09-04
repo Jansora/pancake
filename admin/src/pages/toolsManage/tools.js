@@ -75,7 +75,7 @@ class Tools extends PureComponent{
                 <Form.Item label="文件名称">
                   {getFieldDecorator('filename', {
                     rules: [{ required: true, message: '文件url' }],
-                    initialValue: "test"
+                    initialValue: 'test',
                   })(
                       <Input
                           placeholder="请输入话题名称"

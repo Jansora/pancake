@@ -19,6 +19,8 @@ import {client, format} from "../../utils/requests";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
+import TextField from "@material-ui/core/TextField";
+
 
 const PS = (props) => {
     const dispatch = (type, payload) => props.dispatch({type, payload});
@@ -31,11 +33,12 @@ const PS = (props) => {
 
 
     const [loading, setLoading] = React.useState(false);
-    const [sortType, setSortType] = React.useState('title');
+    const [sortType, setSortType] = React.useState('create_time');
     const [sort, setSort] = React.useState('desc');
     const [offset, setOffset] = React.useState(0);
     const [data, setData] = React.useState([]);
     const [total, setTotal] = React.useState(0);
+    const [title, setTitle] = React.useState('');
 
 
     // const [scrolling, setScrolling] = React.useState(false);
@@ -43,30 +46,36 @@ const PS = (props) => {
 
 
         setLoading(true);
+        console.log("title", title)
         if(init) setData([]);
-        const args = {sort, sortType, tag: class_ ==='所有' ? '' : class_, limit:10, offset : init ? 0 : offset};
+        const args = {sort, sortType,
+            tag: class_ ==='所有' ? '' : class_,
+            limit:10, offset : init ? 0 : offset,
+            AmbiguousTitle:title};
 
-        client.get("Article?" + format(args)).then((e)=>{
-                if(e.data.ret){
-                    const curData = init ? e.data.res : data.concat(e.data.res)
-                    setData(curData);
-                    setTotal(e.data.total)
-                    setOffset(curData.length)
-       
-                    dispatch('message', {show: true, type: 'success', content: `已展示
+            client.get("Article?" + format(args)).then((e)=>{
+                    if(e.data.ret){
+                        const curData = init ? e.data.res : data.concat(e.data.res)
+                        setData(curData);
+                        setTotal(e.data.total)
+                        setOffset(curData.length)
+
+                        dispatch('message', {show: true, type: 'success', content: `已展示
                       ${curData.length} / ${e.data.total} 条`});
-                    
-                    setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
-                      ${curData.length} / ${e.data.total} 条`}), 1000);
-                 }
 
-            }
-        ).catch( e => {
-            console.error(e);
-            
-        }).finally(() => setLoading(false))
-      
-    }, [sortType, class_, offset, sort])
+                        setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
+                      ${curData.length} / ${e.data.total} 条`}), 1000);
+                    }
+
+                }
+            ).catch( e => {
+                console.error(e);
+
+            }).finally(() => setLoading(false))
+
+
+
+    }, [sortType, class_, offset, sort, title])
 
     useEffect(()=>{
       const scroll =() =>{
@@ -84,7 +93,7 @@ const PS = (props) => {
 
     useEffect(()=>{
         fetch()
-    }, [sort, sortType, class_]);
+    }, [sort, sortType, class_, title]);
     return (
           <PostsWrapper>
             <Grid container justify={'space-around'} component='div' spacing={3}>
@@ -122,6 +131,19 @@ const PS = (props) => {
 
                   </div>
 
+                    <Divider style={{margin: '10px 20px 3px 20px'}}/>
+                    <p>模糊搜索</p>
+                    <div>
+                        <TextField
+                            required
+                            error={title.length > 10 }
+                            label="标题"
+                            id="margin-dense"
+                            style={{width: 200,  margin: '10px auto'}}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
                   {/*<Divider style={{margin: '10px 20px'}}/>*/}
                 </FilterWrapper>
               </Grid>

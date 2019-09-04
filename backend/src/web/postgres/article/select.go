@@ -59,6 +59,10 @@ func SelectsLength(db *sql.DB,  c Condition, IsPublic bool) (int, error) {
 	if len(c.Tag) > 0 {
 		arr = c.Tag
 	}
+	
+	if c.AmbiguousTitle != "" {
+		querySql += " and Title ILIKE '%"+ c.AmbiguousTitle  + "%'  "
+	}
 
 	err := db.QueryRow(querySql,  pq.Array(arr)).Scan(
 		&length,
@@ -81,7 +85,9 @@ func Selects(db *sql.DB,  c Condition, IsPublic bool) ([]Article, error) {
 	Title, Summary, Is_public FROM Article WHERE $1 <@ Tags `
 
 
-
+	if c.AmbiguousTitle != "" {
+		querySql += " and Title ILIKE '%"+ c.AmbiguousTitle  + "%'  "
+	}
 
 	if IsPublic {
 		querySql += " and Is_public=true "
@@ -173,6 +179,7 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 
 	return As, err
 }
+
 
 func SelectTags(db *sql.DB, IsPublic bool) ([][]string, error) {
 
