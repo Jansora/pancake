@@ -9,7 +9,7 @@ conf = toml.loads(open('/etc/conf.toml').read())
 os.system("cd admin && yarn build")
 
 # 打包application静态文件。
-os.system("cd application && PUBLIC_URL=https://cdn.jansora.com/admin&& yarn build")
+os.system("cd application && export PUBLIC_URL=https://cdn.jansora.com/application&& yarn build")
 
 
 
