@@ -1,6 +1,6 @@
-import React, {} from 'react';
+import React from 'react';
 
-import {Route, withRouter, Redirect, Switch} from 'react-router-dom';
+import {Redirect, Route, withRouter} from 'react-router-dom';
 
 
 import PS from './ps'

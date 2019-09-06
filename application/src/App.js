@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React from 'react';
 import Header from "./layouts/header"
 
 import Background from './layouts/background'

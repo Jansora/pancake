@@ -1,10 +1,7 @@
-import React, {} from 'react';
-import {Link, withRouter, Redirect,Route} from "react-router-dom";
-
-import BootStrapTab from "../components/BootStrapTab"
+import React from 'react';
+import {Redirect, Route, withRouter} from "react-router-dom";
 
 import {PageWrapper} from "../styles";
-import {classes} from "../utils/Router";
 import Post from "../pages/post";
 
 import Topic from "../pages/topic/"

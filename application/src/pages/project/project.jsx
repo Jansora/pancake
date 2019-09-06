@@ -1,19 +1,14 @@
 import React, {useEffect} from 'react';
 
-import {Route, withRouter, Redirect, Switch, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 
-
-
-import {Loading, IFrame} from "../../styles/project";
-import {classes} from "../../utils/Router";
+import {IFrame, Loading} from "../../styles/project";
 import {client} from "../../utils/requests";
 import connect from "react-redux/es/connect/connect";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Divider from "@material-ui/core/Divider";
 import moment from "moment";
-import Tooltip from "@material-ui/core/Tooltip";
 
 moment.locale('zh-CN');
 

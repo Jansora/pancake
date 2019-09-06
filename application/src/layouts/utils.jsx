@@ -1,7 +1,5 @@
-import React, {} from 'react';
-import {FooterWrapper} from "../styles";
+import React from 'react';
 import Message from "../components/message";
-import {PostsWrapper} from "../styles/posts";
 import connect from "react-redux/es/connect/connect";
 
 

@@ -2,55 +2,22 @@ import React, {useEffect} from 'react';
 import {Grid} from "@material-ui/core";
 
 import HorizontalTab from '../../components/HoriziontalTab'
-import {PostWrapper, Article, TabWrapper, Comment, TopicInPost} from "../../styles/post";
+import {Article, Comment, Loading, PostWrapper, TabWrapper, TopicInPost} from "../../styles/post";
 import connect from "react-redux/es/connect/connect";
 
-import {Link, NavLink, withRouter} from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 
 
-import {client, format} from "../../utils/requests";
-import {Loading} from "../../styles/post";
+import {client} from "../../utils/requests";
 
 
 import CircularProgress from "@material-ui/core/CircularProgress";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-
-import CardHeader from '@material-ui/core/CardHeader';
-
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-
-import IconButton from '@material-ui/core/IconButton';
-
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import {classes} from "../../utils/Router";
-
 
 
 import Anchor from 'antd/es/anchor'; // 加载 JS
@@ -59,10 +26,9 @@ import 'antd/es/anchor/style/css';
 
 import * as moment from 'moment';
 import 'moment/locale/zh-cn';
-import ArrowUpwardIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import CardMedia from "@material-ui/core/CardMedia";
-import {Content} from "../../styles/topic";
 import Card from "@material-ui/core/Card";
+
 moment.locale('zh-CN');
 
 

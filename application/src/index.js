@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 
 import * as serviceWorker from './serviceWorker';
 
-import {GlobalStyle, GlobalColors} from "./styles/GlobalStyles";
+import {GlobalColors, GlobalStyle} from "./styles/GlobalStyles";
 
 import App from './App';
 

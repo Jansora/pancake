@@ -1,13 +1,10 @@
-import React, {} from 'react';
+import React from 'react';
 
-import {Route, withRouter, Redirect, Switch} from 'react-router-dom';
+import {Route, withRouter} from 'react-router-dom';
 
 
 import TS from './topics'
 import T from '../topic/topic'
-
-
-import {classes} from "../../utils/Router";
 
 const Topics = (props) => {
   

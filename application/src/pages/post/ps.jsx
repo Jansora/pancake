@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {Grid} from "@material-ui/core";
-import {PostsWrapper, MenuWrapper, FilterWrapper, ContentWrapper, Loading} from "../../styles/posts";
+import {ContentWrapper, FilterWrapper, Loading, MenuWrapper, PostsWrapper} from "../../styles/posts";
 import connect from "react-redux/es/connect/connect";
 import Chip from '@material-ui/core/Chip';
-import { Link, withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 import Divider from '@material-ui/core/Divider';
 

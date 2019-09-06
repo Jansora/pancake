@@ -1,9 +1,6 @@
 import React, {useEffect} from 'react';
 
-import {Route, withRouter, Redirect, Switch} from 'react-router-dom';
-
-
-import TS from './topics'
+import {Route, withRouter} from 'react-router-dom';
 
 import P from '../post/p'
 import {client} from "../../utils/requests";

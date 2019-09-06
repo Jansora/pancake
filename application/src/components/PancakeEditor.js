@@ -16,7 +16,6 @@ import mk from "markdown-it-katex"
 import mc from "markdown-it-custom-block";
 
 import 'highlight.js/styles/atom-one-light.css'
-import {Article} from "../styles/post";
 
 
 // import 'highlight.js/styles/github.css'

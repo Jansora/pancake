@@ -1,5 +1,4 @@
-
-import styled, {} from "styled-components";
+import styled from "styled-components";
 import PancakeEditor from "../components/PancakeEditor"
 
 export const PostWrapper = styled.main`

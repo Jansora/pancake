@@ -1,5 +1,5 @@
 import React from 'react';
-import {Left, Right, Middle, Navbar, HeaderWrapper, HeaderPlaceHolder} from "../styles/header";
+import {HeaderWrapper, Left, Middle, Navbar, Right} from "../styles/header";
 
 import {Icon} from 'react-fa';
 import {NavLink} from "react-router-dom";
@@ -13,7 +13,6 @@ import Logo from "../logo.png"
 import connect from "react-redux/es/connect/connect";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import {Divider} from "@material-ui/core";
 
 
 const Header = (props) => {
