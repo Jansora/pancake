@@ -16,7 +16,7 @@ export default {
     
     *addfile({ payload }, { call, put }) {
       const r = yield call(uploadFile, payload);
-      console.log(r)
+
       if (r.ret){
         yield put({
           type: 'updatefileurl',
@@ -58,3 +58,5 @@ export default {
 
   },
 };
+
+  

@@ -149,11 +149,8 @@ export default {
     *deleteTopic({ payload }, { call, put }) {
   
       const {url} = payload;
-      const r = JSON.parse(yield call(DeleteTopic, payload))
-      console.log(r)
-      console.log({r})
-      console.log(r.ret, !r.ret)
-      
+      const r = yield call(DeleteTopic, payload)
+
       if (r.ret){
         message.success("刪除成功");
         const r2 = yield call(getTopics, payload);

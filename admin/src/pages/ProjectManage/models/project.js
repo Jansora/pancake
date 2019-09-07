@@ -122,10 +122,8 @@ export default {
     *deleteProject({ payload }, { call, put }) {
   
       const {url} = payload;
-      const r = JSON.parse(yield call(DeleteProject, payload))
-      console.log(r)
-      console.log({r})
-      console.log(r.ret, !r.ret)
+      const r = yield call(DeleteProject, payload)
+
       
       if (r.ret){
         message.success("刪除成功");
@@ -148,7 +146,7 @@ export default {
 
   reducers: {
     updateProjectInsert(state, action) {
-      console.log(action.payload, "action.payload.res")
+
       return {
         ...state,
         ProjectInsert:{

@@ -28,14 +28,22 @@ export const Article = styled(PancakeEditor)`
   div.custom-html-style {
     background: white;
     padding:16px;
-    // line-height: 1.9;
+    p{
+        // color: black;
+        white-space: pre-line;
+        overflow-wrap: break-word;
+    }
     pre {
-      line-height: 1.5;
+      //line-height: 1.5;
     }
     blockquote{
-      padding: 5px 5px 5px 15px;
-      border-left: 5px solid #D6DBDF;
-      color: #555;
+        padding: 5px 5px 5px 15px;
+        border-left: 5px solid #D6DBDF;
+        //color: #555;
+        border-left: 5px solid var(--primary-color);
+  
+        border-radius: 10px;
+        color: var(--primary-color);
     }
     span.katex, a{
       color: var(--primary-color);
@@ -54,6 +62,26 @@ export const Article = styled(PancakeEditor)`
           margin: 8px 0;
           font-size: 20px;
     }
+    
+
+    
+    code{
+        color: var(--primary-color);
+        padding: 0 3px;
+        margin: 0 3px;
+    }
+     pre code{
+        color: black;
+    }
+    
+    ol, ul{
+       padding-left: 20px;
+       li{
+          padding-left: 3px;
+       ]
+    }
+
+    
   }
   
   @font-face {
@@ -1015,34 +1043,6 @@ export const Article = styled(PancakeEditor)`
 }
 
 
-.custom-html-style p{
-    // color: black;
-    white-space: pre-line;
-    overflow-wrap: break-word;
-}
-
-.custom-html-style code{
-    color: var(--primary-color);
-    padding: 0 3px;
-    margin: 0 3px;
-}
-.custom-html-style pre code{
-    color: black;
-}
-
-.custom-html-style ol, .custom-html-style ul{
-   padding-left: 20px;
-   li{
-      padding-left: 3px;
-   ]
-}
-div.custom-html-style blockquote {
-    padding: 5px 5px 5px 15px;
-    border-left: 5px solid var(--primary-color);
-    color: #555;
-    border-radius: 10px;
-        // color: var(--primary-color);
-}
 `
 
 export const Loading = styled.div`
@@ -1063,7 +1063,12 @@ export const TabWrapper = styled.div`
   position: sticky;
   width: 300px;
   margin: auto;
-
+  
+  div.ant-anchor-wrapper{
+    height: 50vh;
+    overflow-y: scroll;
+  }
+  
   div.MuiTypography-body1{
     padding: 20px 0 0 10px;
   }
@@ -1103,8 +1108,9 @@ export const Comment = styled.div`
       display: flex;
       flex-direction: column;
       div.title{
-        a.name{
+        .name{
           font-weight: bold;
+          cursor: pointer;
           // margin-right: 5px;
         }
         span.date{
@@ -1120,7 +1126,8 @@ export const Comment = styled.div`
         white-space: pre;
         padding: 8px 0;
       }
-      a.reply{
+      span.reply{
+         cursor: pointer;
          font-size: .75em;
       }
     }

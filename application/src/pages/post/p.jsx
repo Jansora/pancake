@@ -216,16 +216,16 @@ const P = (props) => {
           <Avatar component='div' className='avatar' src={getRandomAvatar()}/>
         <div className='content'>
           <div className='title'>
-            <a className='name'>{comment.From}</a>
+              <span className='name'>{comment.From}</span>
             <span className='date'>{moment(comment.ReplyTime).fromNow()}</span>
           </div>
           <div className='text'>
             {comment.Content}
           </div>
-          <a className='reply' onClick={()=> {
+            <span className='reply' onClick={() => {
             setReplyTo(comment.From); setReplyId(comment.id);
             document.querySelector('#new-comment').scrollIntoView({ behavior: 'smooth' });
-          }}>回复</a>
+            }}>回复</span>
           {
             comment.children &&
             renderComment(comment.children)
