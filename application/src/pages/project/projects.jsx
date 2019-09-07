@@ -77,7 +77,7 @@ const Projects = (props) => {
                         component={Link} to={`/project/${e.Url}`}
                       />
                       <Content>
-                        <Link to={`/project/${e.Url}}`} className='title'>  {e.Name}</Link>
+                        <Link to={`/project/${e.Url}`} className='title'>  {e.Name}</Link>
                         <span className='date'>{moment(e.Create_time).fromNow()}</span>
                         {/*<p> {e.Description}</p>*/}
                       </Content>

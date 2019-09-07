@@ -13,6 +13,7 @@ import Logo from "../logo.png"
 import connect from "react-redux/es/connect/connect";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Chip from "@material-ui/core/Chip";
 
 
 const Header = (props) => {
@@ -33,9 +34,24 @@ const Header = (props) => {
         </Breadcrumbs>
       </Left>
       <Middle>
-        <NavLink to='/post'>博客</NavLink>
-        <NavLink to='/topic'>专栏</NavLink>
-        <NavLink to='/project'>项目</NavLink>
+          <Chip
+              variant="outlined"
+              component={NavLink}
+              label={'博客'}
+              to='/post'
+          />
+          <Chip
+              variant="outlined"
+              component={NavLink}
+              label={'专栏'}
+              to='/topic'
+          />
+          <Chip
+              variant="outlined"
+              component={NavLink}
+              label={'项目'}
+              to='/project'
+          />
       </Middle>
       <Right>
           <Tooltip title="个人主页">

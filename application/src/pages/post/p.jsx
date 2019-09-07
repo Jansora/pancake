@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
+import {getRandomAvatar} from "../../components/avatars";
+
 import Anchor from 'antd/es/anchor'; // 加载 JS
 import 'antd/es/anchor/style/css';
 
@@ -37,7 +39,7 @@ const P = (props) => {
   
     const {Topic, match} = props;
     const {url, topic} = props.match.params;
-    console.log(props)
+
     const breadcrumb = props.breadcrumb.concat([{label: match.url, value: '加载中'}]);
 
     const [Id, setId] = React.useState('');
@@ -61,13 +63,13 @@ const P = (props) => {
     const [From, setFrom] = React.useState('');
     const [ReplyId, setReplyId] = React.useState(0);
     const [ReplyTo, setReplyTo] = React.useState('');
-    const [ReplyTime, setReplyTime] = React.useState('');
+
     const [ReplyContent, setReplyContent] = React.useState('');
     const [AvatarUrl, setAvatarUrl] = React.useState('');
   
     const [SiteUrl, setSiteUrl] = React.useState('');
     
-    const [active, setActive] = React.useState('');
+
   // id: Math.random().toString().slice(2,12),
 
   
@@ -92,7 +94,7 @@ const P = (props) => {
             if (r.data.ret) {
               const data = r.data.res;
               setId(data.Id);
-              setAuthor(data.Auchor);
+                setAuthor(data.Author);
               setCreate_time(data.Create_time);
               setModify_time(data.Modify_time);
     
@@ -106,12 +108,8 @@ const P = (props) => {
               setTitle(data.Title);
               setContent(data.Content);
               setComments(data.Comment.map(c => JSON.parse(c)))
-                console.log(data)
-              breadcrumb[breadcrumb.length - 1].value = data.Title;
-              // breadcrumb.push({...breadcrumb[breadcrumb.length - 1], value: data.Title})
 
-              // setBreadcrumb(breadcrumb.concat([{label: }]))
-
+                breadcrumb[breadcrumb.length - 1].value = data.Title;
               updateToc()
             }
             
@@ -190,7 +188,6 @@ const P = (props) => {
     
     ReplyTo !== "" ?
       loop(Comments, ReplyId, (item) => {
-        console.log(item)
         item.children = item.children || [];
         item.children.unshift(commit);
       })
@@ -216,7 +213,7 @@ const P = (props) => {
     
     return comments.map((comment, index) => {
       return <div className='item' key={index}>
-        <Avatar component='div' className='avatar'>{comment.From && comment.From[0]}</Avatar>
+          <Avatar component='div' className='avatar' src={getRandomAvatar()}/>
         <div className='content'>
           <div className='title'>
             <a className='name'>{comment.From}</a>
@@ -370,10 +367,11 @@ const P = (props) => {
                   !loading &&
                   <TabWrapper>
                     <HorizontalTab
-                      bootstrap
-                      centered
-                      labels={['目录', '属性']}
-                      tabs={[
+                        bootstrap
+                        centered
+                        active={1}
+                        labels={['文章大纲', '文章属性']}
+                        tabs={[
                         <Anchor onClick={(e,f) => e.preventDefault()} offsetTop={60} style={{marginLeft: 0}}>
                           {
                             Anchors.map((e, index) => {
@@ -390,24 +388,15 @@ const P = (props) => {
                             title={<span style={{marginLeft: 0, fontWeight:"bold"}}>评论栏</span>}
                           />
                         </Anchor>,
-                        <Anchor onClick={(e,f) => e.preventDefault()} offsetTop={60} style={{marginLeft: 0}}>
-                          {
-                            Anchors.map((e, index) => {
-                              return <Anchor.Link
-                                key={index} href={`#${e.id}`}
-                                title={
-                                  <span style={{marginLeft: 28 * (parseInt(e.id[8]) -1), fontWeight:e.id[8] === "1" ? "bold" :"normal"  }}>{e.text}</span>
-                                }
-                              />
-                            })
-                          }
-                          <Anchor.Link
-                            href={`#Comments`} style={{marginLeft: 20}}
-                            title={<span style={{marginLeft: 0, fontWeight:"bold"}}>评论栏</span>}
-                          />
-                        </Anchor>
+                            <ul className='property'>
+                                <li><span>标题：</span>{Title}</li>
+                                <li><span>作者：</span>{Author}</li>
+                                <li><span>创建时间：</span>{Create_time}</li>
+                                <li><span>最后更新：</span>{Modify_time}</li>
+                                <li><span>发表地址：</span>{Site}</li>
+                            </ul>
                       ]}
-                      style={{position: 'fixed'}}
+                        style={{position: 'fixed'}}
                     />
 
                   </TabWrapper>

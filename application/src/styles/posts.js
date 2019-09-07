@@ -29,6 +29,7 @@ export const MenuWrapper = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    z-index: 1000;
     a, button, a.visited, button.focus{
          cursor: pointer;
          color: var(--primary-color);

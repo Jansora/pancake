@@ -12,9 +12,9 @@ export const Rotate = keyframes`
 export const HeaderWrapper = styled.header`
     position: fixed;
     height: 50px;
-    width:  calc(100vw - 40px);
-    padding: 5px 0;//20px 5px;
-    margin: 0 20px;
+    width:  calc(100vw);
+    padding: 5px 20px;//20px;//20px 5px;
+    //margin: 0 20px;
     // margin: 5px;
     background: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -24,7 +24,7 @@ export const HeaderWrapper = styled.header`
 
 export const Left = styled.div`
     position: absolute;
-    left: 0;
+    left: 20px;
     height: 40px;
     z-index: 1000;
 
@@ -56,17 +56,34 @@ export const Middle = styled.div`
     line-height:40px;
     width: 100%;
     display: flex;
+    align-items: center;
     justify-content: center;
     z-index: 999;
     a{
-      margin:  0 25px;
+      margin:  0 10px;
     }
+    a.active{
+    
+    }
+    a, button, a.visited, button.focus{
+         cursor: pointer;
+         color: var(--primary-color);
+         background: none !important;
+         border: none;
+    }
+    a:hover, a.active,  button:hover, button.active{
+      background-color:  var(--primary-color) !important;
+      
+      color: white;
+      transition: background-color 300ms, color 300ms;
+    }
+    
 `
 
 export const Right = styled.div`
     position: absolute;
     // float:right;
-    right: 0;
+    right: 20px;
     height: 40px;
     line-height: 40px;
     z-index: 1000;
