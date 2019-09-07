@@ -1016,11 +1016,33 @@ custom-html-style .pl-12 {
 
 
 .custom-html-style p{
+    // color: black;
     white-space: pre-line;
     overflow-wrap: break-word;
 }
-  
 
+.custom-html-style code{
+    color: var(--primary-color);
+    padding: 0 3px;
+    margin: 0 3px;
+}
+.custom-html-style pre code{
+    color: black;
+}
+
+.custom-html-style ol, .custom-html-style ul{
+   padding-left: 20px;
+   li{
+      padding-left: 3px;
+   ]
+}
+div.custom-html-style blockquote {
+    padding: 5px 5px 5px 15px;
+    border-left: 5px solid var(--primary-color);
+    color: #555;
+    border-radius: 10px;
+        // color: var(--primary-color);
+}
 `
 
 export const Loading = styled.div`
