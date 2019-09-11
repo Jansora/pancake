@@ -9,7 +9,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import Logo from "../logo.png"
-
+import WeChat from "../assets/wechat.jpg"
 import connect from "react-redux/es/connect/connect";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -65,7 +65,7 @@ const Header = (props) => {
               </a>
           </Tooltip>
           <Tooltip title="微信">
-              <a target='_blank' rel='noopener noreferrer' href='https://weixin.qq.com'>
+              <a target='_blank' rel='noopener noreferrer' href={WeChat}>
                   <Icon name="weixin"/>
               </a>
           </Tooltip>

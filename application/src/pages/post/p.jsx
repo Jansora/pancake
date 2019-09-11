@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
-import {getRandomAvatar} from "../../components/avatars";
+import {avatars} from "../../components/avatars";
 
 import Anchor from 'antd/es/anchor'; // 加载 JS
 import 'antd/es/anchor/style/css';
@@ -151,7 +151,6 @@ const P = (props) => {
       ReplyTo: ReplyTo,
       ReplyTime: Date().toLocaleString(),
       Content: ReplyContent,
-      AvatarUrl: AvatarUrl,
       SiteUrl:  SiteUrl,
       children: [],
     }
@@ -213,7 +212,7 @@ const P = (props) => {
     
     return comments.map((comment, index) => {
       return <div className='item' key={index}>
-          <Avatar component='div' className='avatar' src={getRandomAvatar()}/>
+          <Avatar component='div' className='avatar' src={avatars[parseInt(comment.id)%avatars.length]}/>
         <div className='content'>
           <div className='title'>
               <span className='name'>{comment.From}</span>
@@ -266,10 +265,6 @@ const P = (props) => {
                           </div>
                         </div>
                       </Card>
-                      
-                      
-     
-                      
                     </TopicInPost>
                 }
               </Grid>

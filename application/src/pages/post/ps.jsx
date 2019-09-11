@@ -169,9 +169,8 @@ const PS = (props) => {
                           loading && <Loading><CircularProgress  /></Loading>
                       }
                     {
-                        data.map((e, index) =><Card className='card' key={e.Url}
-
-                        >
+                        data.map((e, index) =>
+                            <Card className='card' key={e.Url}>
                         <div className='detail'>
                             <CardContent >
                                 <Link  to={prefix + '/' + e.Url} className='title'>{e.Title}</Link>
@@ -223,7 +222,7 @@ const PS = (props) => {
                         </div>
                         <CardMedia
                             className='bootstrap-logo'
-                            image={e.Logo_url}
+                            image={e.Logo_url.endsWith('.gif')? e.Logo_url :`${e.Logo_url}?x-oss-process=style/posts`}
                             title="Live from space album cover"
                         />
 
