@@ -12,7 +12,17 @@ export const PostWrapper = styled.main`
     }
 
 `
+export const TitleWrapper = styled.div`
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  div.tags{
+  
+  }
+
+`
 export const Article = styled(PancakeEditor)`
   // width: 800px;
   border: none;
@@ -27,7 +37,7 @@ export const Article = styled(PancakeEditor)`
   }
   div.custom-html-style {
     background: white;
-    padding:16px;
+    //padding:16px;
     p{
         // color: black;
         white-space: pre-line;
@@ -1142,7 +1152,7 @@ export const Comment = styled.div`
 
 export const TopicInPost = styled.div`
   // margin: auto;
-  position: fixed;
+  position: sticky;
   padding: 16px;
   width: 300px;
   top: 51px;

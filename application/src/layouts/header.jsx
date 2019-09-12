@@ -2,7 +2,7 @@ import React from 'react';
 import {HeaderWrapper, Left, Middle, Navbar, Right} from "../styles/header";
 
 import {Icon} from 'react-fa';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink, withRouter} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -18,7 +18,8 @@ import Chip from "@material-ui/core/Chip";
 
 const Header = (props) => {
 
-  const {breadcrumb} =props;
+  const {breadcrumb, location} =props;
+
   document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''} - Jansora个人博客`
   return (
     <>
@@ -36,21 +37,24 @@ const Header = (props) => {
       <Middle>
           <Chip
               variant="outlined"
-              component={NavLink}
+              component={Link}
               label={'博客'}
               to='/post'
+              className={location.pathname.startsWith('/post') ? 'active' : ''}
           />
           <Chip
               variant="outlined"
-              component={NavLink}
+              component={Link}
               label={'专栏'}
               to='/topic'
+              className={location.pathname.startsWith('/topic') ? 'active' : ''}
           />
           <Chip
               variant="outlined"
-              component={NavLink}
+              component={Link}
               label={'项目'}
               to='/project'
+              className={location.pathname.startsWith('/project') ? 'active' : ''}
           />
       </Middle>
       <Right>
@@ -109,7 +113,7 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-)(Header);
+)(withRouter(Header));
 
 
 

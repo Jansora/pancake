@@ -41,9 +41,9 @@ export const FooterWrapper = styled.footer`
 
 export const FooterContent = styled.div`
   flex: 1 1 auto;
-  
+  height: calc(100% - 24px);
   div.MuiGrid-item{
-  margin: 24px 12px;
+  margin: 12px;
   }
   div.MuiGrid-justify-xs-space-around{
   flex-wrap: nowrap;
@@ -64,7 +64,7 @@ export const Content = styled.div`
 `
 
 export const Backup = styled.div`
-   border-top: 1px solid white;
+   //border-top: 1px solid white;
    height: 80px;
    display: flex;
    align-items: center;

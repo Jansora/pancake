@@ -17,11 +17,11 @@ moment.locale('zh-CN');
 const Project = (props) => {
   const dispatch = (type, payload) => props.dispatch({type, payload});
 
-  const breadcrumb = [{label:'/project', value: '项目'}];
-  
-  dispatch('breadcrumb', breadcrumb);
-  const {url} = props.match.params;
 
+  const [breadcrumb, setBreadcrumb] = React.useState([{label:'/project', value: '项目'}]);
+
+  const {url} = props.match.params;
+  const matchUrl = props.match.url;
 
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -33,7 +33,8 @@ const Project = (props) => {
           if (r.data.ret) {
             const data = r.data.res;
             setData(data)
-            dispatch('breadcrumb', breadcrumb.concat([{label: props.match.url, value: data.Name}]));
+            setBreadcrumb(breadcrumb => breadcrumb.concat([{label: matchUrl, value: data.Name}]))
+
           }
           
         }
@@ -43,9 +44,9 @@ const Project = (props) => {
       setLoading(false)
     })
     
-  }, [url]);
-  
+  }, [url, matchUrl]);
 
+  dispatch('breadcrumb', breadcrumb);
 
   return (
         <>

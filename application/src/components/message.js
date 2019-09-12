@@ -48,7 +48,7 @@ const useStyles1 = makeStyles(theme => ({
   },
 }));
 
-export default (props) => {
+const Message = (props) => {
   const classes = useStyles1();
   const { className, message, variant, open} = props;
   const Icon = variantIcon[variant];
@@ -83,3 +83,4 @@ export default (props) => {
   );
 }
 
+export default Message;

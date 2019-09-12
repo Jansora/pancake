@@ -17,15 +17,8 @@ const Footer = () => {
                         <Content style={{justifyContent: 'flex-left'}}>
                             <h1>关于本站</h1>
                             <p>前台：React + Material Design</p>
-                            <p>后台：Ant Design Pro version4</p>
+                            <p>后台：Ant Design Pro Version4</p>
                             <p>后端：Golang + Gin + Tengine</p>
-                            <p>存储：
-                                <a
-                                    style={{marginRight: 49}}
-                                    target='_blank' rel='noopener noreferrer' href='https://aliyun.com'>
-                                    阿里云对象存储
-                                </a>
-                            </p>
                             <p>本站源码已开源，详见
                                 <a
                                     style={{marginLeft: 7}}
@@ -35,7 +28,11 @@ const Footer = () => {
                             </p>
                         </Content>
                     </Grid>
-                    <Grid component='div' item xs={4} style={{borderLeft: '1px solid white',borderRight: '1px solid white'}}>
+                    <Grid component='div' item xs={4}
+                          style={{
+                              // marginTop: 48, marginBottom: 48,
+                              borderLeft: '1px solid white',borderRight: '1px solid white'
+                          }}>
                         <Content>
                             <h1 > 座右铭</h1>
                             <p>芝兰生于深谷，不以无人而不芳</p>

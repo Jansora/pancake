@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Route, withRouter} from 'react-router-dom';
 
@@ -10,8 +10,8 @@ const Topic = (props) => {
 
 
     const {url, topic} = props.match.params;
-    const [Topic, setTopic] = React.useState({});
-    const [breadcrumb, setBreadcrumb] = React.useState({label: props.breadcrumb[props.breadcrumb.length - 1].label + '/' + topic + '/' + url, value: '获取中'});
+    const [Topic, setTopic] = useState({});
+    const [breadcrumb, setBreadcrumb] = useState({label: props.breadcrumb[props.breadcrumb.length - 1].label + '/' + topic + '/' + url, value: '获取中'});
 
 
 
@@ -20,7 +20,7 @@ const Topic = (props) => {
         client.get(`Topic/${topic}`).then((r) => {
 
                 if (r.data.ret) {
-                    setBreadcrumb({...breadcrumb, value:r.data.res.Name})
+                    setBreadcrumb(breadcrumb => {return {...breadcrumb, value:r.data.res.Name}})
 
                     setTopic(r.data.res)
                 }

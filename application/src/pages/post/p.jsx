@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Grid} from "@material-ui/core";
 
 import HorizontalTab from '../../components/HoriziontalTab'
-import {Article, Comment, Loading, PostWrapper, TabWrapper, TopicInPost} from "../../styles/post";
+import {TitleWrapper, Article, Comment, Loading, PostWrapper, TabWrapper, TopicInPost} from "../../styles/post";
 import connect from "react-redux/es/connect/connect";
 
 import {NavLink, withRouter} from 'react-router-dom';
@@ -38,53 +38,55 @@ const P = (props) => {
     const dispatch = (type, payload) => props.dispatch({type, payload});
   
     const {Topic, match} = props;
-    const {url, topic} = props.match.params;
+    const {url} = props.match.params;
 
-    const breadcrumb = props.breadcrumb.concat([{label: match.url, value: '加载中'}]);
+    const [breadcrumb, setBreadcrumb] = useState([]);
 
-    const [Id, setId] = React.useState('');
-    const [Author, setAuthor] = React.useState('');
-    const [Create_time, setCreate_time] = React.useState('');
-    const [Modify_time, setModify_time] = React.useState('');
+    const [Id, setId] = useState('');
+    const [Author, setAuthor] = useState('');
+    const [Create_time, setCreate_time] = useState('');
+    const [Modify_time, setModify_time] = useState('');
 
-    const [Site, setSite] = React.useState('');
-    const [Read_num, setRead_num] = React.useState('');
-    const [Like_num, setLike_num] = React.useState('');
-    const [Tags, setTags] = React.useState('');
+    const [Site, setSite] = useState('');
+    const [Read_num, setRead_num] = useState('');
+    const [Like_num, setLike_num] = useState('');
+
     
-    const [Is_public, setIs_public] = React.useState('');
-    const [Logo_url, setLogo_url] = React.useState('');
-    const [Summary, setSummary] = React.useState('');
-    const [Title, setTitle] = React.useState('');
+    const [Is_public, setIs_public] = useState('');
+
+    const [Title, setTitle] = useState('获取中');
     
-    const [Content, setContent] = React.useState('');
+    const [Content, setContent] = useState('');
   
-    const [Comments, setComments] = React.useState([]);
-    const [From, setFrom] = React.useState('');
-    const [ReplyId, setReplyId] = React.useState(0);
-    const [ReplyTo, setReplyTo] = React.useState('');
+    const [Comments, setComments] = useState([]);
+    const [From, setFrom] = useState('');
+    const [ReplyId, setReplyId] = useState(0);
+    const [ReplyTo, setReplyTo] = useState('');
 
-    const [ReplyContent, setReplyContent] = React.useState('');
-    const [AvatarUrl, setAvatarUrl] = React.useState('');
-  
-    const [SiteUrl, setSiteUrl] = React.useState('');
-    
-
-  // id: Math.random().toString().slice(2,12),
+    const [ReplyContent, setReplyContent] = useState('');
 
   
-  
-  
-  
-  const [loading, setLoading] = React.useState(false);
+    const [SiteUrl, setSiteUrl] = useState('');
     
-    
-    
-    const [Anchors, setAnchors] = React.useState([]);
+
+
+    const [loading, setLoading] = useState(false);
 
 
 
+    const [Anchors, setAnchors] = useState([]);
 
+
+
+    useEffect(() =>
+        setBreadcrumb(props.breadcrumb.concat(
+            {
+                label:  match.url,
+                value:  Title
+            }))
+
+    , [props.breadcrumb, Title, match.url],
+    )
 
 
     useEffect(()=>{
@@ -101,15 +103,14 @@ const P = (props) => {
               setSite(data.Site);
               setRead_num(data.Read_num);
               setLike_num(data.Like_num);
-              setTags(data.Tags);
+              // setTags(data.Tags);
               setIs_public(data.Is_public);
-              setLogo_url(data.Logo_url);
-              setSummary(data.Summary);
+              // setLogo_url(data.Logo_url);
+              // setSummary(data.Summary);
               setTitle(data.Title);
               setContent(data.Content);
-              setComments(data.Comment.map(c => JSON.parse(c)))
+              setComments(data.Comment.map(c => JSON.parse(c)));
 
-                breadcrumb[breadcrumb.length - 1].value = data.Title;
               updateToc()
             }
             
@@ -232,9 +233,9 @@ const P = (props) => {
         </div>
       </div>
     })
-  }
+  };
 
-  breadcrumb[breadcrumb.length - 1].value = Title;
+  // console.log(breadcrumb)
   dispatch('breadcrumb', breadcrumb);
   
   return (
@@ -272,6 +273,11 @@ const P = (props) => {
                 {
                   loading && <Loading><CircularProgress  color="secondary" /></Loading>
                 }
+                <TitleWrapper>
+                    <h1>{Title}</h1>
+
+                </TitleWrapper>
+
                 <Article value={Content}/>
   
                 {
@@ -386,9 +392,16 @@ const P = (props) => {
                             <ul className='property'>
                                 <li><span>标题：</span>{Title}</li>
                                 <li><span>作者：</span>{Author}</li>
+                                <li><span>文章ID：</span>{Id}</li>
                                 <li><span>创建时间：</span>{Create_time}</li>
                                 <li><span>最后更新：</span>{Modify_time}</li>
                                 <li><span>发表地址：</span>{Site}</li>
+
+                                <li><span>阅读量：</span>{Read_num}</li>
+                                <li><span>点赞数：</span>{Like_num}</li>
+                                <li><span>是否公开：</span>{Is_public}</li>
+                                <li><span>点赞数：</span>{Like_num}</li>
+
                             </ul>
                       ]}
                         style={{position: 'fixed'}}

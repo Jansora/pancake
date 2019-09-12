@@ -20,9 +20,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import TextField from "@material-ui/core/TextField";
-
+import Message from '../../components/message'
 
 const PS = (props) => {
+
     const dispatch = (type, payload) => props.dispatch({type, payload});
     const {location} = props;
     const breadcrumb = props.breadcrumb;//.concat(classes.filter(e => e.label === location.pathname));
@@ -30,41 +31,34 @@ const PS = (props) => {
 
     const prefix = breadcrumb[breadcrumb.length - 1].label;
     const class_ = breadcrumb[breadcrumb.length - 1].value;
-
+    const limit = 10;
 
     const [loading, setLoading] = React.useState(false);
     const [sortType, setSortType] = React.useState('create_time');
     const [sort, setSort] = React.useState('desc');
-    const [offset, setOffset] = React.useState(0);
     const [data, setData] = React.useState([]);
-    const [total, setTotal] = React.useState(0);
+    const [total, setTotal] = React.useState(undefined);
     const [title, setTitle] = React.useState('');
-
-
+    const [offset, setOffset] = React.useState(0);
+    const [message, setMessage] = React.useState({open: false, variant: 'success', message: ``});
     // const [scrolling, setScrolling] = React.useState(false);
-    const fetch =  React.useCallback((init=true) => {
+    const fetch =  React.useCallback((init=true, offset=0) => {
 
 
         setLoading(true);
-        console.log("title", title)
-        if(init) setData([]);
+
+
         const args = {sort, sortType,
             tag: class_ ==='所有' ? '' : class_,
-            limit:10, offset : init ? 0 : offset,
+            limit, offset,
             AmbiguousTitle:title};
 
             client.get("Article?" + format(args)).then((e)=>{
                     if(e.data.ret){
-                        const curData = init ? e.data.res : data.concat(e.data.res)
-                        setData(curData);
+                        // const curData = init ? e.data.res : data.concat(e.data.res)
+                        setData(data => init ? e.data.res : data.concat(e.data.res));
                         setTotal(e.data.total)
-                        setOffset(curData.length)
 
-                        dispatch('message', {show: true, type: 'success', content: `已展示
-                      ${curData.length} / ${e.data.total} 条`});
-
-                        setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
-                      ${curData.length} / ${e.data.total} 条`}), 1000);
                     }
 
                 }
@@ -75,7 +69,7 @@ const PS = (props) => {
 
 
 
-    }, [sortType, class_, offset, sort, title])
+    }, [sortType, class_, sort, title])
 
     useEffect(()=>{
       const scroll =() =>{
@@ -83,7 +77,7 @@ const PS = (props) => {
     
         if(progress > 92 && !loading && data.length < total) {
           setLoading(true)
-          fetch(false);
+          fetch(false, offset);
         }
       
       }
@@ -93,7 +87,25 @@ const PS = (props) => {
 
     useEffect(()=>{
         fetch()
-    }, [sort, sortType, class_, title]);
+    }, [sort, sortType, class_, title, fetch]);
+
+    //
+    useEffect(()=> {
+        setOffset(data.length);
+        if(total){
+            setMessage({open: true, variant: 'success', message: `已展示 ${data.length} / ${total} 条`})
+            setTimeout(()=> setMessage( {open: false, variant: 'success', message: ``}), 1000);
+        }
+
+     }, [data, data.length, total]);
+    // if(total){
+    //     dispatch('message', {show: true, type: 'success', content: `已展示
+    //                   ${data.length} / ${total} 条`});
+    //
+    //     setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
+    //                   ${data.length} / ${total} 条`}), 1000);
+    // }
+
     return (
           <PostsWrapper>
             <Grid container justify={'space-around'} component='div' spacing={3}>
@@ -233,7 +245,7 @@ const PS = (props) => {
 
               </Grid>
             </Grid>
-
+            <Message {...message}/>
           </PostsWrapper>
       )
 

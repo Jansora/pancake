@@ -28,7 +28,7 @@ const Topics = (props) => {
   dispatch('breadcrumb', breadcrumb);
   const {url} = props.match;
   
-  const [Id, setId] = React.useState('');
+  // const [Id, setId] = React.useState('');
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   
