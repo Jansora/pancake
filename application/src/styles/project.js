@@ -3,47 +3,59 @@ import styled from "styled-components";
 export const ProjectsWrapper = styled.main`
     padding-top: 50px;
     margin: auto;
-    // background: white;
 
     max-width: 1000px;
     div.tool-bar{
       display: none;
     }
-`
+`;
 
 export const Loading = styled.div`
-         height: 400px;
-         align-self: center;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         // background: white;
-   `
+    height: 400px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 
 export const Content = styled.div`
-         a.title{
-          display: block;
-          font-size: 18px;
-          font-weight: 600;
-          line-height: 28px;
-         }
-         span.date{
-              line-height: 17px;
-              font-size: 12px;
-              color: #999;
-         }
-         p{
-         
-         }
-         // height: 200px;
-         padding:16px 0 16px 16px;
-         // background: white;
-   `
+    a.title{
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    }
+    span.date{
+      line-height: 17px;
+      font-size: 12px;
+      color: #999;
+    }
+    padding:16px 0 16px 16px;
+
+`;
 
 export const IFrame = styled.iframe`
-    padding-top: 50px;
-    
-    min-height: calc(100vh - 101px);
+    height: 800px;
+    width: 1000px;
+    margin: auto;
+    border: none;
+`;
 
-    width: 100vw;
-`
+export const IFrameWrapper = styled.div`
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    h1{
+      margin: 14px;
+      a{
+        font-size: 12px;
+        margin-left: 100px;
+      }
+    }
+    p{
+      align-self: flex-start;
+      margin: 10px 50px;
+    }
+`;

@@ -3,14 +3,15 @@ import React, {useEffect} from 'react';
 import {withRouter} from 'react-router-dom';
 
 
-import {IFrame, Loading} from "../../styles/project";
+import {IFrameWrapper, IFrame, Loading} from "../../styles/project";
 import {client} from "../../utils/requests";
 import connect from "react-redux/es/connect/connect";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from "moment";
 
-moment.locale('zh-CN');
+
+import Tooltip from "@material-ui/core/Tooltip";
+
 
 
 
@@ -27,12 +28,12 @@ const Project = (props) => {
   const [loading, setLoading] = React.useState(false);
   
   useEffect(()=>{
-    setLoading(true)
+    setLoading(true);
     client.get(`/Project/${url}`)
       .then(r => {
           if (r.data.ret) {
             const data = r.data.res;
-            setData(data)
+            setData(data);
             setBreadcrumb(breadcrumb => breadcrumb.concat([{label: matchUrl, value: data.Name}]))
 
           }
@@ -53,14 +54,26 @@ const Project = (props) => {
           {
             loading && <Loading><CircularProgress  /></Loading>
           }
-
+          <IFrameWrapper>
+            <Tooltip title={data.Frame}>
+              <h1>
+                { data.Name}
+                <a
+                    style={{margin: '0 10px'}}
+                    target='_blank' rel='noopener noreferrer' href={data.Frame}>
+                  在新窗口打开
+                </a>
+              </h1>
+            </Tooltip>
+            <p>{data.Description}</p>
             {
               data.hasOwnProperty('Frame') &&
-                <IFrame frameBorder='no'  src={data.Frame} />
-
+                <IFrame
+                    frameborder="no"  marginwidth="0" marginheight="0" scrolling="no"
+                    src={data.Frame} />
             }
   
-
+          </IFrameWrapper>
           
         </>
     )

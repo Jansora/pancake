@@ -60,6 +60,7 @@ export const Content = styled.div`
    height: 100%;
    h1{
       margin: 14px auto;
+
    }
 `
 
