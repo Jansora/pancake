@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import clsx from 'clsx';
 
@@ -12,6 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import {makeStyles} from '@material-ui/core/styles';
+import {Store} from "../utils/store";
 
 
 const variantIcon = {
@@ -48,32 +49,47 @@ const useStyles1 = makeStyles(theme => ({
   },
 }));
 
-const Message = (props) => {
+const Message = () => {
   const classes = useStyles1();
-  const { className, message, variant, open} = props;
+
+  const {message: {content, variant, open, duration}, dispatch} = React.useContext(Store);
+
   const Icon = variantIcon[variant];
+  useEffect(() => {
+    setTimeout(()=>{
+      dispatch({
+        type: 'message',
+        payload: {open: false, variant, content, duration}
+      })
+    }, duration)
+  }, [variant, content, duration, dispatch]);
   return (
     <Snackbar
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
       }}
-      // TransitionComponent={(props) => <Slide {...props}  direction="down" />}
+
       open={open}
       direction="down"
       autoHideDuration={100}
     >
       <SnackbarContent
-        className={clsx(classes[variant], className)}
+        className={classes[variant]}
         aria-describedby="client-snackbar"
         message={
           <span id="client-snackbar" className={classes.message}>
           <Icon className={clsx(classes.icon, classes.iconVariant)} />
-            {message}
+            {content}
         </span>
         }
         action={[
-          <IconButton key="close" aria-label="close" color="inherit" onClick={()=> console.log('...')}>
+          <IconButton key="close" aria-label="close" color="inherit" onClick={() =>
+              dispatch({
+              type: 'message',
+              payload: {open: false, variant, content, duration}
+            })
+          }>
             <CloseIcon className={classes.icon} />
           </IconButton>,
         ]}

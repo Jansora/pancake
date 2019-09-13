@@ -3,7 +3,7 @@ import {Grid} from "@material-ui/core";
 
 import HorizontalTab from '../../components/HoriziontalTab'
 import {TitleWrapper, Article, Comment, Loading, PostWrapper, TabWrapper, TopicInPost} from "../../styles/post";
-import connect from "react-redux/es/connect/connect";
+
 
 import {NavLink, withRouter} from 'react-router-dom';
 
@@ -22,7 +22,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import {avatars} from "../../components/avatars";
 
-import Anchor from 'antd/es/anchor'; // 加载 JS
+import Anchor from 'antd/es/anchor';
 import 'antd/es/anchor/style/css';
 
 
@@ -30,17 +30,17 @@ import * as moment from 'moment';
 import 'moment/locale/zh-cn';
 import CardMedia from "@material-ui/core/CardMedia";
 import Card from "@material-ui/core/Card";
+import {Store} from "../../utils/store";
 
 moment.locale('zh-CN');
 
 
 const P = (props) => {
-    const dispatch = (type, payload) => props.dispatch({type, payload});
-  
-    const {Topic, match} = props;
-    const {url} = props.match.params;
 
-    const [breadcrumb, setBreadcrumb] = useState([]);
+    const {dispatch,} = React.useContext(Store);
+
+    const {Topic, location} = props;
+    const {url} = props.match.params;
 
     const [Id, setId] = useState('');
     const [Author, setAuthor] = useState('');
@@ -62,32 +62,26 @@ const P = (props) => {
     const [From, setFrom] = useState('');
     const [ReplyId, setReplyId] = useState(0);
     const [ReplyTo, setReplyTo] = useState('');
-
     const [ReplyContent, setReplyContent] = useState('');
-
-  
     const [SiteUrl, setSiteUrl] = useState('');
-    
-
-
     const [loading, setLoading] = useState(false);
-
-
-
     const [Anchors, setAnchors] = useState([]);
 
 
 
-    useEffect(() =>
-        setBreadcrumb(props.breadcrumb.concat(
-            {
-                label:  match.url,
-                value:  Title
-            }))
-
-    , [props.breadcrumb, Title, match.url],
-    )
-
+    useEffect(() => {
+        const breadcrumb = [];
+        if(Topic) {
+            breadcrumb.push({label: '/topic', value: '专栏'});
+            Topic.hasOwnProperty('Url')
+                ? breadcrumb.push({label: '/topic', value: Topic.Name})
+                : breadcrumb.push({label: location.pathname, value: '加载中'})
+        } else {
+            breadcrumb.push({label: '/post', value: '博客'});
+        }
+        breadcrumb.push({label: location.pathname, value: Title});
+        dispatch({type: 'breadcrumb', payload: breadcrumb})
+    }, [dispatch, Title, Topic, location.pathname]);
 
     useEffect(()=>{
       setLoading(true)
@@ -156,23 +150,30 @@ const P = (props) => {
       children: [],
     }
     if(From.length > 10 || From.length < 3){
-      dispatch('message', {show: true, type: 'error', content: `昵称格式不正确`});
-  
-      setTimeout(()=> dispatch('message', {show: false, type: 'error', content: `昵称格式不正确`}), 1000);
-      return
+
+        dispatch({
+            type: 'message',
+            payload: {open: true, variant: 'success', content: `昵称格式不正确`, duration: 1000}
+        });
+        return
     }
   
     if(!SiteUrl.startsWith('http') && SiteUrl.length !== 0){
-      dispatch('message', {show: true, type: 'error', content: `个人主页格式不正确`});
-      setTimeout(()=> dispatch('message', {show: false, type: 'error', content: `个人主页格式不正确`}), 1000);
-      return
+
+        dispatch({
+            type: 'message',
+            payload: {open: true, variant: 'success', content: `个人主页格式不正确`, duration: 1000}
+        });
+        return
     }
     
     if(ReplyContent.length > 2000){
-      dispatch('message', {show: true, type: 'error', content: `评论正文长度应小于2000字符`});
-    
-      setTimeout(()=> dispatch('message', {show: false, type: 'error', content: `评论正文长度应小于2000字符`}), 1000);
-      return
+
+        dispatch({
+            type: 'message',
+            payload: {open: true, variant: 'success', content: `评论正文长度应小于2000字符`, duration: 1000}
+        });
+        return
     }
   
     const loop = (comment, key, callback) => {
@@ -235,8 +236,7 @@ const P = (props) => {
     })
   };
 
-  // console.log(breadcrumb)
-  dispatch('breadcrumb', breadcrumb);
+
   
   return (
           <PostWrapper>
@@ -258,7 +258,7 @@ const P = (props) => {
                             {
                               Topic.ArticleObjects.map((e, index) => {
                                 const level = parseInt(Topic.Articles[index].split("level:")[1].split("}"));
-                                const paths = breadcrumb[breadcrumb.length - 1].label.split('/');
+                                const paths = location.pathname.split('/');
                                 paths[paths.length - 1] = e.Url;
                                 return <NavLink to={paths.join('/')}  className={`level${level}`} key={e.Url}>{e.Title}</NavLink>
                               })
@@ -418,9 +418,4 @@ const P = (props) => {
 
 }
 
-const mapStateToProps = state => ({
-
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(P));
+export default withRouter(P);

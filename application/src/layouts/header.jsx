@@ -10,15 +10,19 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import Logo from "../logo.png"
 import WeChat from "../assets/wechat.jpg"
-import connect from "react-redux/es/connect/connect";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from "@material-ui/core/Chip";
 
+import {Store} from "../utils/store";
+
 
 const Header = (props) => {
 
-  const {breadcrumb, location} =props;
+
+  const {location} =props;
+
+  const {breadcrumb} = React.useContext(Store);
 
   document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''} - Jansora个人博客`
   return (
@@ -108,12 +112,8 @@ const Header = (props) => {
 
 };
 
-const mapStateToProps = state => ({
-  breadcrumb: state.breadcrumb,
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(Header));
+
+export default withRouter(Header);
 
 
 

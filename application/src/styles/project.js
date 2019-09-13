@@ -11,11 +11,9 @@ export const ProjectsWrapper = styled.main`
 `;
 
 export const Loading = styled.div`
-    height: 400px;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
 `;
 
 export const Content = styled.div`

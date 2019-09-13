@@ -5,49 +5,52 @@ import {withRouter} from 'react-router-dom';
 
 import {IFrameWrapper, IFrame, Loading} from "../../styles/project";
 import {client} from "../../utils/requests";
-import connect from "react-redux/es/connect/connect";
+
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 import Tooltip from "@material-ui/core/Tooltip";
+import {Store} from "../../utils/store";
 
 
 
 
 const Project = (props) => {
-  const dispatch = (type, payload) => props.dispatch({type, payload});
 
-
-  const [breadcrumb, setBreadcrumb] = React.useState([{label:'/project', value: '项目'}]);
+  const {dispatch} = React.useContext(Store);
+  const {location} = props;
 
   const {url} = props.match.params;
   const matchUrl = props.match.url;
 
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(false);
-  
+
+  useEffect(() => {
+    const breadcrumb = [{label:'/project', value: '项目'}]
+    data.hasOwnProperty('Name')
+        ? breadcrumb.push({label: location.pathname, value: data.Name})
+        : breadcrumb.push({label: location.pathname, value: '加载中'})
+    dispatch({type: 'breadcrumb', payload: breadcrumb})
+  }, [dispatch, data, location.pathname]);
+
   useEffect(()=>{
     setLoading(true);
     client.get(`/Project/${url}`)
       .then(r => {
           if (r.data.ret) {
-            const data = r.data.res;
-            setData(data);
-            setBreadcrumb(breadcrumb => breadcrumb.concat([{label: matchUrl, value: data.Name}]))
-
+            setData(r.data.res);
           }
-          
         }
       ).catch(e => {
-      console.log(e);
+        console.error(e)
     }).finally(()=> {
       setLoading(false)
     })
     
   }, [url, matchUrl]);
 
-  dispatch('breadcrumb', breadcrumb);
 
   return (
         <>
@@ -55,7 +58,7 @@ const Project = (props) => {
             loading && <Loading><CircularProgress  /></Loading>
           }
           <IFrameWrapper>
-            <Tooltip title={data.Frame}>
+            <Tooltip title={data.hasOwnProperty('Frame') ? data.Frame : ''}>
               <h1>
                 { data.Name}
                 <a
@@ -80,10 +83,5 @@ const Project = (props) => {
 
 }
 
-const mapStateToProps = state => ({
-
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(Project));
+export default withRouter(Project);
 

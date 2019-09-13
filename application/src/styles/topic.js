@@ -3,13 +3,11 @@ import styled from "styled-components";
 export const TopicWrapper = styled.main`
     padding-top: 50px;
     margin: auto;
-    // background: white;
-
     max-width: 1000px;
     div.tool-bar{
       display: none;
     }
-`
+`;
 
 export const Loading = styled.div`
          height: 400px;
@@ -17,8 +15,7 @@ export const Loading = styled.div`
          display: flex;
          align-items: center;
          justify-content: center;
-         // background: white;
-   `
+`;
 
 export const Content = styled.div`
          a.title{
@@ -32,10 +29,6 @@ export const Content = styled.div`
               font-size: 12px;
               color: #999;
          }
-         p{
-         
-         }
-         // height: 200px;
          padding:16px 0 16px 16px;
-         // background: white;
-   `
+
+`;

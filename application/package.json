@@ -27,11 +27,9 @@
     "react-fa": "^5.0.0",
     "react-markdown-editor-lite": "^0.4.3",
     "react-media": "^1.9.2",
-    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-swipeable-views": "^0.13.3",
-    "redux": "^4.0.4",
     "styled-components": "^4.3.2"
   },
   "scripts": {

@@ -9,10 +9,8 @@ import {client} from "../../utils/requests";
 const Topic = (props) => {
 
 
-    const {url, topic} = props.match.params;
+    const {topic} = props.match.params;
     const [Topic, setTopic] = useState({});
-    const [breadcrumb, setBreadcrumb] = useState({label: props.breadcrumb[props.breadcrumb.length - 1].label + '/' + topic + '/' + url, value: '获取中'});
-
 
 
     useEffect(()=>{
@@ -20,9 +18,16 @@ const Topic = (props) => {
         client.get(`Topic/${topic}`).then((r) => {
 
                 if (r.data.ret) {
-                    setBreadcrumb(breadcrumb => {return {...breadcrumb, value:r.data.res.Name}})
 
-                    setTopic(r.data.res)
+                    // 后端 PG 查 专栏目录时没有堆目录排序，此处先拍下序
+                    const result = r.data.res;
+                    const indexes = result.Articles.map(index => parseInt(index.split(':')[1].split(',')[0]));
+
+                    const sortable = result.ArticleObjects;
+                    sortable.sort(function(a, b) {
+                        return indexes.indexOf(a.Id) - indexes.indexOf(b.Id);
+                    });
+                    setTopic(result)
                 }
             }
         ).catch(e => {
@@ -37,7 +42,7 @@ const Topic = (props) => {
             <Route
               exact
               path={'/topic/:topic/:url'}
-              children={({match}) => match && <P breadcrumb={props.breadcrumb.concat([breadcrumb])} Topic={Topic}/>}
+              children={({match}) => match && <P Topic={Topic}/>}
             />
         </React.Fragment>
     )

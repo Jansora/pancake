@@ -7,19 +7,17 @@ export const Rotate = keyframes`
     to {
         transform: rotate(360deg);
     }
-`
+`;
 
 export const HeaderWrapper = styled.header`
     position: fixed;
     height: 50px;
     width:  calc(100vw);
-    padding: 5px 20px;//20px;//20px 5px;
-    //margin: 0 20px;
-    // margin: 5px;
+    padding: 5px 20px;
     background: white;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     z-index: 1000;
-`
+`;
 
 
 export const Left = styled.div`
@@ -47,8 +45,9 @@ export const Left = styled.div`
     }
     a.active{
       font-weight: bolder;
+      color: var(--primary-active-color);
     }
-`
+`;
 
 export const Middle = styled.div`
     position: absolute;
@@ -78,11 +77,10 @@ export const Middle = styled.div`
       transition: background-color 300ms, color 300ms;
     }
     
-`
+`;
 
 export const Right = styled.div`
     position: absolute;
-    // float:right;
     right: 20px;
     height: 40px;
     line-height: 40px;
@@ -90,7 +88,7 @@ export const Right = styled.div`
     a {
       padding: 0 5px;
     }
-`
+`;
 
 export const Navbar = styled.div`
   width: 40px;
@@ -100,11 +98,11 @@ export const Navbar = styled.div`
   bottom: 50px;
   svg{
     color: #fff;
-    background-color: var(--primary-color);//rgba(0, 0, 0, 0.87);
+    background-color: var(--primary-color);
     cursor: pointer;
     margin: 4px;
     padding: 8px;
     box-sizing: content-box;
     border-radius: 4px;
   }
-`
+`;

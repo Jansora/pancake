@@ -11,26 +11,28 @@ import {Grid} from "@material-ui/core";
 
 import {Content, Loading, ProjectsWrapper} from "../../styles/project";
 import {client} from "../../utils/requests";
-import connect from "react-redux/es/connect/connect";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
+import {Store} from "../../utils/store";
 
 moment.locale('zh-CN');
 
 
 
 const Projects = (props) => {
-  const dispatch = (type, payload) => props.dispatch({type, payload});
-
-  const breadcrumb = [{label:'/project', value: '项目'}];
-  
-  dispatch('breadcrumb', breadcrumb);
+  const {dispatch} = React.useContext(Store);
 
 
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  
+
+
+  useEffect(() => {
+    dispatch({type: 'breadcrumb', payload: [{label:'/project', value: '项目'}]})
+  }, [dispatch]);
+
+
   useEffect(()=>{
     setLoading(true)
     client.get(`/Project`)
@@ -97,10 +99,5 @@ const Projects = (props) => {
 
 }
 
-const mapStateToProps = state => ({
-
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(Projects));
+export default (withRouter(Projects));
 

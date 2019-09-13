@@ -4,27 +4,20 @@ import PancakeEditor from "../components/PancakeEditor"
 export const PostWrapper = styled.main`
     padding-top: 20px;
     width: 100%;
-    // background: white;
-
-    
     div.tool-bar{
       display: none;
     }
 
-`
-export const TitleWrapper = styled.div`
+`;
 
+export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  div.tags{
-  
-  }
+`;
 
-`
 export const Article = styled(PancakeEditor)`
-  // width: 800px;
+
   border: none;
 
   div.rc-md-editor{
@@ -37,19 +30,14 @@ export const Article = styled(PancakeEditor)`
   }
   div.custom-html-style {
     background: white;
-    //padding:16px;
     p{
-        // color: black;
         white-space: pre-line;
         overflow-wrap: break-word;
-    }
-    pre {
-      //line-height: 1.5;
     }
     blockquote{
         padding: 5px 5px 5px 15px;
         border-left: 5px solid #D6DBDF;
-        //color: #555;
+
         border-left: 5px solid var(--primary-color);
   
         border-radius: 10px;
@@ -73,8 +61,6 @@ export const Article = styled(PancakeEditor)`
           font-size: 20px;
     }
     
-
-    
     code{
         color: var(--primary-color);
         padding: 0 3px;
@@ -90,8 +76,6 @@ export const Article = styled(PancakeEditor)`
           padding-left: 3px;
        ]
     }
-
-    
   }
   
   @font-face {
@@ -152,7 +136,6 @@ export const Article = styled(PancakeEditor)`
   line-height: 1.5;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
   font-size: 16px;
-  line-height: 1.5;
   word-wrap: break-word;
 }
 
@@ -1052,7 +1035,6 @@ export const Article = styled(PancakeEditor)`
   padding-left: 128px!important;
 }
 
-
 `
 
 export const Loading = styled.div`
@@ -1064,7 +1046,6 @@ export const Loading = styled.div`
          display: flex;
          align-items: center;
          justify-content: center;
-         // background: white;
          z-index: 2;
    `
 
@@ -1082,8 +1063,8 @@ export const TabWrapper = styled.div`
   div.MuiTypography-body1{
     padding: 20px 0 0 10px;
   }
-  
-    // 覆写ant design锚点
+ 
+    // 覆写 ant design锚点
   .ant-anchor-ink-ball{
     border: 2px solid var(--primary-color) !important;
   }
@@ -1098,9 +1079,7 @@ export const TabWrapper = styled.div`
   ul.property{
         font-size: 12px;
   }
-  
-  
-`
+`;
 
 export const Comment = styled.div`
   margin: 16px;
@@ -1110,7 +1089,6 @@ export const Comment = styled.div`
 
     padding: 10px 0;
     div.avatar{
-      //background: var(--primary-color);
       color: white;
       margin: 5px 10px 0 0;
     }
@@ -1121,7 +1099,6 @@ export const Comment = styled.div`
         .name{
           font-weight: bold;
           cursor: pointer;
-          // margin-right: 5px;
         }
         span.date{
           display: inline-block;
@@ -1129,8 +1106,6 @@ export const Comment = styled.div`
           color: rgba(0,0,0,.6);
           font-size: .72em;
         }
-
-
       }
       div.text{
         white-space: pre;
@@ -1146,12 +1121,12 @@ export const Comment = styled.div`
   h3{
     margin:20px 0 10px 0;
   }
-`
+`;
 
 
 
 export const TopicInPost = styled.div`
-  // margin: auto;
+
   position: sticky;
   padding: 16px;
   width: 300px;
@@ -1180,7 +1155,6 @@ export const TopicInPost = styled.div`
       a{
         display: block;
         font-size: 14px;
-        // margin: 3px 0;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

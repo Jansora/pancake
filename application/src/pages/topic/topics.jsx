@@ -11,27 +11,30 @@ import {Grid} from "@material-ui/core";
 
 import {Content, Loading, TopicWrapper} from "../../styles/topic";
 import {client} from "../../utils/requests";
-import connect from "react-redux/es/connect/connect";
+
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
+import {Store} from "../../utils/store";
 
 moment.locale('zh-CN');
 
 
 
 const Topics = (props) => {
-  const dispatch = (type, payload) => props.dispatch({type, payload});
 
-  const breadcrumb = [{label:'/topic', value: '专栏'}];
-  
-  dispatch('breadcrumb', breadcrumb);
+  const {dispatch} = React.useContext(Store);
+
   const {url} = props.match;
   
-  // const [Id, setId] = React.useState('');
+
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  
+
+  useEffect(() => {
+    dispatch({type: 'breadcrumb', payload: [{label:'/topic', value: '专栏'}]})
+  }, [dispatch]);
+
   useEffect(()=>{
     setLoading(true)
     client.get(`/Topic`)
@@ -99,10 +102,6 @@ const Topics = (props) => {
 
 }
 
-const mapStateToProps = state => ({
 
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(Topics));
+export default (withRouter(Topics));
 

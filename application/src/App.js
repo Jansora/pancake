@@ -4,7 +4,7 @@ import Header from "./layouts/header"
 import Background from './layouts/background'
 import BootStrap from "./layouts/bootstrap"
 import Footer from "./layouts/footer"
-import Utils from "./layouts/utils"
+import Message from "./components/message";
 
 export default function App() {
 
@@ -14,7 +14,7 @@ export default function App() {
       <Header/>
       <BootStrap/>
       <Footer/>
-      <Utils/>
+      <Message/>
     </React.Fragment>
   );
 }

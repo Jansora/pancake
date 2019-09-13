@@ -14,12 +14,12 @@ const Project = (props) => {
             <Route
               exact
               path='/project'
-              children={({match}) => match && <PS breadcrumb={props.breadcrumb}/>}
+              children={({match}) => match && <PS />}
             />
             <Route
                 exact
                 path='/project/:url'
-                children={({match}) => match && <P breadcrumb={props.breadcrumb}/>}
+                children={({match}) => match && <P />}
             />
 
         </React.Fragment>

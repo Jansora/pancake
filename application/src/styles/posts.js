@@ -16,8 +16,7 @@ export const PostsWrapper = styled.main`
     max-width: 1000px;
     margin: auto;
     animation: ${scala} 200ms;
-        // background-color: white;
-`
+`;
 
 
 export const MenuWrapper = styled.div`
@@ -25,49 +24,42 @@ export const MenuWrapper = styled.div`
     top: 0;
     position: sticky;
     height: 49px;
+    width: 100%;
     background: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
+        //flex-wrap: wrap;
     z-index: 1000;
-    a, button, a.visited, button.focus{
+    >span{
          cursor: pointer;
          color: var(--primary-color);
-         background: none !important;
+         //background: none !important;
          border: none;
     }
-    a:hover, a.active,  button:hover, button.active{
+    >span.active{
       background-color:  var(--primary-color) !important;
       color: white;
     }
-
-
-`
+`;
 
 
 export const FilterWrapper = styled.div`
-
-    top: 51px;
-    position: sticky;
     display: flex;
     border-radius: 8px;
     flex-direction: column;
     background-color: white;
     padding-bottom: 10px;
-
-    // width: 100px;
     p{
+       color: black;
+       font-weight: bold;
        font-size: 15px;
        margin: 10px 20px;
     }
-    // padding-left: 10px;
     >div{
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
-        button{
-  
-        }
     }
     button{
      cursor: pointer;
@@ -77,14 +69,25 @@ export const FilterWrapper = styled.div`
      margin: 2px 10px; 
      padding: 0 10px;
     }
-    button:hover, button.active , button.focus{
+    button.active , button.focus{
      background-color:  var(--primary-color) !important;
      color: white;
     }
-`
+    div.tags{
+        >span{
+         color: var(--primary-color);
+         cursor: pointer;
+         border: none;
+         width: 100px;
+        }
+        >span.active{
+          background-color:  var(--primary-color) !important;
+          color: white;
+        }
+    }
+`;
 
 export const ContentWrapper = styled.div`
-    // margin-top: 28px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -96,13 +99,12 @@ export const ContentWrapper = styled.div`
        animation: ${scala} 500ms;
     }
     div.detail{
-                    width: calc(100% - 200px);
-        // flex: 1 1 auto;
-
+        width: calc(100% - 200px);
+ 
         div.MuiCardContent-root{
             padding: 16px 16px 0 16px;
 
-            height: 100%; //calc(100% - 16px);
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -135,7 +137,6 @@ export const ContentWrapper = styled.div`
             display: flex;
             align-items: center;
             justify-content: space-between;
-            // height: 30px; 
             font-size: 13px;
             padding: 5px 0 10px 0;
             span.fa{
@@ -145,12 +146,10 @@ export const ContentWrapper = styled.div`
         }
     }
     div.bootstrap-logo{
-        
         width: 200px;
         margin: 10px;   
-
     }
-`
+`;
 
 export const Loading = styled.div`
          height: 400px;
@@ -159,5 +158,4 @@ export const Loading = styled.div`
          display: flex;
          align-items: center;
          justify-content: center;
-         // background: white;
-   `
+`;

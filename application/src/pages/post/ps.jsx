@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Grid} from "@material-ui/core";
 import {ContentWrapper, FilterWrapper, Loading, MenuWrapper, PostsWrapper} from "../../styles/posts";
-import connect from "react-redux/es/connect/connect";
+
 import Chip from '@material-ui/core/Chip';
 import {Link, withRouter} from 'react-router-dom';
 
@@ -13,104 +13,146 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-import {classes} from "../../utils/Router";
+
 
 import {client, format} from "../../utils/requests";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 import TextField from "@material-ui/core/TextField";
-import Message from '../../components/message'
 
-const PS = (props) => {
+import {Store} from "../../utils/store";
+import {classes} from "../../utils/constants";
 
-    const dispatch = (type, payload) => props.dispatch({type, payload});
-    const {location} = props;
-    const breadcrumb = props.breadcrumb;//.concat(classes.filter(e => e.label === location.pathname));
-    dispatch('breadcrumb', breadcrumb);
 
-    const prefix = breadcrumb[breadcrumb.length - 1].label;
-    const class_ = breadcrumb[breadcrumb.length - 1].value;
+const PS = () => {
+
+    const {dispatch, } = React.useContext(Store);
+
+
     const limit = 10;
 
     const [loading, setLoading] = React.useState(false);
     const [sortType, setSortType] = React.useState('create_time');
     const [sort, setSort] = React.useState('desc');
+    const [tags, setTags] = React.useState([]);
+    const [totalTags, setTotalTags] = React.useState([]);
     const [data, setData] = React.useState([]);
     const [total, setTotal] = React.useState(undefined);
     const [title, setTitle] = React.useState('');
     const [offset, setOffset] = React.useState(0);
-    const [message, setMessage] = React.useState({open: false, variant: 'success', message: ``});
-    // const [scrolling, setScrolling] = React.useState(false);
-    const fetch =  React.useCallback((init=true, offset=0) => {
 
+
+    const fetch =  React.useCallback((init=true, offset=0) => {
 
         setLoading(true);
 
-
         const args = {sort, sortType,
-            tag: class_ ==='所有' ? '' : class_,
+            tag: tags,
             limit, offset,
             AmbiguousTitle:title};
 
             client.get("Article?" + format(args)).then((e)=>{
                     if(e.data.ret){
-                        // const curData = init ? e.data.res : data.concat(e.data.res)
                         setData(data => init ? e.data.res : data.concat(e.data.res));
                         setTotal(e.data.total)
-
                     }
-
                 }
             ).catch( e => {
                 console.error(e);
 
             }).finally(() => setLoading(false))
 
-
-
-    }, [sortType, class_, sort, title])
+    }, [sortType, sort, title, tags]);
 
     useEffect(()=>{
-      const scroll =() =>{
+      const scroll =() => {
+
         const progress = (window.scrollY + 1) / (document.body.scrollHeight - document.body.clientHeight + 1) * 100;
     
-        if(progress > 92 && !loading && data.length < total) {
-          setLoading(true)
+        if(progress > 70 && !loading && data.length < total) {
+          setLoading(true);
           fetch(false, offset);
         }
       
-      }
+      };
         document.addEventListener('scroll', scroll);
         return () => document.removeEventListener('scroll', scroll);
-    }, )
+    }, );
 
-    useEffect(()=>{
+    useEffect(() => {
         fetch()
-    }, [sort, sortType, class_, title, fetch]);
+    }, [sort, sortType, tags, title, fetch]);
 
     //
-    useEffect(()=> {
+    useEffect(() => {
         setOffset(data.length);
         if(total){
-            setMessage({open: true, variant: 'success', message: `已展示 ${data.length} / ${total} 条`})
-            setTimeout(()=> setMessage( {open: false, variant: 'success', message: ``}), 1000);
+            dispatch({
+                type: 'message',
+                payload: {open: true, variant: 'success', content: `已展示 ${data.length} / ${total} 条`, duration: 1000}
+            })
         }
 
-     }, [data, data.length, total]);
-    // if(total){
-    //     dispatch('message', {show: true, type: 'success', content: `已展示
-    //                   ${data.length} / ${total} 条`});
-    //
-    //     setTimeout(()=> dispatch('message', {show: false, type: 'success', content: `已展示
-    //                   ${data.length} / ${total} 条`}), 1000);
-    // }
+     }, [data, data.length, total, dispatch]);
 
+    useEffect(() => {
+        dispatch({type: 'breadcrumb', payload: [{label: '/posts', value: '博客'}]})
+    }, [dispatch]);
+
+
+
+    useEffect(()=>{
+        const fetchTags = () => {
+
+            client.get("Tags").then((e)=>{
+                    if(e.data.ret){
+                        const tags = {};
+                        e.data.res.forEach(item => {
+                            item.forEach(tag => {
+                                if(tags.hasOwnProperty(tag)){
+                                    tags[tag] += 1
+                                } else {
+                                    tags[tag] = 1
+                                }
+                            })
+                        });
+                        const sortable = Object.keys(tags).map( tag => [tag, tags[tag]]);
+                        sortable.sort(function(a, b) {
+                            return b[1] - a[1];
+                        });
+                        const result = {};
+                        sortable.forEach((item) => result[item[0]] = item[1]);
+                        setTotalTags(result)
+
+                    }
+                }
+            ).catch( e => {
+                console.error(e)
+            })
+        }
+        fetchTags()
+    }, [])
     return (
           <PostsWrapper>
             <Grid container justify={'space-around'} component='div' spacing={3}>
               <Grid component='div' item xs={3}>
                 <FilterWrapper>
+
+                  <p>模糊搜索</p>
+                  <div>
+                      <TextField
+                          variant="outlined"
+                          required
+                          error={title.length > 10 }
+                          label="标题"
+                          id="margin-dense"
+                          style={{width: 200,  margin: '10px auto'}}
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
+                      />
+                  </div>
+                  <Divider style={{margin: '10px 20px 3px 20px'}}/>
                   <p>排序字段</p>
                   <div>
                     <Chip
@@ -142,19 +184,23 @@ const PS = (props) => {
                     />
 
                   </div>
-
                     <Divider style={{margin: '10px 20px 3px 20px'}}/>
-                    <p>模糊搜索</p>
-                    <div>
-                        <TextField
-                            required
-                            error={title.length > 10 }
-                            label="标题"
-                            id="margin-dense"
-                            style={{width: 200,  margin: '10px auto'}}
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
+                    <p>标签过滤</p>
+                    <div className='tags'>
+                        {
+                            Object.keys(totalTags).map(tag => classes.indexOf(tag) === -1 &&
+                                <Tooltip title={`共有 ${totalTags[tag]} 条`} key={tag}>
+                                    <Chip
+                                        variant="outlined"
+                                        component='span'
+                                        label={tag}
+                                        onClick={() => setTags([tag])}
+                                        className={tags.indexOf(tag) >= 0 ? 'active' : ''}
+                                    />
+                                </Tooltip>
+                    )
+
+                        }
                     </div>
                   {/*<Divider style={{margin: '10px 20px'}}/>*/}
                 </FilterWrapper>
@@ -163,16 +209,34 @@ const PS = (props) => {
 
                 <>
                   <MenuWrapper>
-                    {
-                      classes.map(_class => <Chip
-                          key={_class.label}
-                          variant="outlined"
-                          component={Link}
-                          label={_class.value}
-                          to={ _class.label}
-                          className={location.pathname === _class.label ? 'active' : '' }
-                      />)
-                    }
+                      {
+                          <Tooltip title={`共有 ${total} 条`}>
+                          <Chip
+                              variant="outlined"
+                              component='span'
+                              label='所有'
+                              onClick={() => setTags([])}
+
+                              className={tags.length === 0  ? 'active' : ''}
+                          />
+                          </Tooltip>
+                      }
+                      {
+
+                          classes.map(tag =>
+                              <Tooltip title={`共有 ${totalTags[tag]} 条`} key={tag}>
+                                  <Chip
+                                      variant="outlined"
+                                      component='span'
+                                      label={tag}
+                                      onClick={() => setTags([tag])}
+                                      className={tags.indexOf(tag) >= 0 ? 'active' : ''}
+                                  />
+                              </Tooltip>
+                             )
+                      }
+
+
                   </MenuWrapper>
                   <Divider style={{}}/>
                   {/*<Divider style={{margin: '10px 0'}}/>*/}
@@ -185,7 +249,7 @@ const PS = (props) => {
                             <Card className='card' key={e.Url}>
                         <div className='detail'>
                             <CardContent >
-                                <Link  to={prefix + '/' + e.Url} className='title'>{e.Title}</Link>
+                                <Link  to={'/post/' + e.Url} className='title'>{e.Title}</Link>
                                 {/*<Typography variant="subtitle1" color="textSecondary">*/}
                                 {/*    <Link  to={"/post/" + e.Url} className='author'>{e.Author}</Link>*/}
                                 {/*</Typography>*/}
@@ -229,8 +293,8 @@ const PS = (props) => {
 
                                 {/*<Divider style={{margin: '0'}}/>*/}
                             </CardContent>
-                            <div className={classes.controls}>
-                            </div>
+                            {/*<div className={classes.controls}>*/}
+                            {/*</div>*/}
                         </div>
                         <CardMedia
                             className='bootstrap-logo'
@@ -245,15 +309,11 @@ const PS = (props) => {
 
               </Grid>
             </Grid>
-            <Message {...message}/>
+
           </PostsWrapper>
       )
 
 }
 
-const mapStateToProps = state => ({
-  // breadcrumb: state.breadcrumb
-});
-export default connect(
-  mapStateToProps,
-)(withRouter(PS));
+
+export default withRouter(PS);
