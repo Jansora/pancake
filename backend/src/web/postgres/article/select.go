@@ -174,7 +174,6 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 	for _, a := range as{
 		if(strings.Index(a, "document") != -1) {
 			IdString := strings.Split(a, ",")[0][6:]
-			fmt.Print(IdString)
 			A, _ := SelectById(db, IdString, IsPublic)
 			A.Content = ""
 			A.Summary = ""
