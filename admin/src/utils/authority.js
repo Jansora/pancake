@@ -25,18 +25,18 @@ export function getAuthority(str) {
 
   return authority;
 }
+
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
   return localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority));
 }
 
 
-
 export function getLoginInfo() {
-  const loginId  = localStorage.getItem("loginId")  ? parseInt(localStorage.getItem("loginId"), 10)  : "";
-  const loginUser  = localStorage.getItem("loginUser")  ? localStorage.getItem("loginUser")  : "";
+  const loginId = localStorage.getItem("loginId") ? parseInt(localStorage.getItem("loginId"), 10) : "";
+  const loginUser = localStorage.getItem("loginUser") ? localStorage.getItem("loginUser") : "";
   const loginToken = localStorage.getItem("loginToken") ? localStorage.getItem("loginToken") : "";
-  if(loginToken === ""){
+  if (loginToken === "") {
     routerRedux.push({
       pathname: '/user/login',
       search: stringify({
@@ -51,8 +51,8 @@ export function getLoginInfo() {
   };
 };
 
-export function setLoginInfo(r){
-  localStorage.setItem("loginId", r.loginId.toString()) ;
-  localStorage.setItem("loginUser", r.loginUser) ;
-  localStorage.setItem("loginToken", r.loginToken) ;
+export function setLoginInfo(r) {
+  localStorage.setItem("loginId", r.loginId.toString());
+  localStorage.setItem("loginUser", r.loginUser);
+  localStorage.setItem("loginToken", r.loginToken);
 };

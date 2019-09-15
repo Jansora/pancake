@@ -72,6 +72,8 @@ const Topics = (props) => {
           <Grid container component='div' spacing={5}>
             {
               data.map(e=> {
+                const urls = e.ArticleObjects.filter(e => e.Id !== 0);
+                console.log(urls, e)
                 return <Grid component='div' item xs={4} key={e.Url}>
                 
                     <Card className={classes.card} >
@@ -79,10 +81,10 @@ const Topics = (props) => {
                         className={classes.media}
                         image={e.Logo_url}
                         title={e.Description}
-                        component={Link} to={`${url}/${e.Url}/${e.ArticleObjects[0].Url}`}
+                        component={Link} to={`${url}/${e.Url}/${urls.length > 0 ? urls[0].Url : null}`}
                       />
                       <Content>
-                        <Link to={`${url}/${e.Url}/${e.ArticleObjects[0].Url}`} className='title'>  {e.Name}</Link>
+                        <Link to={`${url}/${e.Url}/${urls.length > 0 ? urls[0].Url : null}`} className='title'>  {e.Name}</Link>
                         <span className='date'>{moment(e.Create_time).fromNow()}</span>
                         {/*<p> {e.Description}</p>*/}
                       </Content>

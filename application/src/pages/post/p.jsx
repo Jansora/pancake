@@ -254,13 +254,18 @@ const P = (props) => {
                         <div className='card'>
                           <h2>{Topic.Name}</h2>
                           <p> {Topic.Description}</p>
-                          <div className='link-group'>
+                          <div className='group'>
                             {
                               Topic.ArticleObjects.map((e, index) => {
-                                const level = parseInt(Topic.Articles[index].split("level:")[1].split("}"));
-                                const paths = location.pathname.split('/');
-                                paths[paths.length - 1] = e.Url;
-                                return <NavLink to={paths.join('/')}  className={`level${level}`} key={e.Url}>{e.Title}</NavLink>
+                                  const obj = JSON.parse(Topic.Articles[index]);
+
+                                  if(obj.type === 'menu') {
+                                      return <span className={`menu`} key={e.Url}>{obj.title}</span>
+                                  } else {
+                                      const paths = location.pathname.split('/');
+                                      paths[paths.length - 1] = e.Url;
+                                      return <NavLink to={paths.join('/')}  className={`document`} key={e.Url}>{e.Title}</NavLink>
+                                  }
                               })
                             }
                           </div>

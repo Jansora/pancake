@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 import styles from './index.less';
 
@@ -23,9 +23,9 @@ export default class FooterToolbar extends Component {
       return;
     }
 
-    const { isMobile } = this.context;
+    const {isMobile} = this.context;
     const width = isMobile ? null : `calc(100% - ${sider.style.width})`;
-    const { width: stateWidth } = this.state;
+    const {width: stateWidth} = this.state;
 
     if (stateWidth !== width) {
       this.setState({
@@ -35,8 +35,8 @@ export default class FooterToolbar extends Component {
   };
 
   render() {
-    const { children, className, extra, ...restProps } = this.props;
-    const { width } = this.state;
+    const {children, className, extra, ...restProps} = this.props;
+    const {width} = this.state;
     return (
       <div
         className={classNames(className, styles.toolbar)}

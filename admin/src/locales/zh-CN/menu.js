@@ -47,11 +47,10 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
-  
-  
-  
-  'menu.Manage':"博客管理",
-  'menu.Manage.ArticleList':"博客列表",
-  'menu.Manage.ArticleInsert':"插入博客",
-  'menu.Manage.Edit':"编辑博客",
+
+
+  'menu.Manage': "博客管理",
+  'menu.Manage.ArticleList': "博客列表",
+  'menu.Manage.ArticleInsert': "插入博客",
+  'menu.Manage.Edit': "编辑博客",
 };

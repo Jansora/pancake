@@ -1,83 +1,83 @@
-import { routerRedux } from 'dva/router';
-import {getArticle, getArticleList, getTags, InsertArticle ,deleteArticle, UpdateArticle} from '@/services/golang';
+import {routerRedux} from 'dva/router';
+import {deleteArticle, getArticle, getArticleList, getTags, InsertArticle, UpdateArticle} from '@/services/golang';
 import {message} from 'antd';
 
 import {InitArticleEditState} from '../data';
+
 export default {
   namespace: 'Article',
 
   state: {
-    ArticleInsert:{
-      tags:[],
+    ArticleInsert: {
+      tags: [],
     },
-    ArticleList:[],
-    ArticleEdit:{
+    ArticleList: [],
+    ArticleEdit: {
       ...InitArticleEditState,
     },
-    Inserts:{
-      title: "32fdsfas",
-      site: "dsadfds",
-      author: "dsfszf",
-      summary: "fdafd",
-      content:"fdsgfjhfasd",
+    Inserts: {
+      title: "",
+      site: "",
+      author: "",
+      summary: "",
+      content: "",
       toc: [],
-      tags: ["dsfdsfdafdca"],
-      logoUrl: "dsfdsfdafdca",
+      tags: [""],
+      logoUrl: "",
       isPublic: "true",
     },
   },
 
   effects: {
-    *Insert({ payload }, { put }) {
-        yield put({
-          type: '_Insert',
-          payload,
-        });
+    * Insert({payload}, {put}) {
+      yield put({
+        type: '_Insert',
+        payload,
+      });
     },
-    *initArticleEdit({ payload }, { call, put }) {
+    * initArticleEdit({payload}, {call, put}) {
 
       const {url} = payload;
       yield put({
         type: 'initArticleEditContent',
       });
       let r = yield call(getArticle, payload);
-      if (r.ret){
+      if (r.ret) {
         payload.res = r.res;
         yield put({
           type: 'updateArticleEdit',
           payload,
         });
-     
+
         r = yield call(getTags);
         payload.tags = [];
-        if (r.ret){
+        if (r.ret) {
           payload.tags = Array(...new Set([].concat(...r.res)))
         }
         yield put({
           type: 'updateArticleInsert',
           payload,
         });
-      }
-      else {
+      } else {
         message.error(r.res)
       }
     },
-    *initArticleList(_, { call, put }) {
+    * initArticleList(_, {call, put}) {
       const r = yield call(getArticleList);
       const payload = {};
-      if (r.ret){
+      if (r.ret) {
         payload.res = r.res;
         yield put({
           type: 'updateArticleList',
           payload,
         });
       }
-      
+
     },
-    *initArticleInsert(_, { call, put }) {
+    * initArticleInsert(_, {call, put}) {
       const r = yield call(getTags);
-      const payload = {tags:[]};
-      if (r.ret){
+      const payload = {tags: []};
+      if (r.ret) {
         payload.tags = Array(...new Set([].concat(...r.res)))
       }
       yield put({
@@ -85,46 +85,45 @@ export default {
         payload,
       });
     },
-    *InsertSubmit({payload}, { call, put }) {
-      console.log('payload', payload)
+    * InsertSubmit({payload}, {call, put}) {
+
       const r = yield call(InsertArticle, payload);
-      if (r.ret){
+      if (r.ret) {
         message.success(r.res);
-       // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
         message.error(r.res);
       }
     },
-    *EditSubmit({payload}, { call, put }) {
-    
+    * EditSubmit({payload}, {call, put}) {
+
       const r = yield call(UpdateArticle, payload);
-      if (r.ret){
+      if (r.ret) {
         message.success(r.res);
         // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
         message.error(r.res);
       }
     },
-    
-    *UpdateContent({payload}, { call, put }) {
+
+    * UpdateContent({payload}, {call, put}) {
       yield put({
         type: 'updateArticleInsert',
         payload,
       });
     },
-    
-    *deleteArticle({ payload }, { call, put }) {
-  
+
+    * deleteArticle({payload}, {call, put}) {
+
       const {url} = payload;
       const r = yield call(deleteArticle, payload)
-      
-      if (r.ret){
+
+      if (r.ret) {
         message.success("刪除成功");
         const r2 = yield call(getArticleList);
-        if (r2.ret){
+        if (r2.ret) {
           yield put({
             type: 'updateArticleList',
-            payload:r2,
+            payload: r2,
           });
           routerRedux.push('/ArticleManage/ArticleList')
         }
@@ -139,7 +138,7 @@ export default {
     initArticleEditContent(state, action) {
       return {
         ...state,
-        ArticleEdit:{
+        ArticleEdit: {
           ...state.ArticleEdit,
           content: undefined,
         }
@@ -148,7 +147,7 @@ export default {
     updateArticleInsert(state, action) {
       return {
         ...state,
-        ArticleInsert:{
+        ArticleInsert: {
           ...state.ArticleInsert,
           ...action.payload,
         }
@@ -157,14 +156,14 @@ export default {
     updateArticleList(state, action) {
       return {
         ...state,
-        ArticleList:action.payload.res
+        ArticleList: action.payload.res
       };
     },
     updateArticleEdit(state, action) {
       const {res} = action.payload;
       return {
         ...state,
-        ArticleEdit:{
+        ArticleEdit: {
           title: res.Title,
           site: res.Site,
           url: res.Url,

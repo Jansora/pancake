@@ -1,18 +1,19 @@
-import { routerRedux } from 'dva/router';
-import { stringify } from 'querystring';
-import { fakeAccountLogin} from '@/services/golang';
-import { setAuthority, setLoginInfo } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
+import {routerRedux} from 'dva/router';
+import {stringify} from 'querystring';
+import {fakeAccountLogin} from '@/services/golang';
+import {setAuthority, setLoginInfo} from '@/utils/authority';
+import {getPageQuery} from '@/utils/utils';
+import {reloadAuthorized} from '@/utils/Authorized';
+
 const Model = {
   namespace: 'login',
   state: {
     status: undefined,
   },
   effects: {
-    *login({ payload }, { call, put }) {
+    * login({payload}, {call, put}) {
       const response = yield call(fakeAccountLogin, payload);
-    
+
       // Login successfully
       if (response.status === 'ok') {
         yield put({
@@ -20,12 +21,12 @@ const Model = {
           payload: response,
         });
         setLoginInfo(response);
-      
+
         reloadAuthorized();
-      
+
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        let { redirect } = params;
+        let {redirect} = params;
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {
@@ -43,10 +44,10 @@ const Model = {
         message.error("登录失败")
       }
     },
-    
 
-    *logout(_, { put }) {
-      const { redirect } = getPageQuery(); // redirect
+
+    * logout(_, {put}) {
+      const {redirect} = getPageQuery(); // redirect
 
       if (window.location.pathname !== '/user/login' && !redirect) {
         yield put(
@@ -61,9 +62,9 @@ const Model = {
     },
   },
   reducers: {
-    changeLoginStatus(state, { payload }) {
+    changeLoginStatus(state, {payload}) {
       setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      return {...state, status: payload.status, type: payload.type};
     },
   },
 };

@@ -1,14 +1,14 @@
-import { Alert, Checkbox, Icon } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
-import React, { Component } from 'react';
+import {Alert, Checkbox, Icon} from 'antd';
+import {formatMessage, FormattedMessage} from 'umi-plugin-react/locale';
+import React, {Component} from 'react';
 import Link from 'umi/link';
-import { connect } from 'dva';
+import {connect} from 'dva';
 import LoginComponents from './components/Login';
 import styles from './style.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
+const {Tab, UserName, Password, Mobile, Captcha, Submit} = LoginComponents;
 
-@connect(({ userLogin, loading }) => ({
+@connect(({userLogin, loading}) => ({
   userLogin,
   submitting: loading.effects['userLogin/login'],
 }))
@@ -27,13 +27,13 @@ class Login extends Component {
   };
 
   handleSubmit = (err, values) => {
-    const { type } = this.state;
+    const {type} = this.state;
 
     if (!err) {
-      const { dispatch } = this.props;
+      const {dispatch} = this.props;
       dispatch({
         type: 'userLogin/login',
-        payload: { ...values, type },
+        payload: {...values, type},
       });
     }
   };
@@ -54,7 +54,7 @@ class Login extends Component {
         if (err) {
           reject(err);
         } else {
-          const { dispatch } = this.props;
+          const {dispatch} = this.props;
           dispatch({
             type: 'userLogin/getCaptcha',
             payload: values.mobile,
@@ -77,9 +77,9 @@ class Login extends Component {
   );
 
   render() {
-    const { userLogin, submitting } = this.props;
-    const { status, type: loginType } = userLogin;
-    const { type, autoLogin } = this.state;
+    const {userLogin, submitting} = this.props;
+    const {status, type: loginType} = userLogin;
+    const {type, autoLogin} = this.state;
     return (
       <div className={styles.main}>
         <Login
@@ -97,13 +97,13 @@ class Login extends Component {
             })}
           >
             {status === 'error' &&
-              loginType === 'account' &&
-              !submitting &&
-              this.renderMessage(
-                formatMessage({
-                  id: 'user-login.login.message-invalid-credentials',
-                }),
-              )}
+            loginType === 'account' &&
+            !submitting &&
+            this.renderMessage(
+              formatMessage({
+                id: 'user-login.login.message-invalid-credentials',
+              }),
+            )}
             <UserName
               name="userName"
               placeholder={`${formatMessage({
@@ -144,13 +144,13 @@ class Login extends Component {
             })}
           >
             {status === 'error' &&
-              loginType === 'mobile' &&
-              !submitting &&
-              this.renderMessage(
-                formatMessage({
-                  id: 'user-login.login.message-invalid-verification-code',
-                }),
-              )}
+            loginType === 'mobile' &&
+            !submitting &&
+            this.renderMessage(
+              formatMessage({
+                id: 'user-login.login.message-invalid-verification-code',
+              }),
+            )}
             <Mobile
               name="mobile"
               placeholder={formatMessage({
@@ -196,7 +196,7 @@ class Login extends Component {
           </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              <FormattedMessage id="user-login.login.remember-me" />
+              <FormattedMessage id="user-login.login.remember-me"/>
             </Checkbox>
             <a
               style={{
@@ -204,19 +204,19 @@ class Login extends Component {
               }}
               href=""
             >
-              <FormattedMessage id="user-login.login.forgot-password" />
+              <FormattedMessage id="user-login.login.forgot-password"/>
             </a>
           </div>
           <Submit loading={submitting}>
-            <FormattedMessage id="user-login.login.login" />
+            <FormattedMessage id="user-login.login.login"/>
           </Submit>
           <div className={styles.other}>
-            <FormattedMessage id="user-login.login.sign-in-with" />
-            <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
-            <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
-            <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
+            <FormattedMessage id="user-login.login.sign-in-with"/>
+            <Icon type="alipay-circle" className={styles.icon} theme="outlined"/>
+            <Icon type="taobao-circle" className={styles.icon} theme="outlined"/>
+            <Icon type="weibo-circle" className={styles.icon} theme="outlined"/>
             <Link className={styles.register} to="/user/register">
-              <FormattedMessage id="user-login.login.signup" />
+              <FormattedMessage id="user-login.login.signup"/>
             </Link>
           </div>
         </Login>

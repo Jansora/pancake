@@ -129,55 +129,64 @@ func Selects(db *sql.DB,  c Condition, IsPublic bool) ([]Article, error) {
 	return As, err
 }
 
+func SelectById(db *sql.DB, Id string, IsPublic bool) (Article, error) {
+
+	A := Article{}
+	querySql := fmt.Sprintf(`SELECT 
+Id , Author,Content, Html,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
+Title, Summary,Comment, Toc 
+FROM Article WHERE Id = '%s' `, Id)
+	if IsPublic {
+		querySql += "AND Is_public=true"
+	}
+
+	err := db.QueryRow(querySql).Scan(
+		&A.Id,
+		&A.Author,
+		&A.Content,
+		&A.Html,
+		&A.Create_time,
+		&A.Modify_time,
+		&A.Site,
+		&A.Url,
+		&A.Read_num,
+		&A.Like_num,
+		pq.Array(&A.Tags),
+		&A.Is_public,
+		&A.Logo_url,
+		&A.Title,
+		&A.Summary,
+		pq.Array(&A.Comment),
+		pq.Array(&A.Toc),
+	)
+	if (IsPublic) {
+		UpdateReadNum(db, A.Read_num + 1, A.Id)
+	}
+
+	return A, err
+}
+
 func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 
 	As := []Article{}
-	ArticleIds := []string{}
+
 
 	for _, a := range as{
-		r := strings.Split(a, ",")[0]
+		if(strings.Index(a, "document") != -1) {
+			IdString := strings.Split(a, ",")[0][6:]
+			fmt.Print(IdString)
+			A, _ := SelectById(db, IdString, IsPublic)
+			A.Content = ""
+			A.Summary = ""
+			A.Comment = []string{}
+			As = append(As, A)
+		} else {
+			As = append(As, Article{})
+		}
 
-		ArticleIds = append(ArticleIds, r[4:])
-	}
-	if len(as) == 0 {
-		return As, nil
-	}
-
-	querySql := `SELECT Id, Author, Create_time, Modify_time, Site, Url,  Read_num, Like_num, Tags, Logo_url,
-	Title, Summary FROM Article WHERE id = any($1) `
-
-	if IsPublic {
-		querySql += " and Is_public=true "
-	}
-
-
-	r, err := db.Query(querySql, pq.Array(ArticleIds))
-	if err != nil {
-		fmt.Println("err:  ", err)
-	}
-	defer r.Close()
-
-	for r.Next() {
-		var A Article;
-		r.Scan(
-			&A.Id,
-			&A.Author,
-			&A.Create_time,
-			&A.Modify_time,
-			&A.Site,
-			&A.Url,
-			&A.Read_num,
-			&A.Like_num,
-			pq.Array(&A.Tags),
-			&A.Logo_url,
-			&A.Title,
-			&A.Summary,
-		)
-
-		As = append(As, A)
 	}
 
-	return As, err
+	return As, nil
 }
 
 

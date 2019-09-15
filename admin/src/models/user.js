@@ -1,18 +1,18 @@
 import {checkLogin} from "../services/golang";
+
 const UserModel = {
   namespace: 'user',
   state: {
     currentUser: {},
   },
   effects: {
-    *checkLogin(_, { call}) {
+    * checkLogin(_, {call}) {
       const response = yield call(checkLogin);
-      if(response.ret !== true){
+      if (response.ret !== true) {
         window.location.href = '/user/login';
       }
     },
   },
-  reducers: {
-  },
+  reducers: {},
 };
 export default UserModel;

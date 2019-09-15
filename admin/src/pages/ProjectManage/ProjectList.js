@@ -1,44 +1,30 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Button,
-  Card,
-  InputNumber,
-  Radio,
-  Icon,
-  Tooltip, Row, Col, Table, message
-} from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {Card, DatePicker, Form, Input, Select, Table} from 'antd';
 
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import styles from './style.less';
 import marked from 'marked';
 
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 var renderer = new marked.Renderer();
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
+const {TextArea} = Input;
 
 
-
-
-@connect(({ Project, loading }) => ({
+@connect(({Project, loading}) => ({
   Project,
   initLoading: loading.effects['Project/initProjectList'],
 }))
 
 @Form.create()
-class ProjectList extends PureComponent{
-  
+class ProjectList extends PureComponent {
+
   state = {
-    ProjectListColumns:[
+    ProjectListColumns: [
       {
         title: '标题',
         dataIndex: 'Name',
@@ -47,14 +33,14 @@ class ProjectList extends PureComponent{
           <React.Fragment>
             <Link to={`/ProjectManage/ProjectEdit/${obj.Url}`}>{name}</Link>
             {/*<a style={{marginLeft:25}} onClick={()=> message.info('请双击删除')} onDoubleClick={() => this.deleteProject(Url)}>刪除</a>*/}
-    
+
           </React.Fragment>
       },
       {
         title: '公开',
         dataIndex: 'Is_public',
         key: 'public',
-        render: pub  => pub ? "公开" : "私密",
+        render: pub => pub ? "公开" : "私密",
       }, {
         title: 'Logo',
         dataIndex: 'Logo_url',
@@ -84,13 +70,12 @@ class ProjectList extends PureComponent{
     ]
   };
 
-  componentDidMount(){
-    const { dispatch } = this.props;
+  componentDidMount() {
+    const {dispatch} = this.props;
     dispatch({
       type: 'Project/initProjectList',
     });
   }
-  
 
 
   render() {
@@ -99,7 +84,8 @@ class ProjectList extends PureComponent{
     return (
       <PageHeaderWrapper>
         <Card title="项目列表" className={styles.card}>
-          <Table      rowKey={'Id'} columns={ProjectListColumns} dataSource={Project.ProjectList.tableData} loading={initLoading}/>
+          <Table rowKey={'Id'} columns={ProjectListColumns} dataSource={Project.ProjectList.tableData}
+                 loading={initLoading}/>
         </Card>
 
       </PageHeaderWrapper>

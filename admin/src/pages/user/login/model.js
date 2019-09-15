@@ -1,6 +1,6 @@
-import { routerRedux } from 'dva/router';
-import { fakeAccountLogin, getFakeCaptcha } from './service';
-import { getPageQuery, setAuthority } from './utils/utils';
+import {routerRedux} from 'dva/router';
+import {fakeAccountLogin, getFakeCaptcha} from './service';
+import {getPageQuery, setAuthority} from './utils/utils';
 
 const Model = {
   namespace: 'userLogin',
@@ -8,7 +8,7 @@ const Model = {
     status: undefined,
   },
   effects: {
-    *login({ payload }, { call, put }) {
+    * login({payload}, {call, put}) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
@@ -18,7 +18,7 @@ const Model = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        let { redirect } = params;
+        let {redirect} = params;
 
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
@@ -39,14 +39,14 @@ const Model = {
       }
     },
 
-    *getCaptcha({ payload }, { call }) {
+    * getCaptcha({payload}, {call}) {
       yield call(getFakeCaptcha, payload);
     },
   },
   reducers: {
-    changeLoginStatus(state, { payload }) {
+    changeLoginStatus(state, {payload}) {
       setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      return {...state, status: payload.status, type: payload.type};
     },
   },
 };

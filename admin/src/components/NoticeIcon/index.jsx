@@ -1,18 +1,24 @@
-import { Badge, Icon, Spin, Tabs } from 'antd';
-import React, { Component } from 'react';
+import {Badge, Icon, Spin, Tabs} from 'antd';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 import NoticeList from './NoticeList';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
-const { TabPane } = Tabs;
+
+const {TabPane} = Tabs;
 export default class NoticeIcon extends Component {
   static Tab = NoticeList;
   static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
-    onViewMore: () => {},
+    onItemClick: () => {
+    },
+    onPopupVisibleChange: () => {
+    },
+    onTabChange: () => {
+    },
+    onClear: () => {
+    },
+    onViewMore: () => {
+    },
     loading: false,
     clearClose: false,
     emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
@@ -21,28 +27,28 @@ export default class NoticeIcon extends Component {
     visible: false,
   };
   onItemClick = (item, tabProps) => {
-    const { onItemClick } = this.props;
+    const {onItemClick} = this.props;
 
     if (onItemClick) {
       onItemClick(item, tabProps);
     }
   };
   onClear = (name, key) => {
-    const { onClear } = this.props;
+    const {onClear} = this.props;
 
     if (onClear) {
       onClear(name, key);
     }
   };
   onTabChange = tabType => {
-    const { onTabChange } = this.props;
+    const {onTabChange} = this.props;
 
     if (onTabChange) {
       onTabChange(tabType);
     }
   };
   onViewMore = (tabProps, event) => {
-    const { onViewMore } = this.props;
+    const {onViewMore} = this.props;
 
     if (onViewMore) {
       onViewMore(tabProps, event);
@@ -50,7 +56,7 @@ export default class NoticeIcon extends Component {
   };
 
   getNotificationBox() {
-    const { children, loading, clearText, viewMoreText } = this.props;
+    const {children, loading, clearText, viewMoreText} = this.props;
 
     if (!children) {
       return null;
@@ -61,7 +67,7 @@ export default class NoticeIcon extends Component {
         return null;
       }
 
-      const { list, title, count, tabKey, showClear, showViewMore } = child.props;
+      const {list, title, count, tabKey, showClear, showViewMore} = child.props;
       const len = list && list.length ? list.length : 0;
       const msgCount = count || count === 0 ? count : len;
       const tabTitle = msgCount > 0 ? `${title} (${msgCount})` : title;
@@ -94,7 +100,7 @@ export default class NoticeIcon extends Component {
   }
 
   handleVisibleChange = visible => {
-    const { onPopupVisibleChange } = this.props;
+    const {onPopupVisibleChange} = this.props;
     this.setState({
       visible,
     });
@@ -105,11 +111,11 @@ export default class NoticeIcon extends Component {
   };
 
   render() {
-    const { className, count, popupVisible, bell } = this.props;
-    const { visible } = this.state;
+    const {className, count, popupVisible, bell} = this.props;
+    const {visible} = this.state;
     const noticeButtonClass = classNames(className, styles.noticeButton);
     const notificationBox = this.getNotificationBox();
-    const NoticeBellIcon = bell || <Icon type="bell" className={styles.icon} />;
+    const NoticeBellIcon = bell || <Icon type="bell" className={styles.icon}/>;
     const trigger = (
       <span
         className={classNames(noticeButtonClass, {

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Typography } from 'antd';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import {Card, Typography} from 'antd';
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
+import {FormattedMessage} from 'umi-plugin-react/locale';
 
-const CodePreview = ({ children }) => (
+const CodePreview = ({children}) => (
   <pre
     style={{
       background: '#f2f4f5',
@@ -40,7 +40,7 @@ export default () => (
           rel="noopener noreferrer"
           href="https://pro.ant.design/docs/available-script#npm-run-fetchblocks"
         >
-          <FormattedMessage id="app.welcome.link.fetch-blocks" defaultMessage="获取全部区块" />
+          <FormattedMessage id="app.welcome.link.fetch-blocks" defaultMessage="获取全部区块"/>
         </a>
       </Typography.Text>
       <CodePreview> npm run fetch:blocks</CodePreview>

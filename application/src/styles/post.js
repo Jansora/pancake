@@ -1149,10 +1149,10 @@ export const TopicInPost = styled.div`
       margin: 10px 0;
       display: inline-block;
     }
-    div.link-group{
+    div.group{
       width: 100%;
       
-      a{
+      a, span{
         display: block;
         font-size: 14px;
         text-overflow: ellipsis;
@@ -1162,10 +1162,10 @@ export const TopicInPost = styled.div`
         line-height: 30px;
         color: #505d6b;
       }
-      a.level1{
+      .menu{
         font-weight: 700;
       }
-      a.level2{
+      .document{
         margin-left: 20px;
       }
       a.active{

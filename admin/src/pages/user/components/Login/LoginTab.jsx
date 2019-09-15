@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Tabs } from 'antd';
+import React, {Component} from 'react';
+import {Tabs} from 'antd';
 import LoginContext from './LoginContext';
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const generateId = (() => {
   let i = 0;
@@ -21,7 +21,7 @@ class LoginTab extends Component {
   }
 
   componentDidMount() {
-    const { tabUtil } = this.props;
+    const {tabUtil} = this.props;
 
     if (tabUtil) {
       tabUtil.addTab(this.uniqueId);
@@ -29,7 +29,7 @@ class LoginTab extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const {children} = this.props;
     return <TabPane {...this.props}>{children}</TabPane>;
   }
 }

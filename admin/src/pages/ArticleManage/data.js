@@ -1,16 +1,14 @@
-import { getLoginInfo } from '../../utils/authority';
+import {getLoginInfo} from '../../utils/authority';
 import React from 'react';
-import {Link} from 'react-router-dom';
-//import {Link} from 'umi/link';
-import router from 'umi/router';
+
 
 export const InitArticleInsertState = {
   title: "",
-  site: "江苏南京",
+  site: "",
   url: "",
   author: getLoginInfo().loginUser,
   summary: "",
-  content:"" ,
+  content: "",
   toc: [],
   tags: [],
   logoUrl: "",
@@ -19,7 +17,7 @@ export const InitArticleInsertState = {
 
 export const InitArticleEditState = {
   title: "",
-  site: "江苏南京",
+  site: "",
   url: "",
   author: "",
   summary: "",

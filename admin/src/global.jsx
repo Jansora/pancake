@@ -1,8 +1,9 @@
-import { Button, message, notification } from 'antd';
+import {Button, message, notification} from 'antd';
 import React from 'react';
-import { formatMessage } from 'umi-plugin-react/locale';
+import {formatMessage} from 'umi-plugin-react/locale';
 import defaultSettings from '../config/defaultSettings';
-const { pwa } = defaultSettings; // if pwa is true
+
+const {pwa} = defaultSettings; // if pwa is true
 
 if (pwa) {
   // Notify user if offline now
@@ -72,12 +73,13 @@ if (pwa) {
       }),
       btn,
       key,
-      onClose: async () => {},
+      onClose: async () => {
+      },
     });
   });
 } else if ('serviceWorker' in navigator) {
   // unregister service worker
-  const { serviceWorker } = navigator;
+  const {serviceWorker} = navigator;
 
   if (serviceWorker.getRegistrations) {
     serviceWorker.getRegistrations().then(sws => {

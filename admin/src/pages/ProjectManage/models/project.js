@@ -1,37 +1,31 @@
-
-import {getArticle, getArticleList, getTags,
-  InsertArticle ,deleteArticle, UpdateArticle, getProjects, InsertProject,getProjectArticleList,
-  DeleteProject, getProject, UpdateProject, 
-} from '@/services/golang';
+import {DeleteProject, getArticleList, getProject, getProjects, InsertProject, UpdateProject,} from '@/services/golang';
 import {message} from 'antd';
 
 export default {
   namespace: 'Project',
 
   state: {
-    ProjectInsert:{
-      articles:[],
+    ProjectInsert: {
+      articles: [],
     },
-    ProjectList:{
-      tableData: [
-      
-      ]
+    ProjectList: {
+      tableData: []
     },
-    ProjectEdit:{
+    ProjectEdit: {
       name: "",
       url: "",
       toc: "",
-      frame:"",
+      frame: "",
       // articles: [],
       logoUrl: "",
       isPublic: "true",
     },
-    Inserts:{
+    Inserts: {
       title: "32fdsfas",
       site: "dsadfds",
       author: "dsfszf",
       summary: "fdafd",
-      content:"fdsgfjhfasd",
+      content: "fdsgfjhfasd",
       toc: [],
       tags: ["dsfdsfdafdca"],
       logoUrl: "dsfdsfdafdca",
@@ -40,101 +34,98 @@ export default {
   },
 
   effects: {
-    
-    *initProjectList({ payload }, { call, put }) {
+
+    * initProjectList({payload}, {call, put}) {
       const r = yield call(getProjects, payload);
-      if (r.ret){
+      if (r.ret) {
         yield put({
           type: 'updateProjectList',
-          payload:r.res,
+          payload: r.res,
         });
-      }
-      else {
+      } else {
         message.error(r.res)
       }
     },
-    
-    
-    *Insert({ payload }, { put }) {
-        yield put({
-          type: '_Insert',
-          payload,
-        });
+
+
+    * Insert({payload}, {put}) {
+      yield put({
+        type: '_Insert',
+        payload,
+      });
     },
-    
-    *initProjectEdit({ payload }, { call, put }) {
+
+    * initProjectEdit({payload}, {call, put}) {
 
       let r = yield call(getProject, payload);
-      if (r.ret){
+      if (r.ret) {
         payload.res = r.res;
         yield put({
           type: 'updateProjectEdit',
           payload,
         });
-        
-      }
-      else {
+
+      } else {
         message.error(r.res)
       }
     },
-    *initArticleList(_, { call, put }) {
+    * initArticleList(_, {call, put}) {
       const r = yield call(getArticleList);
       const payload = {};
-      if (r.ret){
+      if (r.ret) {
         payload.res = r.res;
         yield put({
           type: 'updateArticleList',
           payload,
         });
       }
-      
+
     },
 
-    *InsertSubmit({payload}, { call, put }) {
+    * InsertSubmit({payload}, {call, put}) {
 
       const r = yield call(InsertProject, payload);
-      if (r.ret){
+      if (r.ret) {
         message.success(r.res);
         //window.open(`https://editor.jans.xin?url=${payload.url}`)
-       // payload.tags = Array(...new Set([].concat(...r.res)))
+        // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
         message.error(r.res);
       }
     },
-    *EditSubmit({payload}, { call, put }) {
-    
+    * EditSubmit({payload}, {call, put}) {
+
       const r = yield call(UpdateProject, payload);
-      if (r.ret){
+      if (r.ret) {
         message.success(r.res);
         // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
         message.error(r.res);
       }
     },
-    
-    *UpdateContent({payload}, { call, put }) {
+
+    * UpdateContent({payload}, {call, put}) {
       yield put({
         type: 'updateArticleInsert',
         payload,
       });
     },
-    
-    *deleteProject({ payload }, { call, put }) {
-  
+
+    * deleteProject({payload}, {call, put}) {
+
       const {url} = payload;
       const r = yield call(DeleteProject, payload)
 
-      
-      if (r.ret){
+
+      if (r.ret) {
         message.success("刪除成功");
         const r2 = yield call(getProjects, payload);
-        if (r2.ret){
+        if (r2.ret) {
           yield put({
             type: 'updateProjectList',
-            payload:r2.res,
+            payload: r2.res,
           });
-        }
-        else {
+        } else {
           message.error(r.res)
         }
         // payload.tags = Array(...new Set([].concat(...r.res)))
@@ -149,7 +140,7 @@ export default {
 
       return {
         ...state,
-        ProjectInsert:{
+        ProjectInsert: {
           ...state.ProjectInsert,
           articles: action.payload,
         }
@@ -159,7 +150,7 @@ export default {
       const {ProjectList} = state;
       return {
         ...state,
-        ProjectList:{
+        ProjectList: {
           ...ProjectList,
           tableData: action.payload,
         }
@@ -170,7 +161,7 @@ export default {
       const {res} = action.payload;
       return {
         ...state,
-        ProjectEdit:{
+        ProjectEdit: {
           name: res.Name,
           url: res.Url,
           toc: res.Toc,

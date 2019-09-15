@@ -1,5 +1,5 @@
-import { Form, Tabs } from 'antd';
-import React, { Component } from 'react';
+import {Form, Tabs} from 'antd';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 import LoginContext from './LoginContext';
 import LoginItem from './LoginItem';
@@ -15,8 +15,10 @@ class Login extends Component {
   static defaultProps = {
     className: '',
     defaultActiveKey: '',
-    onTabChange: () => {},
-    onSubmit: () => {},
+    onTabChange: () => {
+    },
+    onSubmit: () => {
+    },
   };
 
   constructor(props) {
@@ -34,7 +36,7 @@ class Login extends Component {
         type,
       },
       () => {
-        const { onTabChange } = this.props;
+        const {onTabChange} = this.props;
 
         if (onTabChange) {
           onTabChange(type);
@@ -44,8 +46,8 @@ class Login extends Component {
   };
 
   getContext = () => {
-    const { form } = this.props;
-    const { tabs = [] } = this.state;
+    const {form} = this.props;
+    const {tabs = []} = this.state;
     return {
       tabUtil: {
         addTab: id => {
@@ -59,9 +61,9 @@ class Login extends Component {
           });
         },
       },
-      form: { ...form },
+      form: {...form},
       updateActive: activeItem => {
-        const { type = '', active = {} } = this.state;
+        const {type = '', active = {}} = this.state;
 
         if (active[type]) {
           active[type].push(activeItem);
@@ -78,8 +80,8 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { active = {}, type = '' } = this.state;
-    const { form, onSubmit } = this.props;
+    const {active = {}, type = ''} = this.state;
+    const {form, onSubmit} = this.props;
     const activeFields = active[type] || [];
 
     if (form) {
@@ -98,8 +100,8 @@ class Login extends Component {
   };
 
   render() {
-    const { className, children } = this.props;
-    const { type, tabs = [] } = this.state;
+    const {className, children} = this.props;
+    const {type, tabs = []} = this.state;
     const TabChildren = [];
     const otherChildren = [];
     React.Children.forEach(children, child => {

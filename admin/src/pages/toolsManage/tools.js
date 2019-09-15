@@ -1,43 +1,28 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Button,
-  Card,
-  InputNumber,
-  Radio,
-  Icon,
-  Tooltip, Row, Col, message,
-} from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {Button, Card, Col, Form, Input, Row,} from 'antd';
 
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
 
 import styles from './style.less';
 
 
-
-@connect(({ Tools }) => ({
+@connect(({Tools}) => ({
   Tools,
 
 }))
 
 @Form.create()
-class Tools extends PureComponent{
-  
-  state = {
+class Tools extends PureComponent {
 
-  };
+  state = {};
 
-  componentDidMount(){
+  componentDidMount() {
 
   }
-  
+
   handleSubmit = e => {
-    const { dispatch, form,} = this.props;
+    const {dispatch, form,} = this.props;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       let d = {...values};
@@ -49,9 +34,9 @@ class Tools extends PureComponent{
       }
     });
   };
-  
+
   render() {
-    const { form: { getFieldDecorator, getFieldValue }, Tools } = this.props;
+    const {form: {getFieldDecorator, getFieldValue}, Tools} = this.props;
     return (
       <PageHeaderWrapper
         title={'常用工具'}
@@ -63,7 +48,7 @@ class Tools extends PureComponent{
               <Col sm={5}>
                 <Form.Item label="文件url">
                   {getFieldDecorator('url', {
-                    rules: [{ required: true, message: '文件url' }],
+                    rules: [{required: true, message: '文件url'}],
                     initialValue: "https://img-bbs.csdn.net/upload/201408/15/1408090192_90442.jpg"
                   })(
                     <Input
@@ -74,17 +59,17 @@ class Tools extends PureComponent{
               <Col sm={5} offset={1}>
                 <Form.Item label="文件名称">
                   {getFieldDecorator('filename', {
-                    rules: [{ required: true, message: '文件url' }],
+                    rules: [{required: true, message: '文件url'}],
                     initialValue: 'test',
                   })(
-                      <Input
-                          placeholder="请输入话题名称"
-                      />)}
+                    <Input
+                      placeholder="请输入话题名称"
+                    />)}
                 </Form.Item>
               </Col>
               <Col sm={5} offset={1}>
                 <Form.Item label="提交">
-                  <Button type="primary" htmlType="submit" onClick={this.handleSubmit} >
+                  <Button type="primary" htmlType="submit" onClick={this.handleSubmit}>
                     提交
                   </Button>
                 </Form.Item>
@@ -100,7 +85,7 @@ class Tools extends PureComponent{
         </Card>
 
       </PageHeaderWrapper>
-      
+
     );
   }
 }

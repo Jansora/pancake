@@ -4,7 +4,7 @@ function getFakeCaptcha(req, res) {
 
 export default {
   'POST  /api/login/account': (req, res) => {
-    const { password, userName, type } = req.body;
+    const {password, userName, type} = req.body;
 
     if (password === 'ant.design' && userName === 'admin') {
       res.send({

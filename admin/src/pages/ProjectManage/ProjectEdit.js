@@ -1,53 +1,37 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Button,
-  Card,
-  InputNumber,
-  Radio,
-  Icon,
-  Tooltip, Row, Col, message,
-} from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {formatMessage} from 'umi/locale';
+import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select,} from 'antd';
 
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import FooterToolbar from '@/components/FooterToolbar';
 import styles from './style.less';
 
-import {InitArticleInsertState, InitArticleEditState} from './data';
-import { getLoginInfo } from '../../utils/authority';
-
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
+const {TextArea} = Input;
 
 
-
-@connect(({ Project, loading }) => ({
+@connect(({Project, loading}) => ({
   Project,
   submitting: loading.effects['Article/EditSubmit'],
 }))
 
 @Form.create()
-class ProjectEdit extends PureComponent{
-  
-  state = {
-  };
+class ProjectEdit extends PureComponent {
 
-  componentDidMount(){
-    const { dispatch } = this.props;
-    const { url } = this.props.match.params;
+  state = {};
+
+  componentDidMount() {
+    const {dispatch} = this.props;
+    const {url} = this.props.match.params;
     dispatch({
       type: 'Project/initProjectEdit',
       payload: {url},
     });
-    
+
     //const simplemde = new SimpleMDE({ element: document.getElementById("content")});
     //this.setState({simplemde});
     // simplemde.codemirror.on('change', () => {
@@ -56,10 +40,10 @@ class ProjectEdit extends PureComponent{
     //   });
     // })
   }
-  
+
   handleSubmit = e => {
-    const { dispatch, form } = this.props;
-    const { url } = this.props.match.params;
+    const {dispatch, form} = this.props;
+    const {url} = this.props.match.params;
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       let d = {...values};
@@ -75,7 +59,7 @@ class ProjectEdit extends PureComponent{
       }
     });
   };
-  
+
   Insert = payload => {
     const {dispatch} = this.props;
     dispatch({
@@ -83,17 +67,17 @@ class ProjectEdit extends PureComponent{
       payload,
     });
   };
-  
+
   deleteProject = (url) => {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     dispatch({
       type: 'Project/deleteProject',
       payload: {url},
     });
   };
-  
+
   render() {
-    const { Project, form: { getFieldDecorator, getFieldValue }, submitting} = this.props;
+    const {Project, form: {getFieldDecorator, getFieldValue}, submitting} = this.props;
     const {name, logoUrl, isPublic, url, description, frame} = Project.ProjectEdit;
 
     return (
@@ -108,7 +92,7 @@ class ProjectEdit extends PureComponent{
                 <Form.Item label="标题">
                   {getFieldDecorator('name', {
                     initialValue: name,
-                    rules: [{ required: true, message: '请输入话题名称' }],
+                    rules: [{required: true, message: '请输入话题名称'}],
                   })(
                     <Input
                       placeholder="请输入话题名称"
@@ -119,7 +103,7 @@ class ProjectEdit extends PureComponent{
                 <Form.Item label="是否公开">
                   {getFieldDecorator('isPublic', {
                     initialValue: isPublic,
-                    rules: [{ required: true, message: '是否公开' }],
+                    rules: [{required: true, message: '是否公开'}],
                   })(
                     <Select>
                       <Option value="true">公开</Option>
@@ -132,10 +116,10 @@ class ProjectEdit extends PureComponent{
                 <Form.Item label="logo">
                   {getFieldDecorator('logoUrl', {
                     initialValue: logoUrl,
-                    rules: [{ required: true, message: '请输入logo地址' }],
+                    rules: [{required: true, message: '请输入logo地址'}],
                   })(
                     <Input
-                      style={{ width: '100%' }}
+                      style={{width: '100%'}}
                       placeholder="请输入"
                     />
                   )}
@@ -145,10 +129,10 @@ class ProjectEdit extends PureComponent{
                 <Form.Item label="url">
                   {getFieldDecorator('url', {
                     initialValue: url,
-                    rules: [{ required: true, message: '请输入logo地址' }],
+                    rules: [{required: true, message: '请输入logo地址'}],
                   })(
                     <Input
-                      style={{ width: '100%' }}
+                      style={{width: '100%'}}
                       placeholder="请输入"
                     />
                   )}
@@ -159,11 +143,11 @@ class ProjectEdit extends PureComponent{
               <Col sm={5}>
                 <Form.Item label="frame地址">
                   {getFieldDecorator('frame', {
-                    rules: [{ required: true, message: '请输入frame地址' }],
+                    rules: [{required: true, message: '请输入frame地址'}],
                     initialValue: frame,
                   })(
                     <Input
-                      style={{ width: '100%' }}
+                      style={{width: '100%'}}
                       placeholder="请输入"
                     />
                   )}
@@ -183,8 +167,8 @@ class ProjectEdit extends PureComponent{
                     ],
                   })(
                     <TextArea
-                      style={{ minHeight: 64 , width: "100%" }}
-                      placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+                      style={{minHeight: 64, width: "100%"}}
+                      placeholder={formatMessage({id: 'form.goal.placeholder'})}
                       rows={6}
                       cols={24}
                     />
@@ -194,14 +178,14 @@ class ProjectEdit extends PureComponent{
             </Row>
           </Form>
         </Card>
-        <FooterToolbar >
-          <div style={{ width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px' }}>
-            <Button type="primary" style={{ float: 'left' }}
+        <FooterToolbar>
+          <div style={{width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px'}}>
+            <Button type="primary" style={{float: 'left'}}
                     onClick={() => message.warning('请双击来删除该项目')}
-                    onDoubleClick={() => this.deleteProject(url)} >
+                    onDoubleClick={() => this.deleteProject(url)}>
               删除
             </Button>
-            <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float:'right'}}  >
+            <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float: 'right'}}>
               提交
             </Button>
           </div>

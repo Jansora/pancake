@@ -17,52 +17,53 @@ import mc from 'markdown-it-custom-block'
 
 import 'highlight.js/styles/atom-one-light.css'
 
-import { upload } from '../../services/golang';
-import { message } from 'antd';
+import {upload} from '../../services/golang';
+import {message} from 'antd';
 // import 'highlight.js/styles/github.css'
 // import "katex/dist/katex.min.css"
 
 
 const PancakeEditor = (props) => {
   const mdParser = new MarkdownIt({
-      html: true,
-      linkify: true,
-      typographer: true,
-      highlight: (str, lang) => {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value
-          } catch (__) {}
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: (str, lang) => {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value
+        } catch (__) {
         }
-        return '' // use external default escaping
+      }
+      return '' // use external default escaping
+    },
+  })
+    .use(emoji)
+    .use(subscript)
+    .use(superscript)
+    .use(footnote)
+    .use(deflist)
+    .use(abbreviation)
+    .use(insert)
+    .use(mark)
+    .use(mk)
+    .use(tasklists, {enabled: true})
+    .use(mc, {
+      img(url) {
+        return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;"><img src="${url}" alt=${url}/></div>`
       },
-    })
-      .use(emoji)
-      .use(subscript)
-      .use(superscript)
-      .use(footnote)
-      .use(deflist)
-      .use(abbreviation)
-      .use(insert)
-      .use(mark)
-      .use(mk)
-      .use(tasklists, { enabled: true })
-      .use(mc, {
-        img (url) {
-          return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;"><img src="${url}" alt=${url}/></div>`
-        },
-        video (url) {
-          return `<video controls><source src="${url}" type="video/mp4"></video>`
-        },
-        scripts (script) {
-          return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">${script}</div>>`
-        },
-        iframe (script) {
-          return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      video(url) {
+        return `<video controls><source src="${url}" type="video/mp4"></video>`
+      },
+      scripts(script) {
+        return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">${script}</div>>`
+      },
+      iframe(script) {
+        return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
              <iframe width="100%" height="500" frameborder="0" scrolling="no" src="${script.trim()}"></iframe>
           </div>>`
-        },
-      });
+      },
+    });
   const handleImageUpload = (file, callback) => {
 
 
@@ -72,7 +73,7 @@ const PancakeEditor = (props) => {
     const response = upload(formData);
     response.then(e => {
 
-      if(e.ret){
+      if (e.ret) {
         callback('https://' + e.res)
       } else {
         message.error('上传失败： ' + e.res)
@@ -92,7 +93,7 @@ const PancakeEditor = (props) => {
   }
 
   return (
-    <div >
+    <div>
       <MdEditor
         style={{minHeight: '90vh'}}
         ref={props.EditorRef}
@@ -114,7 +115,7 @@ const PancakeEditor = (props) => {
     </div>
 
   )
-  
+
 }
 
 export default PancakeEditor;

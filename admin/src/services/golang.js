@@ -1,5 +1,3 @@
-import { stringify } from 'qs';
-
 import request from 'umi-request';
 
 export async function checkLogin() {
@@ -23,7 +21,7 @@ export async function fakeAccountLogin(params) {
     method: 'post',
     data: params,
   });
-  
+
 }
 
 export async function getTags() {
@@ -36,6 +34,7 @@ export async function InsertArticle(params) {
     data: params,
   });
 }
+
 export async function UpdateArticle(params) {
   return request(`/Golang/Article/Update/${params.oldUrl}`, {
     method: 'post',
@@ -75,6 +74,7 @@ export async function InsertTopic(params) {
     data: params,
   });
 }
+
 export async function UpdateTopic(params) {
   return request(`/Golang/Topic/Update/${params.oldUrl}`, {
     method: 'post',
@@ -102,6 +102,7 @@ export async function InsertProject(params) {
     data: params,
   });
 }
+
 export async function UpdateProject(params) {
   return request(`/Golang/Project/Update/${params.oldUrl}`, {
     method: 'post',
