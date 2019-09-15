@@ -61,20 +61,24 @@ export const Middle = styled.div`
     a{
       margin:  0 10px;
     }
-    a.active{
-    
-    }
-    a, button, a.visited, button.focus{
+    a{
          cursor: pointer;
          color: var(--primary-color);
-         background: none !important;
+         background: none;
+                 // background-color: rgba(0, 0, 0, 0.08);
          border: none;
     }
-    a:hover, a.active,  button:hover, button.active{
-      background-color:  var(--primary-color) !important;
+    a:hover{
+             color: var(--primary-color);
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    }
+    a.active{
+      background-color:  var(--primary-color);
       
       color: white;
-      transition: background-color 300ms, color 300ms;
+      // transition: background-color 300ms, color 300ms;
     }
     
 `;
