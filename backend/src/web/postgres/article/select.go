@@ -2,8 +2,10 @@ package article
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
+	"strconv"
 	"strings"
 )
 
@@ -173,8 +175,10 @@ func SelectsByIds(db *sql.DB,  as []string, IsPublic bool) ([]Article, error) {
 
 	for _, a := range as{
 		if(strings.Index(a, "document") != -1) {
-			IdString := strings.Split(a, ",")[0][6:]
-			A, _ := SelectById(db, IdString, IsPublic)
+
+			var m map[string]interface{}
+			_ = json.Unmarshal([]byte(a), &m)
+			A, _ := SelectById(db, strconv.Itoa(int(m["id"].(float64))), IsPublic)
 			A.Content = ""
 			A.Summary = ""
 			A.Comment = []string{}
