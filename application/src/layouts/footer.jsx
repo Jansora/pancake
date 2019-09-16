@@ -50,9 +50,11 @@ const Footer = () => {
                 </Grid>
             </FooterContent>
             <Backup>
-                <Link to={'/'}>服务条款</Link>
+                <Link to={'/post/Terms-of-Service'}>服务条款</Link>
                 <Divider component='div' orientation='vertical' style={{background: "white", height: 20, margin: "0 40px"}}/>
-                <Link to={'/'}>隐私权</Link>
+                <Link to={'/post/privacy'}>隐私权</Link>
+                <Divider component='div' orientation='vertical' style={{background: "white", height: 20, margin: "0 40px"}}/>
+                <Link to={'/post/version'}>版本日志</Link>
                 <Divider component='div' orientation='vertical' style={{background: "white", height: 20, margin: "0 40px"}}/>
                 <span>© 2017-2019</span>
                 <a
