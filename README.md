@@ -1,6 +1,6 @@
 # Pancake 个人技术博客
 
-> This is an example file with default selections.
+> A Flexible Tech-blog System.
 
 # 技术栈
 
