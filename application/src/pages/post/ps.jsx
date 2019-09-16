@@ -90,7 +90,7 @@ const PS = () => {
         if(total){
             dispatch({
                 type: 'message',
-                payload: {open: true, variant: 'success', content: `已展示 ${data.length} / ${total} 条`, duration: 1000}
+                payload: {open: true, variant: 'success', content: `已展示 ${data.length} / ${total} 条`, duration: 500}
             })
         }
 
@@ -224,7 +224,7 @@ const PS = () => {
                       {
 
                           classes.map(tag =>
-                              <Tooltip title={`共有 ${totalTags[tag]} 条`} key={tag}>
+                              <Tooltip title={`共有 ${totalTags[tag] ? totalTags[tag] : 0} 条`} key={tag}>
                                   <Chip
                                       variant="outlined"
                                       component='span'
