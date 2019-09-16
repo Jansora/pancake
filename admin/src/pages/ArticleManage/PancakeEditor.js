@@ -95,7 +95,7 @@ const PancakeEditor = (props) => {
   return (
     <div>
       <MdEditor
-        style={{minHeight: '90vh'}}
+        style={{height: 800}}
         ref={props.EditorRef}
         renderHTML={renderHTML}
         config={{
