@@ -4,7 +4,7 @@
 
 # 技术栈
 
-博客前台: React Hooks. Styled-Components. Material Design
+博客前台: React with Material Design
  
 博客后台: Ant Design Pro v4
 
