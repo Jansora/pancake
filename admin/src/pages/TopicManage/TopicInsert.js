@@ -41,7 +41,7 @@ class TopicInsert extends PureComponent {
       const d = {...values};
       if (!err) {
         d.isPublic = d.isPublic === 'true';
-        d.content = '';
+        d.articles = this.state.articles.map(e => JSON.stringify(e));
         dispatch({
           type: 'Topic/InsertSubmit',
           payload: d,
