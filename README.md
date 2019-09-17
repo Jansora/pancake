@@ -1,18 +1,22 @@
-# Pancake 个人技术博客
-
+# Pancake
 > A Flexible Tech-blog System.
 
-# 技术栈
+# Tech Stack
 
-博客前台: React with Material Design
- 
-博客后台: Ant Design Pro v4
+Frontend(Application): [React](https://reactjs.org), [Material Design](https://material-ui.com)
 
-后端: Golang + Gin
+Frontend(Administrator): [Ant Design Pro v4](https://pro.ant.design)
 
-数据库: PostgreSQL
+Backend:
+  - language: [Golang](https://golang.org)
+  - web framework: [Gin](https://github.com/gin-gonic/gin)
 
-文件/图片存储: 阿里云 OSS
+DataBase: [PostgreSQL 10](https://www.postgresql.org/)
+
+Cache: [Redis](https://redis.io/)(to do?)
+
+File/Image Storage:[Aliyun OSS](https://aliyun.com/product/oss)
+
 
 
 # 安装
@@ -28,7 +32,7 @@
 ## Contributing
 
 PRs accepted.
-> 
+>
 
 ## License
 
