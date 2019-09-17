@@ -100,11 +100,9 @@ export const ContentWrapper = styled.div`
        animation: ${scala} 500ms;
     }
     div.detail{
-        width: calc(100% - 200px);
- 
+        width: calc(100% - 200px);     
         div.MuiCardContent-root{
             padding: 16px 16px 0 16px;
-
             height: 100%;
             display: flex;
             flex-direction: column;
