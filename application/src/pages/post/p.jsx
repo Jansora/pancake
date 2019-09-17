@@ -105,7 +105,16 @@ const P = (props) => {
               setContent(data.Content);
               setComments(data.Comment.map(c => JSON.parse(c)));
 
+                dispatch({
+                    type: 'message',
+                    payload: {open: true, variant: 'success', content: `获取数据成功, 本文共有 ${data.Content.length} 字符`, duration: 1000}
+                })
               updateToc()
+            } else {
+                dispatch({
+                    type: 'message',
+                    payload: {open: true, variant: 'error', content: r.data.res, duration: 2000}
+                })
             }
             
           }
@@ -117,7 +126,7 @@ const P = (props) => {
       
 
       
-    }, [url])
+    }, [url, dispatch])
   
     const updateToc = () => {
       setTimeout(() => {
@@ -153,7 +162,7 @@ const P = (props) => {
 
         dispatch({
             type: 'message',
-            payload: {open: true, variant: 'success', content: `昵称格式不正确`, duration: 1000}
+            payload: {open: true, variant: 'error', content: `昵称格式不正确`, duration: 1000}
         });
         return
     }
@@ -162,7 +171,7 @@ const P = (props) => {
 
         dispatch({
             type: 'message',
-            payload: {open: true, variant: 'success', content: `个人主页格式不正确`, duration: 1000}
+            payload: {open: true, variant: 'error', content: `个人主页格式不正确`, duration: 1000}
         });
         return
     }
@@ -171,7 +180,7 @@ const P = (props) => {
 
         dispatch({
             type: 'message',
-            payload: {open: true, variant: 'success', content: `评论正文长度应小于2000字符`, duration: 1000}
+            payload: {open: true, variant: 'error', content: `评论正文长度应小于2000字符`, duration: 1000}
         });
         return
     }

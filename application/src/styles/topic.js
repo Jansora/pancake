@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const TopicWrapper = styled.main`
     padding-top: 50px;
+    padding-bottom: 50px;
     margin: auto;
     max-width: 1000px;
     div.tool-bar{

@@ -1131,7 +1131,7 @@ export const TopicInPost = styled.div`
   padding: 16px;
   width: 300px;
   top: 51px;
-  height: calc( 100vh - 51px);
+  max-height: calc( 100vh - 51px);
   border-right: 1px solid rgba(0,0,0,.07);
   overflow: auto;
 

@@ -56,13 +56,16 @@ const Message = () => {
 
   const Icon = variantIcon[variant];
   useEffect(() => {
-    setTimeout(()=>{
-      dispatch({
-        type: 'message',
-        payload: {open: false, variant, content, duration}
-      })
-    }, duration)
-  }, [variant, content, duration, dispatch]);
+      if(open){
+          setTimeout(()=>{
+              dispatch({
+                  type: 'message',
+                  payload: {open: false, variant, content: '', duration}
+              })
+          }, duration)
+      }
+
+  }, [variant, duration, dispatch, open]);
   return (
     <Snackbar
       anchorOrigin={{

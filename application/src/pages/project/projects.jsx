@@ -40,16 +40,28 @@ const Projects = (props) => {
           if (r.data.ret) {
             const data = r.data.res;
             setData(data)
+            dispatch({
+              type: 'message',
+              payload: {open: true, variant: 'success', content: `获取数据成功, 共有 ${data.length} 个项目`, duration: 1000}
+            })
+          } else {
+            dispatch({
+              type: 'message',
+              payload: {open: true, variant: 'error', content: r.data.res, duration: 2000}
+            })
           }
-          
         }
       ).catch(e => {
+      dispatch({
+        type: 'message',
+        payload: {open: true, variant: 'error', content: '服务器异常或网络异常', duration: 2000}
+      });
       console.log(e);
     }).finally(()=> {
       setLoading(false)
     })
     
-  }, []);
+  }, [dispatch]);
   
   const useStyles = makeStyles({
     card: {

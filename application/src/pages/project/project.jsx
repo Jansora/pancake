@@ -28,10 +28,10 @@ const Project = (props) => {
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
-    const breadcrumb = [{label:'/project', value: '项目'}]
+    const breadcrumb = [{label:'/project', value: '项目'}];
     data.hasOwnProperty('Name')
         ? breadcrumb.push({label: location.pathname, value: data.Name})
-        : breadcrumb.push({label: location.pathname, value: '加载中'})
+        : breadcrumb.push({label: location.pathname, value: '加载中'});
     dispatch({type: 'breadcrumb', payload: breadcrumb})
   }, [dispatch, data, location.pathname]);
 
@@ -62,7 +62,7 @@ const Project = (props) => {
               <h1>
                 { data.Name}
                 <a
-                    style={{margin: '0 10px'}}
+                    style={{margin: '0 10px', position: 'absolute', lineHeight: 4.8}}
                     target='_blank' rel='noopener noreferrer' href={data.Frame}>
                   在新窗口打开
                 </a>

@@ -13,6 +13,7 @@ const scala = keyframes`
 
 export const PostsWrapper = styled.main`
     padding-top: 20px;
+    padding-bottom: 50px;
     max-width: 1000px;
     margin: auto;
     animation: ${scala} 200ms;
