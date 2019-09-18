@@ -39,7 +39,7 @@ for file in allfile:
     print(ret.status, "   ", file)
 
 for file in allfile:
-    if file.find('index.html') >= 0:
+    if file.find('index.html') >= 0 or file.find('manifest.json') >= 0 :
         continue
     os.system('rm -rf ' + file)
     print( os.system('rm -rf ' + file), 'rm -rf ' + file ,)
