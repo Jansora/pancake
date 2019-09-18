@@ -1,5 +1,5 @@
 # Pancake
-> 一个灵活的技术博客
+> A Flexible Tech-blog System.  A truly demo: https://www.jansora.com
 
 # 技术栈
 ## 前端
