@@ -53,7 +53,7 @@ export const Middle = styled.div`
     position: absolute;
     height: 40px;
     line-height:40px;
-    width: 100%;
+    width: calc(100% - 40px);
     display: flex;
     align-items: center;
     justify-content: center;
