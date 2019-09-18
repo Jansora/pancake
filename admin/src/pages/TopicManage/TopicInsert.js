@@ -181,11 +181,13 @@ class TopicInsert extends PureComponent {
                                   })
                                 }}
                                 filterOption={(input, option) =>
-                                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                  option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
                               >
                                 {
-                                  Topic.TopicInsert.articles.map(e=> <Option key={e.Id} value={e.Id}>{e.Title}</Option>)
+                                  Topic.TopicInsert.articles.map(e=>
+                                    <Option value={e.Id}><Tooltip key={e.Id} title={e.Url}>{e.Title}</Tooltip></Option>
+                                  )
                                 }
                               </Select>
                             }
