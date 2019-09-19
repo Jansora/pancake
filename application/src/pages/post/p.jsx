@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Grid} from "@material-ui/core";
+import {Grid, Tooltip} from "@material-ui/core";
 
 import HorizontalTab from '../../components/HoriziontalTab'
 import {TitleWrapper, Article, Comment, Loading, PostWrapper, TabWrapper, TopicInPost} from "../../styles/post";
@@ -273,7 +273,10 @@ const P = (props) => {
                                   } else {
                                       const paths = location.pathname.split('/');
                                       paths[paths.length - 1] = e.Url;
-                                      return <NavLink to={paths.join('/')}  className={`document`} key={e.Url}>{e.Title}</NavLink>
+                                      return <Tooltip title={e.Title} key={e.Url}>
+                                              <NavLink to={paths.join('/')} className={`document`} >{e.Title}
+                                              </NavLink>
+                                      </Tooltip>
                                   }
                               })
                             }
