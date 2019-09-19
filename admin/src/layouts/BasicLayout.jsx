@@ -3,15 +3,22 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout from '@ant-design/pro-layout';
-import React, {useEffect} from 'react';
+import ProLayout, { SettingDrawer } from '@ant-design/pro-layout';
+import React, {useEffect, useState} from 'react';
 import Link from 'umi/link';
-import {connect} from 'dva';
-import {formatMessage} from 'umi-plugin-react/locale';
+import router from 'umi/router';
+import { connect } from 'dva';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
-import {isAntDesignPro} from '@/utils/utils';
+import { isAntDesignPro } from '@/utils/utils';
 import logo from '../assets/logo.svg';
+import styles from './BasicLayout.less'
+
+import { Tabs , message} from 'antd';
+
+const { TabPane } = Tabs;
+
 
 /**
  * use Authorized check all menu item
@@ -19,7 +26,7 @@ import logo from '../assets/logo.svg';
 
 const menuDataRender = menuList =>
   menuList.map(item => {
-    const localItem = {...item, children: item.children ? menuDataRender(item.children) : []};
+    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
     return Authorized.check(item.authority, localItem, null);
   });
 
@@ -49,16 +56,42 @@ const footerRender = (_, defaultDom) => {
   );
 };
 
+
 const BasicLayout = props => {
-  const {dispatch, children, settings} = props;
+  const { dispatch, children, settings } = props;
   /**
    * constructor
    */
 
+    // tab = {path: '/', name: 'aaa'}
+  const [tabs, setTabs] = useState([]);
+  const [activeTab, setActiveTab] = useState('');
+
+  // 把所有重定向的路由放到这里过滤掉，不展示在tab页里面
+  const filters = ['/'];
+  useEffect(()=>{
+    const path = props.location.pathname;
+    const matchTab = tabs.filter(tab => tab.path === path);
+    // console.log(matchTab)
+    if(matchTab.length > 0){
+      setActiveTab(matchTab[0].path)
+    } else if (filters.indexOf(path) === -1){
+      const label = `menu${path.split('/').join('.')}`;
+      const name = formatMessage({
+        id: label,
+        defaultMessage: label,
+      })
+      setTabs(tabs.concat({path, name}))
+    }
+  }, [tabs, props.location.pathname]);
+
   useEffect(() => {
     if (dispatch) {
       dispatch({
-        type: 'user/checkLogin',
+        type: 'user/fetchCurrent',
+      });
+      dispatch({
+        type: 'settings/getSetting',
       });
     }
   }, []);
@@ -75,9 +108,23 @@ const BasicLayout = props => {
     }
   };
 
+  const onEdit = (path, action) => {
+    if(action === 'remove') {
+      if(tabs.length === 1) {
+        return message.warn("至少要有一个Tab页")
+      }
+      const matchTab = tabs.filter(tab => tab.path !== path);
+      setTabs(matchTab)
+      if(activeTab === path) {
+        router.push(matchTab[0].path)
+      }
+    }
+  }
+  console.log(props)
   return (
     <>
       <ProLayout
+        className={styles.TabWrapper}
         logo={logo}
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps, defaultDom) => {
@@ -112,22 +159,36 @@ const BasicLayout = props => {
         {...props}
         {...settings}
       >
-        {children}
+        <Tabs
+          hideAdd
+          type="editable-card"
+          className={styles.tabsClass}
+          // onEdit={{}}
+          activeKey={activeTab}
+          onEdit={onEdit}
+          // onEdit={(a,b) => console.log(a,b)}
+        >
+          {
+            tabs.map(tab => {
+              return <TabPane tab={<Link to={tab.path}>{tab.name}</Link>} key={tab.path} >
+                {tab.path === children.props.location.pathname && children}
+              </TabPane>
+            })
+          }
+        </Tabs>
+
       </ProLayout>
-      {/*<SettingDrawer*/}
-      {/*  settings={settings}*/}
-      {/*  onSettingChange={config =>*/}
-      {/*    dispatch({*/}
-      {/*      type: 'settings/changeSetting',*/}
-      {/*      payload: config,*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*/>*/}
+
     </>
   );
 };
+// @connect(({  }) => ({
+//
+// }))
 
-export default connect(({global, settings}) => ({
+export default connect(({ global, settings, dashboardMonitor, loading }) => ({
   collapsed: global.collapsed,
   settings,
+  dashboardMonitor,
+  loading: loading.models.dashboardMonitor,
 }))(BasicLayout);

@@ -1,0 +1,48 @@
+.tabsClass{
+  //margin-top: -80px;
+  //z-index: 1000;
+  >div:first-child{
+    top: 0;
+    position: fixed;
+    margin-left: 46px;
+    margin-top: 24px;
+    margin-bottom: 0;
+    z-index: 1111;
+
+    //height: 64px;
+    :global{
+      .ant-tabs-tab{
+        padding-bottom: 12px !important;
+        margin-right: 10px !important;
+        i{
+          margin-left: 10px;
+          margin-bottom: 15px;
+        }
+      }
+
+      .ant-tabs-tab-active{
+        background-color: rgba(@primary-color, 0.23) !important;
+      }
+
+      .ant-tabs-nav-scroll{
+        width: calc(100vw - 700px);
+      }
+
+    }
+  }
+
+
+
+}
+:global{
+  .ant-page-header.has-breadcrumb{
+    padding-left: 40px;
+    padding-top: 40px;
+    //margin-left: 20px;
+  }
+}
+
+.TabWrapper{
+
+}
+
