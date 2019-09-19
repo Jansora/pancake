@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select, Tag, Tooltip, List, Icon} from 'antd';
+import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select, Tag, Tooltip, List, Icon, Modal} from 'antd';
 
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import FooterToolbar from '@/components/FooterToolbar';
@@ -23,6 +23,8 @@ class TopicEdit extends PureComponent {
 
   state = {
     articles: [],
+
+    judgeDeleteStatus: false,
   };
 
   componentDidMount() {
@@ -33,13 +35,6 @@ class TopicEdit extends PureComponent {
       payload: {url},
     });
 
-    //const simplemde = new SimpleMDE({ element: document.getElementById("content")});
-    //this.setState({simplemde});
-    // simplemde.codemirror.on('change', () => {
-    //   this.setState({
-    //     content:simplemde.value(),
-    //   });
-    // })
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -96,11 +91,13 @@ class TopicEdit extends PureComponent {
   render() {
     const {Topic, form: {getFieldDecorator, getFieldValue}, submitting} = this.props;
     const {name, articles, logoUrl, isPublic, url, description} = Topic.TopicEdit;
+    const {judgeDeleteStatus} = this.state;
 
     return (
       <PageHeaderWrapper
         title={'专栏编辑'}
       >
+
         <Card title="文章属性" className={styles.card}>
           <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
@@ -340,9 +337,33 @@ class TopicEdit extends PureComponent {
 
         <FooterToolbar>
           <div style={{'width': '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px'}}>
+            <Input
+              placeholder="请输入专栏名称"
+              // size="large"
+              style={{ margin: '0 10px 10px 0', width: 300, float: 'left'}}
+              suffix={
+                judgeDeleteStatus ? (
+                  <Icon
+                    type="check-circle"
+                    theme="filled"
+                    style={{ color: '#1aad19', fontSize: '20px' }}
+                  />
+                ) : (
+                  <Icon
+                    type="close-circle"
+                    theme="filled"
+                    style={{ color: '#f5222d', fontSize: '20px' }}
+                  />
+                )
+              }
+              onChange={e =>
+                this.setState({ judgeDeleteStatus: e.target.value.split(' ').join('') === name })
+              }
+            />
             <Button type="primary" style={{float: 'left'}}
-                    onClick={() => message.warning('请双击来删除该文章')}
-                    onDoubleClick={() => this.deleteTopic(url)}>
+                    disabled={!judgeDeleteStatus}
+                    onClick={() => this.deleteTopic(url)}
+            >
               删除
             </Button>
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float: 'right'}}>

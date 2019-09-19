@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
 import {formatMessage} from 'umi/locale';
-import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select,} from 'antd';
+import {Button, Card, Col, DatePicker, Form, Icon, Input, message, Modal, Row, Select,} from 'antd';
 
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import FooterToolbar from '@/components/FooterToolbar';
@@ -22,7 +22,9 @@ const {TextArea} = Input;
 @Form.create()
 class ProjectEdit extends PureComponent {
 
-  state = {};
+  state = {
+    judgeDeleteStatus: false,
+  };
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -31,14 +33,6 @@ class ProjectEdit extends PureComponent {
       type: 'Project/initProjectEdit',
       payload: {url},
     });
-
-    //const simplemde = new SimpleMDE({ element: document.getElementById("content")});
-    //this.setState({simplemde});
-    // simplemde.codemirror.on('change', () => {
-    //   this.setState({
-    //     content:simplemde.value(),
-    //   });
-    // })
   }
 
   handleSubmit = e => {
@@ -79,12 +73,15 @@ class ProjectEdit extends PureComponent {
   render() {
     const {Project, form: {getFieldDecorator, getFieldValue}, submitting} = this.props;
     const {name, logoUrl, isPublic, url, description, frame} = Project.ProjectEdit;
+    const { judgeDeleteStatus} = this.state;
+
 
     return (
       <PageHeaderWrapper
         title={'项目管理'}
         content={'项目编辑'}
       >
+
         <Card title="文章属性" className={styles.card}>
           <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
@@ -168,7 +165,7 @@ class ProjectEdit extends PureComponent {
                   })(
                     <TextArea
                       style={{minHeight: 64, width: "100%"}}
-                      placeholder={formatMessage({id: 'form.goal.placeholder'})}
+                      placeholder={''}
                       rows={6}
                       cols={24}
                     />
@@ -180,9 +177,33 @@ class ProjectEdit extends PureComponent {
         </Card>
         <FooterToolbar>
           <div style={{width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px'}}>
+            <Input
+              placeholder="请输入项目标题"
+              // size="large"
+              style={{ margin: '0 10px 10px 0', width: 300, float: 'left'}}
+              suffix={
+                judgeDeleteStatus ? (
+                  <Icon
+                    type="check-circle"
+                    theme="filled"
+                    style={{ color: '#1aad19', fontSize: '20px' }}
+                  />
+                ) : (
+                  <Icon
+                    type="close-circle"
+                    theme="filled"
+                    style={{ color: '#f5222d', fontSize: '20px' }}
+                  />
+                )
+              }
+              onChange={e =>
+                this.setState({ judgeDeleteStatus: e.target.value.split(' ').join('') === name })
+              }
+            />
             <Button type="primary" style={{float: 'left'}}
-                    onClick={() => message.warning('请双击来删除该项目')}
-                    onDoubleClick={() => this.deleteProject(url)}>
+                    onClick={() => this.deleteProject(url)}
+                    disabled={!judgeDeleteStatus}
+            >
               删除
             </Button>
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float: 'right'}}>

@@ -1,8 +1,11 @@
+import router from 'umi/router'
+
+
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str) {
   // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
   const authorityString =
-    typeof str === 'undefined' ? localStorage.getItem('antd-pro-authority') : str; // authorityString could be admin, "admin", ["admin"]
+    typeof str === 'undefined' ? localStorage.getItem('antd-pro-authority') : str; // authorityString could be admin, 'admin', ['admin']
 
   let authority;
 
@@ -33,15 +36,12 @@ export function setAuthority(authority) {
 
 
 export function getLoginInfo() {
-  const loginId = localStorage.getItem("loginId") ? parseInt(localStorage.getItem("loginId"), 10) : "";
-  const loginUser = localStorage.getItem("loginUser") ? localStorage.getItem("loginUser") : "";
-  const loginToken = localStorage.getItem("loginToken") ? localStorage.getItem("loginToken") : "";
-  if (loginToken === "") {
-    routerRedux.push({
+  const loginId = localStorage.getItem('loginId') ? parseInt(localStorage.getItem('loginId'), 10) : '';
+  const loginUser = localStorage.getItem('loginUser') ? localStorage.getItem('loginUser') : '';
+  const loginToken = localStorage.getItem('loginToken') ? localStorage.getItem('loginToken') : '';
+  if (loginToken === '') {
+    router.push({
       pathname: '/user/login',
-      search: stringify({
-        redirect: window.location.href,
-      }),
     })
   }
   return {
@@ -52,7 +52,7 @@ export function getLoginInfo() {
 };
 
 export function setLoginInfo(r) {
-  localStorage.setItem("loginId", r.loginId.toString());
-  localStorage.setItem("loginUser", r.loginUser);
-  localStorage.setItem("loginToken", r.loginToken);
+  localStorage.setItem('loginId', r.loginId.toString());
+  localStorage.setItem('loginUser', r.loginUser);
+  localStorage.setItem('loginToken', r.loginToken);
 };

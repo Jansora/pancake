@@ -1,5 +1,6 @@
 import {DeleteProject, getArticleList, getProject, getProjects, InsertProject, UpdateProject,} from '@/services/golang';
 import {message} from 'antd';
+import router from "umi/router";
 
 export default {
   namespace: 'Project',
@@ -87,8 +88,11 @@ export default {
       const r = yield call(InsertProject, payload);
       if (r.ret) {
         message.success(r.res);
-        //window.open(`https://editor.jans.xin?url=${payload.url}`)
-        // payload.tags = Array(...new Set([].concat(...r.res)))
+
+        router.push({
+          pathname: `/ProjectManage/ProjectEdit/${payload.url}`,
+        })
+
       } else {
         message.error(r.res);
       }
@@ -98,7 +102,11 @@ export default {
       const r = yield call(UpdateProject, payload);
       if (r.ret) {
         message.success(r.res);
-        // payload.tags = Array(...new Set([].concat(...r.res)))
+        if (payload.oldUrl !== payload.url) {
+          router.push({
+            pathname: `/ProjectManage/ProjectEdit/${payload.url}`,
+          })
+        }
       } else {
         message.error(r.res);
       }
@@ -121,10 +129,9 @@ export default {
         message.success("刪除成功");
         const r2 = yield call(getProjects, payload);
         if (r2.ret) {
-          yield put({
-            type: 'updateProjectList',
-            payload: r2.res,
-          });
+          router.push({
+            pathname: `/ProjectManage/ProjectList`,
+          })
         } else {
           message.error(r.res)
         }

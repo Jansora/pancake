@@ -51,7 +51,7 @@ class ArticleInsert extends PureComponent {
       if (!err) {
         d.isPublic = d.isPublic === "true";
         d.content = editorRef.getMdValue();
-
+        d.tags = d.tags ? d.tags : []
         dispatch({
           type: 'Article/InsertSubmit',
           payload: d,

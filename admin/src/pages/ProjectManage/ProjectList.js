@@ -84,7 +84,9 @@ class ProjectList extends PureComponent {
     return (
       <PageHeaderWrapper>
         <Card title="项目列表" className={styles.card}>
-          <Table rowKey={'Id'} columns={ProjectListColumns} dataSource={Project.ProjectList.tableData}
+          <Table rowKey={'Id'}
+                 pagination={{ pageSize: 1000000 }}
+                 columns={ProjectListColumns} dataSource={Project.ProjectList.tableData}
                  loading={initLoading}/>
         </Card>
 

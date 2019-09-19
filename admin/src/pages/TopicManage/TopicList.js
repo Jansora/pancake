@@ -53,7 +53,9 @@ class TopicList extends PureComponent {
     return (
       <PageHeaderWrapper>
         <Card title="话题列表" className={styles.card}>
-          <Table rowKey="Id" columns={TopicListColumns} dataSource={Topic.TopicList.tableData} loading={initLoading}/>
+          <Table rowKey="Id"
+                 pagination={{ pageSize: 1000000 }}
+                 columns={TopicListColumns} dataSource={Topic.TopicList.tableData} loading={initLoading}/>
         </Card>
 
       </PageHeaderWrapper>

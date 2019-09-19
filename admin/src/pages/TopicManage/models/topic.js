@@ -8,6 +8,7 @@ import {
   UpdateTopic
 } from '@/services/golang';
 import {message} from 'antd';
+import router from "umi/router";
 //import { InsertTopic } from '../../../services/golang';
 
 export default {
@@ -101,7 +102,7 @@ export default {
     },
     * initTopicInsert(_, {call, put}) {
       const r = yield call(getTopicArticleList);
-      console.log(r)
+
       if (r.ret) {
         yield put({
           type: 'updateTopicInsert',
@@ -116,8 +117,6 @@ export default {
       const r = yield call(InsertTopic, payload);
       if (r.ret) {
         message.success(r.res);
-        //window.open(`https://editor.jans.xin?url=${payload.url}`)
-        // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
         message.error(r.res);
       }
@@ -149,16 +148,15 @@ export default {
         message.success("刪除成功");
         const r2 = yield call(getTopics, payload);
         if (r2.ret) {
-          yield put({
-            type: 'updateTopicList',
-            payload: r2.res,
-          });
+          router.push({
+            pathname: `/TopicManage/TopicList`,
+          })
         } else {
           message.error(r.res)
         }
         // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
-        message.error("xxxxxx", r.res);
+        message.error(r.res);
       }
     }
   },

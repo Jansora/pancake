@@ -49,6 +49,10 @@ class ArticleList extends PureComponent {
         dataIndex: 'Site',
         key: 'Site',
       }, {
+        title: 'Url',
+        dataIndex: 'Url',
+        key: 'Url',
+      }, {
         title: 'Logo',
         dataIndex: 'Logo_url',
         key: 'LOGO',
@@ -94,6 +98,7 @@ class ArticleList extends PureComponent {
                                    onChange={e => this.filterValue(e.target.value)}/></>} className={styles.card}>
           <Table
             rowKey={'Id'}
+            pagination={{ pageSize: 1000000 }}
             // title={() => <Input style={{width:250}} placeholder={"过滤"} onChange={e => this.filterValue(e.target.value)}/>}
             columns={ArticleListColumns} dataSource={Articles} loading={initLoading}/>
         </Card>

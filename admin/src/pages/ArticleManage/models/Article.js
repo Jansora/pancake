@@ -1,4 +1,4 @@
-import {routerRedux} from 'dva/router';
+import router from 'umi/router';
 import {deleteArticle, getArticle, getArticleList, getTags, InsertArticle, UpdateArticle} from '@/services/golang';
 import {message} from 'antd';
 
@@ -85,11 +85,15 @@ export default {
         payload,
       });
     },
-    * InsertSubmit({payload}, {call, put}) {
+    * InsertSubmit({payload}, {call, put,}) {
 
       const r = yield call(InsertArticle, payload);
       if (r.ret) {
-        message.success(r.res);
+        router.push({
+          pathname: `/ArticleManage/ArticleEdit/${payload.url}`,
+        })
+        message.success(`${r.res}, 已跳转到编辑页面`);
+
       } else {
         message.error(r.res);
       }
@@ -97,9 +101,15 @@ export default {
     * EditSubmit({payload}, {call, put}) {
 
       const r = yield call(UpdateArticle, payload);
+      console.log(payload, r)
       if (r.ret) {
         message.success(r.res);
-        // payload.tags = Array(...new Set([].concat(...r.res)))
+
+        if (payload.oldUrl !== payload.url) {
+          router.push({
+            pathname: `/ArticleManage/ArticleEdit/${payload.url}`,
+          })
+        }
       } else {
         message.error(r.res);
       }
@@ -125,11 +135,13 @@ export default {
             type: 'updateArticleList',
             payload: r2,
           });
-          routerRedux.push('/ArticleManage/ArticleList')
+          router.push({
+            pathname: '/ArticleManage/ArticleList',
+          })
         }
         // payload.tags = Array(...new Set([].concat(...r.res)))
       } else {
-        message.error("", r.res);
+        message.error(r.res);
       }
     }
   },

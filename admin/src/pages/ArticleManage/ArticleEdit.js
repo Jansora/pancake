@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select} from 'antd';
+import {Button, Card, Col, DatePicker, Form, Input, message, Row, Select, Modal, Icon} from 'antd';
 
 import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import FooterToolbar from '@/components/FooterToolbar';
@@ -27,6 +27,7 @@ class ArticleEdit extends PureComponent {
 
   state = {
     ...InitArticleEditState,
+    judgeDeleteStatus: false,
     editorRef: React.createRef()
   };
 
@@ -40,13 +41,11 @@ class ArticleEdit extends PureComponent {
   }
 
   componentWillUnmount() {
-    const {editorRef} = this.state;
-    console.log("aaa")
     this.setState({editorRef: null})
-
   }
 
   deleteArticle = (url) => {
+
     const {dispatch} = this.props;
     dispatch({
       type: 'Article/deleteArticle',
@@ -62,7 +61,7 @@ class ArticleEdit extends PureComponent {
       if (!err) {
         d.isPublic = d.isPublic === "true";
         d.content = this.state.editorRef.getMdValue();
-
+        d.tags = d.tags ? d.tags : []
         dispatch({
           type: 'Article/EditSubmit',
           payload: {
@@ -82,17 +81,21 @@ class ArticleEdit extends PureComponent {
     });
   };
 
+
+
   render() {
-    const {Article, form: {getFieldDecorator,},} = this.props;
+    const {Article, form: {getFieldDecorator}} = this.props;
     const {title, site, author, summary, content, toc, tags, logoUrl, isPublic, url} = Article.ArticleEdit;
 
     const redux = Article.ArticleInsert;
+    document.title = title;
+    const {judgeDeleteStatus} = this.state;
+
 
     return (
       <PageHeaderWrapper
-        title={'插入文章'}
-        content={'插入你的文章'}
       >
+
         <Card title="文章属性" className={styles.card}>
           <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
@@ -231,9 +234,33 @@ class ArticleEdit extends PureComponent {
         </Card>
         <FooterToolbar>
           <div style={{'width': '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px'}}>
+            <Input
+              placeholder="请输入文章标题"
+              // size="large"
+              style={{ margin: '0 10px 10px 0', width: 300, float: 'left'}}
+              suffix={
+                judgeDeleteStatus ? (
+                  <Icon
+                    type="check-circle"
+                    theme="filled"
+                    style={{ color: '#1aad19', fontSize: '20px' }}
+                  />
+                ) : (
+                  <Icon
+                    type="close-circle"
+                    theme="filled"
+                    style={{ color: '#f5222d', fontSize: '20px' }}
+                  />
+                )
+              }
+              onChange={e =>
+                this.setState({ judgeDeleteStatus: e.target.value.split(' ').join('') === title })
+              }
+            />
             <Button type="primary" style={{float: 'left'}}
-                    onClick={() => message.warning('请双击来删除该文章')}
-                    onDoubleClick={() => this.deleteArticle(url)}>
+                    disabled={!judgeDeleteStatus}
+                    onClick={() => this.deleteArticle(url)}
+                    >
               删除
             </Button>
             <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float: 'right'}}>

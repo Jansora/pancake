@@ -68,6 +68,8 @@ export const Article = styled(PancakeEditor)`
     }
      pre code{
         color: black;
+        padding: 0;
+        margin: 0;
     }
     
     ol, ul{
