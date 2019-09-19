@@ -186,7 +186,7 @@ class TopicInsert extends PureComponent {
                               >
                                 {
                                   Topic.TopicInsert.articles.map(e=>
-                                    <Option value={e.Id}><Tooltip key={e.Id} title={e.Url}>{e.Title}</Tooltip></Option>
+                                    <Option value={e.Id} key={e.Id} ><Tooltip title={e.Url}>{e.Title}</Tooltip></Option>
                                   )
                                 }
                               </Select>

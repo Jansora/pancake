@@ -232,7 +232,7 @@ class TopicEdit extends PureComponent {
                               >
                                 {
                                   Topic.TopicInsert.articles.map(e=>
-                                    <Option value={e.Id}><Tooltip key={e.Id} title={e.Url}>{e.Title}</Tooltip></Option>
+                                    <Option value={e.Id} key={e.Id} ><Tooltip title={e.Url}>{e.Title}</Tooltip></Option>
                                   )
                                 }
                               </Select>
@@ -271,6 +271,8 @@ class TopicEdit extends PureComponent {
                               style={{cursor: index === this.state.articles.length - 1 ? 'not-allowed' : 'pointer'}}
                               className={styles.direction} type="arrow-down" />
                           </Tooltip>
+
+
                           <Tooltip title={'在本节点前新增节点'}>
                             <Icon
                               style={{marginLeft: 200}}
@@ -297,6 +299,17 @@ class TopicEdit extends PureComponent {
                               }}
                               className={styles.direction} type="minus" />
                           </Tooltip>
+                          {/*{*/}
+                          {/*  article.type === 'document' && {*/}
+
+                          {/*     const cur = Topic.TopicInsert.articles.filter(a => a.Id === articles[index])*/}
+                          {/*     return cur.length > 0 && <a target='_blank' rel='noopener noreferrer' href={*/}
+                          {/*      `/ArticleManage/ArticleEdit/${cur[0].Url}`*/}
+                          {/*    }>编辑该文档</a>*/}
+
+                          {/*  }*/}
+
+                          {/*}*/}
                         </List.Item>
                         }
 
