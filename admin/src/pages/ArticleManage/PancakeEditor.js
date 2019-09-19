@@ -16,7 +16,7 @@ import mk from 'markdown-it-katex'
 import mc from 'markdown-it-custom-block'
 
 import 'highlight.js/styles/atom-one-light.css'
-
+import './override.less'
 import {upload} from '../../services/golang';
 import {message} from 'antd';
 // import 'highlight.js/styles/github.css'
