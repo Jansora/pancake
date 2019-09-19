@@ -210,18 +210,6 @@ const PS = () => {
                 <>
                   <MenuWrapper>
                       {
-                          <Tooltip title={`共有 ${total} 条`}>
-                          <Chip
-                              variant="outlined"
-                              component='span'
-                              label='所有'
-                              onClick={() => setTags([])}
-
-                              className={tags.length === 0  ? 'active' : ''}
-                          />
-                          </Tooltip>
-                      }
-                      {
 
                           classes.map(tag =>
                               <Tooltip title={`共有 ${totalTags[tag] ? totalTags[tag] : 0} 条`} key={tag}>
@@ -235,7 +223,6 @@ const PS = () => {
                               </Tooltip>
                              )
                       }
-
 
                   </MenuWrapper>
                   <Divider style={{}}/>

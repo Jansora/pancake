@@ -19,7 +19,7 @@
 
 ---
 
-# 安装 / 二次开发 / 部署
+# 安装 
 
 详见 [使用文档](https://jansora.com/topic/pancake/)
 
