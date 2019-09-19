@@ -35,7 +35,7 @@ const PS = () => {
     const [loading, setLoading] = React.useState(false);
     const [sortType, setSortType] = React.useState('create_time');
     const [sort, setSort] = React.useState('desc');
-    const [tags, setTags] = React.useState([]);
+    const [tags, setTags] = React.useState(['所有']);
     const [totalTags, setTotalTags] = React.useState([]);
     const [data, setData] = React.useState([]);
     const [total, setTotal] = React.useState(undefined);
