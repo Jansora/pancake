@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 
-import {Alert} from 'antd';
+import {Alert, Button, Form, Input} from 'antd';
 import Login from './components/Login';
 import styles from './Login.less';
 
@@ -14,77 +14,59 @@ const {Tab, UserName, Password, Mobile, Captcha, Submit} = Login;
 class LoginPage extends Component {
   state = {
     type: 'account',
-    autoLogin: true,
+    UserName: '',
+    Password: '',
   };
 
-  onTabChange = type => {
-    this.setState({type});
-  };
 
-  onGetCaptcha = () =>
-    new Promise((resolve, reject) => {
-      this.loginForm.validateFields(['mobile'], {}, (err, values) => {
-        if (err) {
-          reject(err);
-        } else {
-          const {dispatch} = this.props;
-          dispatch({
-            type: 'login/getCaptcha',
-            payload: values.mobile,
-          })
-            .then(resolve)
-            .catch(reject);
-        }
-      });
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const {UserName, Password} = this.state;
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'login/login',
+      payload: {
+        UserName, Password
+      },
     });
 
-  handleSubmit = (err, values) => {
-    const {type} = this.state;
-    if (!err) {
-      const {dispatch} = this.props;
-      dispatch({
-        type: 'login/login',
-        payload: {
-          ...values,
-          type,
-        },
-      });
-    }
   };
 
-  changeAutoLogin = e => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
 
-  renderMessage = content => (
-    <Alert style={{marginBottom: 24}} message={content} type="error" showIcon/>
-  );
 
   render() {
-    const {login, submitting} = this.props;
-    const {type, autoLogin} = this.state;
+    const { submitting} = this.props;
+    const {UserName, Password} = this.state;
     return (
       <div className={styles.main}>
-        <Login
-          defaultActiveKey={type}
-          onTabChange={this.onTabChange}
+        <Form
           onSubmit={this.handleSubmit}
           ref={form => {
             this.loginForm = form;
           }}
         >
-          <UserName name="userName" placeholder={`输入用户名`}/>
-          <Password
-            name="password"
-            placeholder={`输入密码`}
-            onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
-          />
+          <Form.Item>
+            <Input
+              name="userName"
+              placeholder={`输入用户名`}
+              value={UserName} onChange={e=> this.setState({UserName: e.target.value})}/>
+          </Form.Item>
 
-          <div></div>
-          <Submit loading={submitting}>登录</Submit>
-        </Login>
+          <Form.Item>
+            <Input
+              name="passWord"
+              type="password"
+              placeholder={`输入密码`}
+              value={Password} onChange={e=> this.setState({Password: e.target.value})}
+            />
+          </Form.Item>
+
+          <Form.Item>
+
+            <Button loading={submitting} block type="primary" htmlType="submit">登录</Button>
+          </Form.Item>
+
+        </Form>
       </div>
     );
   }

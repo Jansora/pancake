@@ -102,34 +102,14 @@ class Login extends Component {
   render() {
     const {className, children} = this.props;
     const {type, tabs = []} = this.state;
-    const TabChildren = [];
-    const otherChildren = [];
-    React.Children.forEach(children, child => {
-      if (!child) {
-        return;
-      }
 
-      if (child.type.typeName === 'LoginTab') {
-        TabChildren.push(child);
-      } else {
-        otherChildren.push(child);
-      }
-    });
     return (
       <LoginContext.Provider value={this.getContext()}>
         <div className={classNames(className, styles.login)}>
           <Form onSubmit={this.handleSubmit}>
             {tabs.length ? (
               <React.Fragment>
-                <Tabs
-                  animated={false}
-                  className={styles.tabs}
-                  activeKey={type}
-                  onChange={this.onSwitch}
-                >
-                  {TabChildren}
-                </Tabs>
-                {otherChildren}
+                {children}
               </React.Fragment>
             ) : (
               children
