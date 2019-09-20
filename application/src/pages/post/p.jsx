@@ -214,7 +214,11 @@ const P = (props) => {
         setComments(r.data.res.map(c => JSON.parse(c)))
         dispatch('message', {show: true, type: 'success', content: `评论成功`});
         setTimeout(()=> dispatch('message', {show: false, type: 'error', content: `评论成功`}), 1000);
-  
+      } else {
+          dispatch({
+              type: 'message',
+              payload: {open: true, variant: 'error', content: r.data.res, duration: 2000}
+          })
       }
     })
     
