@@ -4,7 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout from '@ant-design/pro-layout';
-import React, {useEffect} from 'react';
+import React from 'react';
 import Link from 'umi/link';
 import {connect} from 'dva';
 import {formatMessage} from 'umi-plugin-react/locale';
@@ -54,14 +54,6 @@ const BasicLayout = props => {
   /**
    * constructor
    */
-
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/checkLogin',
-      });
-    }
-  }, []);
   /**
    * init variables
    */

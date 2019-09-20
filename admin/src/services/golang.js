@@ -7,7 +7,7 @@ export async function checkLogin() {
 }
 
 export async function upload(params) {
-  console.log(params, "oar")
+
   return request('/Golang/Upload', {
     method: 'post',
     data: params,

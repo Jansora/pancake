@@ -10,10 +10,6 @@ const Model = {
   effects: {
     * login({payload}, {call, put}) {
       const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      }); // Login successfully
 
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
@@ -44,10 +40,6 @@ const Model = {
     },
   },
   reducers: {
-    changeLoginStatus(state, {payload}) {
-      setAuthority(payload.currentAuthority);
-      return {...state, status: payload.status, type: payload.type};
-    },
   },
 };
 export default Model;
