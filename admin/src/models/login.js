@@ -3,7 +3,7 @@ import {stringify} from 'querystring';
 import {fakeAccountLogin} from '@/services/golang';
 import {setLoginInfo} from '@/utils/authority';
 import {getPageQuery} from '@/utils/utils';
-
+import {message} from "antd";
 
 const Model = {
   namespace: 'login',

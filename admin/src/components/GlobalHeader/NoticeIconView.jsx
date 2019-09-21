@@ -29,6 +29,7 @@ class GlobalHeaderRight extends Component {
       });
     }
   };
+
   handleNoticeClear = (title, key) => {
     const {dispatch} = this.props;
     message.success(
