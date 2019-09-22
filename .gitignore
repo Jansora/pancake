@@ -33,3 +33,5 @@ backend/src/gopkg.in/yaml.v2/go.sum
 application/package-lock.json
 
 backend/bin/web.exe
+backend/src/golang.org/x/time/
+backend/src/github.com/aliyun/aliyun-oss-go-sdk/
