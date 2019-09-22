@@ -18,7 +18,7 @@ func Topic(r *gin.Engine)  {
 		if a, err := topic.Select(pg.Client, c.Param("Url"), !LoginStatus(c)); err == nil {
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": a})
 		} else {
-			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "获取Article信息失败！" + err.Error()})
+			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "获取Topic信息失败！" + err.Error()})
 		}
 	})
 

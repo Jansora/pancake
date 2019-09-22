@@ -28,6 +28,9 @@ Id , Name , Url, Description, Articles, Is_public, Logo_url, Create_time, Modify
 		&A.Modify_time,
 	)
 
+	if(err != nil) {
+		return A, err
+	}
 	A.ArticleObjects, err = article.SelectsByIds(db, A.Articles, IsPublic)
 
 	return A, err

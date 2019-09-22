@@ -78,3 +78,14 @@ func CheckLoginStatus(db *sql.DB, U Account) bool {
 	return false
 }
 
+func GetUserInfo(db *sql.DB, U Account) Account {
+
+	a := Account{}
+	querySql := fmt.Sprintf(`SELECT Id, name,admin  FROM Account WHERE Id = %d AND Password = '%s'`, U.Id, U.Password)
+	err := db.QueryRow(querySql).Scan(&a.Id, &a.Name,&a.Admin,)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return a
+}

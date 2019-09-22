@@ -5,12 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"web/postgres/account"
+	"web/tools"
 )
 
 
 func SetLoginCookie(c *gin.Context, account account.Account) {
-	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", "jansora.com", false, true)
-	c.SetCookie("token", account.Password, 36000000, "/", "jansora.com", false, true)
+	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", tools.Conf.DOMAIN.MainDomain, false, true)
+	c.SetCookie("token", account.Password, 36000000, "/", tools.Conf.DOMAIN.MainDomain, false, true)
 	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", "localhost", false, true)
 	c.SetCookie("token", account.Password, 36000000, "/", "localhost", false, true)
 }

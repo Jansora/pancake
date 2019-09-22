@@ -3,7 +3,6 @@ package project
 import (
 	"fmt"
 	"time"
-	"web/postgres/article"
 )
 
 type Project struct {
@@ -16,7 +15,6 @@ type Project struct {
 	Description string
 	Create_time time.Time
 	Modify_time time.Time
-	ArticleObjects []article.Article
 }
 
 
