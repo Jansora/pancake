@@ -51,13 +51,13 @@ const P = (props) => {
     const [Read_num, setRead_num] = useState('');
     const [Like_num, setLike_num] = useState('');
 
-    
+
     const [Is_public, setIs_public] = useState('');
 
     const [Title, setTitle] = useState('获取中');
-    
+
     const [Content, setContent] = useState('');
-  
+
     const [Comments, setComments] = useState([]);
     const [From, setFrom] = useState('');
     const [ReplyId, setReplyId] = useState(0);
@@ -93,7 +93,7 @@ const P = (props) => {
                 setAuthor(data.Author);
               setCreate_time(data.Create_time);
               setModify_time(data.Modify_time);
-    
+
               setSite(data.Site);
               setRead_num(data.Read_num);
               setLike_num(data.Like_num);
@@ -116,25 +116,25 @@ const P = (props) => {
                     payload: {open: true, variant: 'error', content: r.data.res, duration: 2000}
                 })
             }
-            
+
           }
         ).catch(e => {
           console.log(e);
         }).finally(()=> {
           setLoading(false)
         })
-      
 
-      
+
+
     }, [url, dispatch])
-  
+
     const updateToc = () => {
       setTimeout(() => {
         const article = document.querySelector(".custom-html-style");
         if(null == article) return;
         const hs = article.querySelectorAll("h1,h2");
         const Anchor = [];
-     
+
         hs.forEach((item, index) => {
           const h = item.nodeName.substr(0, 2).toLowerCase()
           item.id = `Anchor-${h}-${index}`;
@@ -143,9 +143,9 @@ const P = (props) => {
         setAnchors(Anchor)
       }, 1000);
     }
-  
-  
-  
+
+
+
   const addComment = () => {
 
     let commit = {
@@ -166,7 +166,7 @@ const P = (props) => {
         });
         return
     }
-  
+
     if(!SiteUrl.startsWith('http') && SiteUrl.length !== 0){
 
         dispatch({
@@ -175,7 +175,7 @@ const P = (props) => {
         });
         return
     }
-    
+
     if(ReplyContent.length > 2000){
 
         dispatch({
@@ -184,7 +184,7 @@ const P = (props) => {
         });
         return
     }
-  
+
     const loop = (comment, key, callback) => {
       comment.forEach((item, index, arr) => {
         if (item.id === key) {
@@ -195,7 +195,7 @@ const P = (props) => {
         }
       });
     };
-    
+
     ReplyTo !== "" ?
       loop(Comments, ReplyId, (item) => {
         item.children = item.children || [];
@@ -212,8 +212,10 @@ const P = (props) => {
     }).then(r => {
       if (r.data.ret) {
         setComments(r.data.res.map(c => JSON.parse(c)))
-        dispatch('message', {show: true, type: 'success', content: `评论成功`});
-        setTimeout(()=> dispatch('message', {show: false, type: 'error', content: `评论成功`}), 1000);
+          dispatch({
+              type: 'message',
+              payload: {open: true, variant: 'success', content: `评论成功`, duration: 1000}
+          });
       } else {
           dispatch({
               type: 'message',
@@ -221,10 +223,10 @@ const P = (props) => {
           })
       }
     })
-    
+
   }
   const renderComment = (comments) => {
-    
+
     return comments.map((comment, index) => {
       return <div className='item' key={index}>
           <Avatar component='div' className='avatar' src={avatars[parseInt(comment.id)%avatars.length]}/>
@@ -250,7 +252,7 @@ const P = (props) => {
   };
 
 
-  
+
   return (
           <PostWrapper>
             <Grid container justify={'space-around'} component='div' >
@@ -300,7 +302,7 @@ const P = (props) => {
                 </TitleWrapper>
 
                 <Article value={Content}/>
-  
+
                 {
                   !loading &&
                   <Comment id={"Comments"}>
@@ -341,18 +343,18 @@ const P = (props) => {
                           value={SiteUrl}
                           onChange={(e) => setSiteUrl(e.target.value)}
                           style={{width: '100%', margin: '10px auto'}}
-        
+
                           helperText={
                             !SiteUrl.startsWith('http')  && SiteUrl.length > 0
                               ? "请以http开头"
                               : "输入个人主页地址, 请以http开头"
                           }
                         />
-    
+
                       </Grid>
-    
+
                       <Grid component='div' item xs={12} >
-                        
+
                         <TextField
                           required
                           error={ReplyContent.length > 1000}
@@ -369,9 +371,9 @@ const P = (props) => {
                               : "输入正文内容"
                           }
                         />
-    
+
                       </Grid>
-  
+
                     </Grid>
                     <Button variant="contained" color="primary"
                             style={{margin: '10px 0 20px 0'}}
@@ -382,7 +384,7 @@ const P = (props) => {
                     </Button>
                   </Comment>
                 }
-   
+
               </Grid>
               <Grid component='div' item xs={3}>
                 {
@@ -430,10 +432,10 @@ const P = (props) => {
 
                   </TabWrapper>
                 }
-               
+
               </Grid>
             </Grid>
-  
+
           </PostWrapper>
       )
 
