@@ -1,7 +1,7 @@
 import React from 'react';
-import {Spin} from 'antd';
+import { Spin } from 'antd';
 import isEqual from 'lodash/isEqual';
-import {isComponentClass} from './Secured'; // eslint-disable-next-line import/no-cycle
+import { isComponentClass } from './Secured'; // eslint-disable-next-line import/no-cycle
 
 export default class PromiseRender extends React.Component {
   state = {
@@ -13,7 +13,7 @@ export default class PromiseRender extends React.Component {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
-    const {component} = this.state;
+    const { component } = this.state;
 
     if (!isEqual(nextProps, this.props)) {
       this.setRenderComponent(nextProps);
@@ -57,8 +57,8 @@ export default class PromiseRender extends React.Component {
   };
 
   render() {
-    const {component: Component} = this.state;
-    const {ok, error, promise, ...rest} = this.props;
+    const { component: Component } = this.state;
+    const { ok, error, promise, ...rest } = this.props;
     return Component ? (
       <Component {...rest} />
     ) : (
@@ -71,7 +71,7 @@ export default class PromiseRender extends React.Component {
           textAlign: 'center',
         }}
       >
-        <Spin size="large"/>
+        <Spin size="large" />
       </div>
     );
   }

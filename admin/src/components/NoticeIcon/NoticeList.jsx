@@ -1,20 +1,20 @@
-import {Avatar, List} from 'antd';
+import { Avatar, List } from 'antd';
 import React from 'react';
 import classNames from 'classnames';
 import styles from './NoticeList.less';
 
 const NoticeList = ({
-                      data = [],
-                      onClick,
-                      onClear,
-                      title,
-                      onViewMore,
-                      emptyText,
-                      showClear = true,
-                      clearText,
-                      viewMoreText,
-                      showViewMore = false,
-                    }) => {
+  data = [],
+  onClick,
+  onClear,
+  title,
+  onViewMore,
+  emptyText,
+  showClear = true,
+  clearText,
+  viewMoreText,
+  showViewMore = false,
+}) => {
   if (data.length === 0) {
     return (
       <div className={styles.notFound}>
@@ -39,7 +39,7 @@ const NoticeList = ({
 
           const leftIcon = item.avatar ? (
             typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar}/>
+              <Avatar className={styles.avatar} src={item.avatar} />
             ) : (
               <span className={styles.iconElement}>{item.avatar}</span>
             )

@@ -1,5 +1,4 @@
-import {queryNotices} from '@/services/user';
-
+import { queryNotices } from '@/services/user';
 const GlobalModel = {
   namespace: 'global',
   state: {
@@ -7,7 +6,7 @@ const GlobalModel = {
     notices: [],
   },
   effects: {
-    * fetchNotices(_, {call, put, select}) {
+    *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({
         type: 'saveNotices',
@@ -25,7 +24,7 @@ const GlobalModel = {
       });
     },
 
-    * clearNotices({payload}, {put, select}) {
+    *clearNotices({ payload }, { put, select }) {
       yield put({
         type: 'saveClearedNotices',
         payload,
@@ -43,10 +42,10 @@ const GlobalModel = {
       });
     },
 
-    * changeNoticeReadState({payload}, {put, select}) {
+    *changeNoticeReadState({ payload }, { put, select }) {
       const notices = yield select(state =>
         state.global.notices.map(item => {
-          const notice = {...item};
+          const notice = { ...item };
 
           if (notice.id === payload) {
             notice.read = true;
@@ -74,12 +73,12 @@ const GlobalModel = {
         notices: [],
         collapsed: true,
       },
-      {payload},
+      { payload },
     ) {
-      return {...state, collapsed: payload};
+      return { ...state, collapsed: payload };
     },
 
-    saveNotices(state, {payload}) {
+    saveNotices(state, { payload }) {
       return {
         collapsed: false,
         ...state,
@@ -92,7 +91,7 @@ const GlobalModel = {
         notices: [],
         collapsed: true,
       },
-      {payload},
+      { payload },
     ) {
       return {
         collapsed: false,
@@ -102,9 +101,9 @@ const GlobalModel = {
     },
   },
   subscriptions: {
-    setup({history}) {
+    setup({ history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      history.listen(({pathname, search}) => {
+      history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', pathname + search);
         }

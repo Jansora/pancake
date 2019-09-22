@@ -1,9 +1,7 @@
 import request from 'umi-request';
 
-export async function checkLogin() {
-  return request('/Golang/Login/Check', {
-    method: 'post',
-  });
+export async function GetUserInfo() {
+  return request('/Golang/GetUserInfo');
 }
 
 export async function upload(params) {
@@ -24,8 +22,14 @@ export async function fakeAccountLogin(params) {
 
 }
 
+export async function Logout() {
+  return request('/Golang/Logout', {
+    method: 'post',
+  });
+
+}
 export async function getTags() {
-  return request(`/Golang/Tags`);
+  return request('/Golang/Tags');
 }
 
 export async function InsertArticle(params) {
@@ -43,7 +47,7 @@ export async function UpdateArticle(params) {
 }
 
 export async function getArticleList() {
-  return request(`/Golang/Article`);
+  return request('/Golang/Article');
 }
 
 export async function getArticle(params) {
@@ -57,11 +61,11 @@ export async function deleteArticle(params) {
 }
 
 export async function getTopicArticleList() {
-  return request(`/Golang/Article?limit=1000000&offset=0`);
+  return request('/Golang/Article?limit=1000000&offset=0');
 }
 
 export async function getTopics() {
-  return request(`/Golang/Topic`);
+  return request('/Golang/Topic');
 }
 
 export async function getTopic(params) {
@@ -82,14 +86,14 @@ export async function UpdateTopic(params) {
   });
 }
 
-export async function DeleteTopic(params) {
+export async function deleteTopic(params) {
   return request(`/Golang/Topic/${params.url}`, {
     method: 'DELETE',
   })
 }
 
 export async function getProjects() {
-  return request(`/Golang/Project`);
+  return request('/Golang/Project');
 }
 
 export async function getProject(params) {
@@ -97,7 +101,7 @@ export async function getProject(params) {
 }
 
 export async function InsertProject(params) {
-  return request('/Golang/Project/Insert ', {
+  return request('/Golang/Project/Insert', {
     method: 'post',
     data: params,
   });
@@ -110,14 +114,14 @@ export async function UpdateProject(params) {
   });
 }
 
-export async function DeleteProject(params) {
+export async function deleteProject(params) {
   return request(`/Golang/Project/${params.url}`, {
     method: 'DELETE',
   })
 }
 
 export async function uploadFile(params) {
-  return request(`/scripts/upload`, {
+  return request('/scripts/upload', {
     method: 'post',
     data: params,
   });

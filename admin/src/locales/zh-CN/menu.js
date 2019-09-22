@@ -1,4 +1,20 @@
 export default {
+  'menu.ArticleManage': '博客管理',
+  'menu.ArticleManage.ArticleList': '博客列表',
+  'menu.ArticleManage.ArticleInsert': '插入博客',
+  'menu.ArticleManage.Edit': '编辑博客',
+
+  'menu.TopicManage': '专栏管理',
+  'menu.TopicManage.TopicList': '专栏列表',
+  'menu.TopicManage.TopicEdit': '专栏编辑',
+  'menu.TopicManage.TopicInsert': '专栏插入',
+
+  'menu.ProjectManage': '项目管理',
+  'menu.ProjectManage.ProjectList': '项目列表',
+  'menu.ProjectManage.ProjectEdit': '项目编辑',
+  'menu.ProjectManage.ProjectInsert': '项目插入',
+
+
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
@@ -47,10 +63,4 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
-
-
-  'menu.Manage': "博客管理",
-  'menu.Manage.ArticleList': "博客列表",
-  'menu.Manage.ArticleInsert': "插入博客",
-  'menu.Manage.Edit': "编辑博客",
 };

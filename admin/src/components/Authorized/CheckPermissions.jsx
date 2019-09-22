@@ -1,5 +1,6 @@
 import React from 'react';
-import {CURRENT} from './renderAuthorize'; // eslint-disable-next-line import/no-cycle
+import { CURRENT } from './renderAuthorize'; // eslint-disable-next-line import/no-cycle
+
 import PromiseRender from './PromiseRender';
 
 /**
@@ -42,7 +43,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   } // Promise 处理
 
   if (authority instanceof Promise) {
-    return <PromiseRender ok={target} error={Exception} promise={authority}/>;
+    return <PromiseRender ok={target} error={Exception} promise={authority} />;
   } // Function 处理
 
   if (typeof authority === 'function') {
@@ -50,7 +51,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
       const bool = authority(currentAuthority); // 函数执行后返回值是 Promise
 
       if (bool instanceof Promise) {
-        return <PromiseRender ok={target} error={Exception} promise={bool}/>;
+        return <PromiseRender ok={target} error={Exception} promise={bool} />;
       }
 
       if (bool) {
@@ -66,7 +67,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   throw new Error('unsupported parameters');
 };
 
-export {checkPermissions};
+export { checkPermissions };
 
 function check(authority, target, Exception) {
   return checkPermissions(authority, CURRENT, target, Exception);

@@ -23,11 +23,11 @@ const plugins = [
         // default true, when it is true, will use `navigator.language` overwrite default
         baseNavigator: true,
       },
-      dynamicImport: {
-        loadingComponent: './components/PageLoading/index',
-        webpackChunkName: true,
-        level: 3,
-      },
+      // dynamicImport: {
+      //   loadingComponent: './components/PageLoading/index',
+      //   webpackChunkName: true,
+      //   level: 3,
+      // },
       pwa: pwa
         ? {
             workboxPluginMode: 'InjectManifest',
@@ -84,41 +84,34 @@ export default {
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
-      path: '/',
-      component: '../layouts/BlankLayout',
+      path: '/user',
+      // exact: true,
+      component: '../layouts/UserLayout',
       routes: [
+        { path: '/user', redirect: '/user/login' },
         {
-          path: '/user',
-          component: '../layouts/UserLayout',
-          routes: [
-            {
-              path: '/user',
-              redirect: '/user/login',
-            },
-            {
-              name: 'login',
-              path: '/user/login',
-              component: './user/login',
-            },
-
-            {
-              component: '404',
-            },
-          ],
+          name: 'login',
+          path: '/user/login',
+          component: './user/login',
         },
+      ],
+    },
+    {
+      path: '/',
+      component: '../layouts/SecurityLayout',
+      routes: [
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          Routes: ['src/pages/Authorized'],
-          authority: ['admin'],
           routes: [
-            { path: '/', redirect: '/ArticleManage/ArticleList' },
+            // { path: '/', redirect: '/welcome' },
+            { path: '/', redirect: '/ArticleManage' },
             {
               path: '/ArticleManage',
               name: 'ArticleManage',
               icon: 'dashboard',
-              authority: ['admin'],
               routes: [
+                { path: '/ArticleManage', redirect: '/ArticleManage/ArticleList' },
                 {
                   path: '/ArticleManage/ArticleList',
                   name: 'ArticleList',
@@ -134,7 +127,7 @@ export default {
                   //name: 'Edit',
                   component: './ArticleManage/ArticleEdit',
                 },
-    
+
               ],
             },
             {
@@ -158,7 +151,7 @@ export default {
                   //name: 'Edit',
                   component: './TopicManage/TopicEdit',
                 },
-    
+
               ],
             },
             {
@@ -179,26 +172,25 @@ export default {
                 },
                 {
                   path: '/ProjectManage/ProjectEdit/:url',
-                  //name: 'Edit',
+                  // name: 'Edit',
                   component: './ProjectManage/ProjectEdit',
                 },
-    
+
               ],
             },
             {
-              path: '/Tools',
-              name: 'Tools',
-              icon: 'dashboard',
-              authority: ['admin'],
-              component: './toolsManage/tools',
-            },
-
-            {
-              component: '404',
+              component: './404',
             },
           ],
         },
+        {
+          component: './404',
+        },
       ],
+    },
+
+    {
+      component: './404',
     },
   ],
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
@@ -243,11 +235,19 @@ export default {
     basePath: '/',
   },
   chainWebpack: webpackPlugin,
+  /*
+  proxy: {
+    '/server/api/': {
+      target: 'https://preview.pro.ant.design/',
+      changeOrigin: true,
+      pathRewrite: { '^/server': '' },
+    },
+  },
+  */
   proxy: {
     '/Golang/': {
       target: 'http://jansora.com:8080/',
       changeOrigin: true,
     },
   },
-  
 };

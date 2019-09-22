@@ -3,14 +3,14 @@ export default {
   primaryColor: '#3f51b5',
   layout: 'sidemenu',
   contentWidth: 'Fluid',
-  fixedHeader: false,
+  fixedHeader: true,
   autoHideHeader: false,
-  fixSiderbar: false,
+  fixSiderbar: true,
   colorWeak: false,
   menu: {
     locale: true,
   },
-  title: 'Pancake 后台',
+  title: 'Pancake 后台管理',
   pwa: false,
   iconfontUrl: '',
 };

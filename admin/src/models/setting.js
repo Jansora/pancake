@@ -1,4 +1,4 @@
-import {message} from 'antd';
+import { message } from 'antd';
 import defaultSettings from '../../config/defaultSettings';
 import themeColorClient from '../components/SettingDrawer/themeColorClient';
 
@@ -31,17 +31,17 @@ const SettingModel = {
           setting[key] = value === '1' ? true : value;
         }
       });
-      const {primaryColor, colorWeak} = setting;
+      const { primaryColor, colorWeak } = setting;
 
       if (primaryColor && state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
       }
 
       updateColorWeak(!!colorWeak);
-      return {...state, ...setting};
+      return { ...state, ...setting };
     },
 
-    changeSetting(state = defaultSettings, {payload}) {
+    changeSetting(state = defaultSettings, { payload }) {
       const urlParams = new URL(window.location.href);
       Object.keys(defaultSettings).forEach(key => {
         if (urlParams.searchParams.has(key)) {
@@ -63,7 +63,7 @@ const SettingModel = {
           urlParams.searchParams.set(key, value);
         }
       });
-      const {primaryColor, colorWeak, contentWidth} = payload;
+      const { primaryColor, colorWeak, contentWidth } = payload;
 
       if (primaryColor && state.primaryColor !== primaryColor) {
         updateTheme(primaryColor);
@@ -75,7 +75,7 @@ const SettingModel = {
 
       updateColorWeak(!!colorWeak);
       window.history.replaceState(null, 'setting', urlParams.href);
-      return {...state, ...payload};
+      return { ...state, ...payload };
     },
   },
 };

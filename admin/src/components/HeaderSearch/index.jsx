@@ -1,26 +1,31 @@
-import {AutoComplete, Icon, Input} from 'antd';
-import React, {Component} from 'react';
+import { AutoComplete, Icon, Input } from 'antd';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import styles from './index.less';
-
 export default class HeaderSearch extends Component {
   static defaultProps = {
     defaultActiveFirstOption: false,
-    onPressEnter: () => {
-    },
-    onSearch: () => {
-    },
-    onChange: () => {
-    },
+    onPressEnter: () => {},
+    onSearch: () => {},
+    onChange: () => {},
     className: '',
     placeholder: '',
     dataSource: [],
     defaultOpen: false,
-    onVisibleChange: () => {
-    },
+    onVisibleChange: () => {},
   };
-  timeout = undefined;
+
+  static getDerivedStateFromProps(props) {
+    if ('open' in props) {
+      return {
+        searchMode: props.open,
+      };
+    }
+
+    return null;
+  }
+
   inputRef = null;
 
   constructor(props) {
@@ -35,32 +40,14 @@ export default class HeaderSearch extends Component {
     });
   }
 
-  static getDerivedStateFromProps(props) {
-    if ('open' in props) {
-      return {
-        searchMode: props.open,
-      };
-    }
-
-    return null;
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
-
   onKeyDown = e => {
     if (e.key === 'Enter') {
-      const {onPressEnter} = this.props;
-      const {value} = this.state;
-      this.timeout = window.setTimeout(() => {
-        onPressEnter(value); // Fix duplicate onPressEnter
-      }, 0);
+      this.debouncePressEnter();
     }
   };
   onChange = value => {
     if (typeof value === 'string') {
-      const {onSearch, onChange} = this.props;
+      const { onSearch, onChange } = this.props;
       this.setState({
         value,
       });
@@ -75,14 +62,14 @@ export default class HeaderSearch extends Component {
     }
   };
   enterSearchMode = () => {
-    const {onVisibleChange} = this.props;
+    const { onVisibleChange } = this.props;
     onVisibleChange(true);
     this.setState(
       {
         searchMode: true,
       },
       () => {
-        const {searchMode} = this.state;
+        const { searchMode } = this.state;
 
         if (searchMode && this.inputRef) {
           this.inputRef.focus();
@@ -97,14 +84,14 @@ export default class HeaderSearch extends Component {
     });
   };
   debouncePressEnter = () => {
-    const {onPressEnter} = this.props;
-    const {value} = this.state;
+    const { onPressEnter } = this.props;
+    const { value } = this.state;
     onPressEnter(value);
   };
 
   render() {
-    const {className, placeholder, open, ...restProps} = this.props;
-    const {searchMode, value} = this.state;
+    const { className, placeholder, open, ...restProps } = this.props;
+    const { searchMode, value } = this.state;
     delete restProps.defaultOpen; // for rc-select not affected
 
     const inputClass = classNames(styles.input, {
@@ -114,14 +101,14 @@ export default class HeaderSearch extends Component {
       <span
         className={classNames(className, styles.headerSearch)}
         onClick={this.enterSearchMode}
-        onTransitionEnd={({propertyName}) => {
+        onTransitionEnd={({ propertyName }) => {
           if (propertyName === 'width' && !searchMode) {
-            const {onVisibleChange} = this.props;
+            const { onVisibleChange } = this.props;
             onVisibleChange(searchMode);
           }
         }}
       >
-        <Icon type="search" key="Icon"/>
+        <Icon type="search" key="Icon" />
         <AutoComplete
           key="AutoComplete"
           {...restProps}

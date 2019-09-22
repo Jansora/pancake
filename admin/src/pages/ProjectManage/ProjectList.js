@@ -1,98 +1,74 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'dva';
-import {Card, DatePicker, Form, Input, Select, Table} from 'antd';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'dva';
+import { Card, Input, Table } from 'antd';
 
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
-import styles from './style.less';
-import marked from 'marked';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import {Link} from 'react-router-dom';
+import Link from 'umi/link'
 
-var renderer = new marked.Renderer();
-const FormItem = Form.Item;
-const {Option} = Select;
-const {RangePicker} = DatePicker;
-const {TextArea} = Input;
+const ProjectListColumns = [
+  {
+    title: '标题',
+    dataIndex: 'Name',
+    key: 'Title',
+    render: (name, obj) => <Link to={`/ProjectManage/ProjectEdit/${obj.Url}`}>{name}</Link>,
+  },
+  {
+    title: '公开',
+    dataIndex: 'Is_public',
+    key: 'public',
+    render: pub => (pub ? '公开' : '私密'),
+  },
+  {
+    title: 'Logo',
+    dataIndex: 'Logo_url',
+    key: 'Logo_Url',
+  },
+  {
+    title: 'Url',
+    dataIndex: 'Url',
+    key: 'Url',
+  },
+  {
+    title: 'Frame',
+    dataIndex: 'Frame',
+    key: 'Frame',
+  },
+];
+const ProjectListComponent = props => {
 
-
-@connect(({Project, loading}) => ({
-  Project,
-  initLoading: loading.effects['Project/initProjectList'],
-}))
-
-@Form.create()
-class ProjectList extends PureComponent {
-
-  state = {
-    ProjectListColumns: [
-      {
-        title: '标题',
-        dataIndex: 'Name',
-        key: 'Title',
-        render: (name, obj) =>
-          <React.Fragment>
-            <Link to={`/ProjectManage/ProjectEdit/${obj.Url}`}>{name}</Link>
-            {/*<a style={{marginLeft:25}} onClick={()=> message.info('请双击删除')} onDoubleClick={() => this.deleteProject(Url)}>刪除</a>*/}
-
-          </React.Fragment>
-      },
-      {
-        title: '公开',
-        dataIndex: 'Is_public',
-        key: 'public',
-        render: pub => pub ? "公开" : "私密",
-      }, {
-        title: 'Logo',
-        dataIndex: 'Logo_url',
-        key: 'Logo_Url',
-      }, {
-        title: 'Url',
-        dataIndex: 'Url',
-        key: 'Url',
-        // render: Url =>
-        //   <React.Fragment>
-        //     <Link to={`/ProjectManage/ProjectEdit/${Url}`}>编辑</Link>
-        //     <a style={{marginLeft:25}} onClick={()=> message.info('请双击删除')} onDoubleClick={() => this.deleteProject(Url)}>刪除</a>
-        //
-        //   </React.Fragment>
-      },
-      {
-        title: 'Frame',
-        dataIndex: 'Frame',
-        key: 'Frame',
-        // render: Url =>
-        //   <React.Fragment>
-        //     <Link to={`/ProjectManage/ProjectEdit/${Url}`}>编辑</Link>
-        //     <a style={{marginLeft:25}} onClick={()=> message.info('请双击删除')} onDoubleClick={() => this.deleteProject(Url)}>刪除</a>
-        //
-        //   </React.Fragment>
-      },
-    ]
-  };
-
-  componentDidMount() {
-    const {dispatch} = this.props;
+  const [filter, setFilter] = useState('');
+  useEffect(() => {
+    const { dispatch } = props;
     dispatch({
-      type: 'Project/initProjectList',
+      type: 'ProjectList/init',
     });
-  }
+  }, []);
+  const { ProjectList, loading } = props;
+  const Projects = ProjectList.Projects.filter(
+    Project => Project.Name.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
+
+  return (
+    <PageHeaderWrapper title="">
+      <Card title={
+        <>
+          项目列表
+          <Input style={{ width: 250, marginLeft: 25 }} placeholder="输入标题过滤"
+                 onChange={e => setFilter(e.target.value)}
+          />
+        </>
+      } style={{ marginBottom: 24 }}>
+        <Table rowKey="Id"
+               pagination={{ pageSize: 1000000 }}
+               columns={ProjectListColumns} dataSource={Projects} loading={loading}/>
+      </Card>
+
+    </PageHeaderWrapper>
+  );
+};
 
 
-  render() {
-    const {Project, initLoading} = this.props;
-    const {ProjectListColumns} = this.state;
-    return (
-      <PageHeaderWrapper>
-        <Card title="项目列表" className={styles.card}>
-          <Table rowKey={'Id'}
-                 pagination={{ pageSize: 1000000 }}
-                 columns={ProjectListColumns} dataSource={Project.ProjectList.tableData}
-                 loading={initLoading}/>
-        </Card>
-
-      </PageHeaderWrapper>
-    );
-  }
-}
-
-export default ProjectList;
+export default connect(({ProjectList, loading}) => ({
+  ProjectList,
+  loading: loading.effects['ProjectList/init'],
+}))(ProjectListComponent);

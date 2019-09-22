@@ -74,9 +74,9 @@ const PancakeEditor = (props) => {
     response.then(e => {
 
       if (e.ret) {
-        callback('https://' + e.res)
+        callback(`https://${e.res}`)
       } else {
-        message.error('上传失败： ' + e.res)
+        message.error(`上传失败：${e.res}`)
       }
 
     })
@@ -105,10 +105,8 @@ const PancakeEditor = (props) => {
             html: true,
           },
           synchScroll: false,
-          imageUrl: 'https://octodex.github.com/images/minion.png'
         }}
-        value=''
-        // onChange={handleEditorChange}
+        value=""
         onImageUpload={handleImageUpload}
         {...props}
       />

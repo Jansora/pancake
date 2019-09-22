@@ -1,10 +1,9 @@
-import {Button, Col, Form, Input, Row} from 'antd';
-import React, {Component} from 'react';
+import { Button, Col, Form, Input, Row } from 'antd';
+import React, { Component } from 'react';
 import omit from 'omit.js';
 import ItemMap from './map';
 import LoginContext from './LoginContext';
 import styles from './index.less';
-
 const FormItem = Form.Item;
 
 class WrapFormItem extends Component {
@@ -12,7 +11,6 @@ class WrapFormItem extends Component {
     getCaptchaButtonText: 'captcha',
     getCaptchaSecondText: 'second',
   };
-
   interval = undefined;
 
   constructor(props) {
@@ -23,7 +21,7 @@ class WrapFormItem extends Component {
   }
 
   componentDidMount() {
-    const {updateActive, name = ''} = this.props;
+    const { updateActive, name = '' } = this.props;
 
     if (updateActive) {
       updateActive(name);
@@ -35,7 +33,7 @@ class WrapFormItem extends Component {
   }
 
   onGetCaptcha = () => {
-    const {onGetCaptcha} = this.props;
+    const { onGetCaptcha } = this.props;
     const result = onGetCaptcha ? onGetCaptcha() : null;
 
     if (result === false) {
@@ -48,8 +46,7 @@ class WrapFormItem extends Component {
       this.runGetCaptchaCountDown();
     }
   };
-
-  getFormItemOptions = ({onChange, defaultValue, customProps = {}, rules}) => {
+  getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
     const options = {
       rules: rules || customProps.rules,
     };
@@ -64,9 +61,8 @@ class WrapFormItem extends Component {
 
     return options;
   };
-
   runGetCaptchaCountDown = () => {
-    const {countDown} = this.props;
+    const { countDown } = this.props;
     let count = countDown || 59;
     this.setState({
       count,
@@ -84,7 +80,7 @@ class WrapFormItem extends Component {
   };
 
   render() {
-    const {count} = this.state; // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
+    const { count } = this.state; // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
 
     const {
       onChange,
@@ -109,7 +105,7 @@ class WrapFormItem extends Component {
       return null;
     }
 
-    const {getFieldDecorator} = form; // get getFieldDecorator props
+    const { getFieldDecorator } = form; // get getFieldDecorator props
 
     const options = this.getFormItemOptions(this.props);
     const otherProps = restProps || {};

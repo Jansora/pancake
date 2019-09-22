@@ -1,309 +1,350 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'dva';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'dva';
+import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List} from 'antd';
 
-import {Button, Card, Col, DatePicker, Form, Icon, Input, List, Row, Select, Tag, Tooltip,} from 'antd';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import FooterToolbar from '@/components/FooterToolbar';
-import styles from './style.less';
+
+import styles from './style.less'
+
+import 'highlight.js/styles/atom-one-light.css'
 
 
 const FormItem = Form.Item;
-const {Option} = Select;
-const {RangePicker} = DatePicker;
-const {TextArea} = Input;
+const { Option } = Select;
+
+const { TextArea } = Input;
 
 
-@connect(({Topic, Editor}) => ({
-  Topic,
-  Editor,
+const TopicInsertComponent = props => {
+  const [ articles, setArticles ] = useState([]);
+  const [judgeDeleteStatus, setJudgeDeleteStatus] = useState(false);
 
-}))
-
-@Form.create()
-class TopicInsert extends PureComponent {
-
-  state = {
-    articles: [],
-  };
-
-  componentDidMount() {
-    const {dispatch} = this.props;
+  const { dispatch, match } = props;
+  useEffect(() => {
+    const { url } = match.params;
     dispatch({
-      type: 'Topic/initTopicInsert',
+      type: 'TopicInsert/init',
+      payload: { url },
     });
-  }
+  }, []);
 
-  handleSubmit = e => {
-    const {dispatch, form, Editor} = this.props;
+  useEffect(() => {
+    setArticles(props.TopicInsert.data.articles)
+  }, [props.TopicInsert.data.articles]);
+
+  const handleSubmit = e => {
     e.preventDefault();
+    const { form } = props;
+    const { url } = props.match.params;
     form.validateFieldsAndScroll((err, values) => {
-      const d = {...values};
+      let d = { ...values };
       if (!err) {
         d.isPublic = d.isPublic === 'true';
-        d.articles = this.state.articles.map(e => JSON.stringify(e));
+        d.articles = articles.map(JSON.stringify);
+
         dispatch({
-          type: 'Topic/InsertSubmit',
-          payload: d,
+          type: 'TopicInsert/submit',
+          payload: {
+            ...d,
+            oldUrl: url,
+          },
         });
       }
     });
   };
 
-  render() {
-    const {Topic, form: {getFieldDecorator, getFieldValue},} = this.props;
-    return (
-      <PageHeaderWrapper
-        title="话题插入"
-      >
-        <Card title="文章属性" className={styles.card}>
-          <Form layout="vertical" hideRequiredMark>
-            <Row gutter={16}>
-              <Col sm={5}>
-                <Form.Item label="标题">
-                  {getFieldDecorator('name', {
-                    rules: [{required: true, message: '请输入项目名称'}],
-                  })(
-                    <Input
-                      placeholder="请输入项目名称"
-                    />)}
-                </Form.Item>
-              </Col>
-              <Col sm={5} offset={1}>
-                <Form.Item label="是否公开">
-                  {getFieldDecorator('isPublic', {
-                    rules: [{required: true, message: '是否公开'}],
-                  })(
-                    <Select>
-                      <Option value="true">公开</Option>
-                      <Option value="false">不公开</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-              <Col sm={5} offset={1}>
-                <Form.Item label="logo">
-                  {getFieldDecorator('logoUrl', {
-                    rules: [{required: true, message: '请输入logo地址'}],
-                  })(
-                    <Input
-                      style={{width: '100%'}}
-                      placeholder="请输入"
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-              <Col sm={5} offset={1}>
-                <Form.Item label="url">
-                  {getFieldDecorator('url', {
-                    rules: [{required: true, message: '请输入logo地址'}],
-                  })(
-                    <Input
-                      style={{width: '100%'}}
-                      placeholder="请输入"
-                    />
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
+  const deleteTopic = url => {
+    dispatch({
+      type: 'TopicInsert/delete',
+      payload: { url },
+    });
+  }
+  const { TopicInsert, form: { getFieldDecorator } } = props;
+  // const { articles } = TopicInsert;
+  const { name, logoUrl, isPublic, url, description } = TopicInsert.data;
 
-              <Col xl={24} lg={24} md={24} sm={24}>
-                <Form.Item label=
-                             {
-                               <>
-                                 文章索引
-                                 <Tooltip title={'新增节点'}>
-                                   <Icon
-                                     style={{marginLeft: 20, fontSize: 20}}
-                                     onClick={ () => {
-                                       const cur1 = this.state.articles.slice(0);
-                                       const cur2 = [{title: '默认节点', type: 'menu'}];
-                                       const cur = cur1.concat(cur2);
-                                       this.setState({
-                                         articles: cur,
-                                       })
-                                     }}
-                                     className={styles.direction} type="plus" />
-                                 </Tooltip>
-                               </>
-                             }
+  return (
+    <PageHeaderWrapper
+      title="专栏编辑"
+    >
 
+      <Card title="文章属性" >
+        <Form layout="vertical" hideRequiredMark>
+          <Row gutter={16}>
+            <Col sm={5}>
+              <Form.Item label="标题">
+                {getFieldDecorator('name', {
+                  initialValue: name,
+                  rules: [{required: true, message: '请输入项目名称'}],
+                })(
+                  <Input
+                    placeholder="请输入项目名称"
+                  />)}
+              </Form.Item>
+            </Col>
+            <Col sm={5} offset={1}>
+              <Form.Item label="是否公开">
+                {getFieldDecorator('isPublic', {
+                  initialValue: isPublic,
+                  rules: [{required: true, message: '是否公开'}],
+                })(
+                  <Select>
+                    <Option value="true">公开</Option>
+                    <Option value="false">不公开</Option>
+                  </Select>
+                )}
+              </Form.Item>
+            </Col>
+            <Col sm={5} offset={1}>
+              <Form.Item label="logo">
+                {getFieldDecorator('logoUrl', {
+                  initialValue: logoUrl,
+                  rules: [{required: true, message: '请输入logo地址'}],
+                })(
+                  <Input
+                    style={{width: '100%'}}
+                    placeholder="请输入"
+                  />
+                )}
+              </Form.Item>
+            </Col>
+            <Col sm={5} offset={1}>
+              <Form.Item label="url">
+                {getFieldDecorator('url', {
+                  initialValue: url,
+                  rules: [{required: true, message: '请输入logo地址'}],
+                })(
+                  <Input
+                    style={{width: '100%'}}
+                    placeholder="请输入"
+                  />
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+
+            <Col xl={24} lg={24} md={24} sm={24}>
+              <Form.Item label=
+                           {
+                             <>
+                               文章索引
+                               <Tooltip title={'新增节点'}>
+                                 <Icon
+                                   style={{marginLeft: 20, fontSize: 20}}
+                                   onClick={ () => {
+                                     const cur1 = articles.slice(0);
+                                     const cur2 = [{title: '默认节点', type: 'menu'}];
+                                     const cur = cur1.concat(cur2);
+                                     setArticles(cur)
+                                   }}
+                                   className={styles.direction} type="plus" />
+                               </Tooltip>
+                             </>
+                           }
+
+              >
+
+                <List
+                  bordered
                 >
-
-                  <List
-                    bordered
-                  >
-                    {
-                      this.state.articles.map((article, index) => {
-                          return <List.Item key={index}>
+                  {
+                    articles.map((article, index) => {
+                        return <List.Item key={index}>
+                          <Select
+                            value={article.type}
+                            style={{ width: 80, marginRight: 30 }}
+                            optionFilterProp="children"
+                            onChange={ type => {
+                              setArticles(articles.map(
+                                (e, i2) =>
+                                (i2 === index ? { ...e, type } : e),
+                              ))
+                            }}
+                            filterOption={(input, option) =>
+                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                          >
+                            <Option value="menu">菜单</Option>
+                            <Option value="document">文档</Option>
+                          </Select>
+                          {
+                            article.type === 'menu' &&
+                            <Input
+                              value={articles[index].title}
+                              style={{ width: 400 }}
+                              onChange={ title => {
+                                setArticles(articles.map((e, i2) =>
+                                  i2 === index ? { type: 'menu', title: title.target.value} : e
+                                ),)
+                              }}/>
+                          }
+                          {
+                            article.type === 'document' &&
                             <Select
-                              value={article.type}
-                              style={{ width: 80, marginRight: 30 }}
+                              value={article.id}
+                              showSearch
+                              style={{ width: 400 }}
                               optionFilterProp="children"
-                              onChange={ type => {
-                                this.setState({
-                                  articles: this.state.articles.map((e, i2) =>
-                                    i2 === index ? {...e, type} : e
-                                  ),
-                                })
-                              }}
+                              onChange={ id => setArticles(articles.map((e, i2) => (i2 === index ? {...e, id } : e)))
+                              }
                               filterOption={(input, option) =>
-                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                               }
                             >
-                              <Option value='menu'>菜单</Option>
-                              <Option value='document'>文档</Option>
+                              {
+                                TopicInsert.articles.map(e=>
+                                  <Option value={e.Id} key={e.Id} ><Tooltip title={e.Url}>{e.Title}</Tooltip></Option>
+                                )
+                              }
                             </Select>
-                            {
-                              article.type === 'menu' &&
-                              <Input
-                                value={this.state.articles[index].title}
-                                style={{ width: 400 }}
-                                onChange={ title => {
-                                  this.setState({
-                                    articles: this.state.articles.map((e, i2) =>
-                                      i2 === index ? { type: 'menu', title: title.target.value} : e
-                                    ),
-                                  })
-                                }}/>
-                            }
-                            {
-                              article.type === 'document' &&
-                              <Select
-                                value={article.id}
-                                showSearch
-                                style={{ width: 400 }}
-                                optionFilterProp="children"
-                                onChange={ id => {
-                                  this.setState({
-                                    articles: this.state.articles.map((e, i2) => i2 === index ? {...e, id } : e),
-                                  })
-                                }}
-                                filterOption={(input, option) =>
-                                  option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                }
-                              >
-                                {
-                                  Topic.TopicInsert.articles.map(e=>
-                                    <Option value={e.Id} key={e.Id} ><Tooltip title={e.Url}>{e.Title}</Tooltip></Option>
-                                  )
-                                }
-                              </Select>
-                            }
+                          }
 
-                            <Tooltip title={index === 0 ? '已经到顶部了' : '向上移动'}>
-                              <Icon
-                                onClick={ () => {
-                                  if (index <= 0) return;
-                                  const cur1 = this.state.articles.slice(0, index-1);
-                                  const cur2 = this.state.articles.slice(index-1, index);
-                                  const cur3 = this.state.articles.slice(index, index+1);
-                                  const cur4 = this.state.articles.slice(index+1);
-                                  const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
-                                  this.setState({
-                                    articles: cur,
-                                  })
-                                }}
-                                style={{cursor: index === 0 ? 'not-allowed' : 'pointer'}}
-                                className={styles.direction}
-                                type="arrow-up" />
-                            </Tooltip>
-                            <Tooltip title={index === this.state.articles.length - 1 ? '已经到底部了' : '向下移动'}>
-                              <Icon
-                                onClick={ () => {
-                                  if (index >= this.state.articles.length) return;
-                                  const cur1 = this.state.articles.slice(0, index);
-                                  const cur2 = this.state.articles.slice(index, index+1);
-                                  const cur3 = this.state.articles.slice(index+1, index+2);
-                                  const cur4 = this.state.articles.slice(index+2);
-                                  const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
-                                  this.setState({
-                                    articles: cur,
-                                  })
-                                }}
-                                style={{cursor: index === this.state.articles.length - 1 ? 'not-allowed' : 'pointer'}}
-                                className={styles.direction} type="arrow-down" />
-                            </Tooltip>
-                            <Tooltip title={'在本节点前新增节点'}>
-                              <Icon
-                                style={{marginLeft: 200}}
-                                onClick={ () => {
-                                  const cur1 = this.state.articles.slice(0, index);
-                                  const cur2 = [{title: '默认节点', type: 'menu'}];
-                                  const cur3 = this.state.articles.slice(index);
-                                  const cur = cur1.concat(cur2).concat(cur3);
-                                  this.setState({
-                                    articles: cur,
-                                  })
-                                }}
-                                className={styles.direction} type="plus" />
-                            </Tooltip>
-                            <Tooltip title={'删除此节点'}>
-                              <Icon
-                                onClick={ () => {
-                                  const cur1 = this.state.articles.slice(0, index);
-                                  const cur2 = this.state.articles.slice(index+1);
-                                  const cur = cur1.concat(cur2);
-                                  this.setState({
-                                    articles: cur,
-                                  })
-                                }}
-                                className={styles.direction} type="minus" />
-                            </Tooltip>
-                          </List.Item>
-                        }
+                          <Tooltip title={index === 0 ? '已经到顶部了' : '向上移动'}>
+                            <Icon
+                              onClick={ () => {
+                                if (index <= 0) return;
+                                const cur1 = articles.slice(0, index-1);
+                                const cur2 = articles.slice(index-1, index);
+                                const cur3 = articles.slice(index, index+1);
+                                const cur4 = articles.slice(index+1);
+                                const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
+                                setArticles(cur)
+                              }}
+                              style={{ cursor: index === 0 ? 'not-allowed' : 'pointer' }}
+                              className={styles.direction}
+                              type="arrow-up" />
+                          </Tooltip>
+                          <Tooltip title={index === articles.length - 1 ? '已经到底部了' : '向下移动'}>
+                            <Icon
+                              onClick={ () => {
+                                if (index >= articles.length) return;
+                                const cur1 = articles.slice(0, index);
+                                const cur2 = articles.slice(index, index+1);
+                                const cur3 = articles.slice(index+1, index+2);
+                                const cur4 = articles.slice(index+2);
+                                const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
+                                setArticles(cur)
+                              }}
+                              style={{ cursor: index === articles.length - 1 ? 'not-allowed' : 'pointer'}}
+                              className={styles.direction} type="arrow-down" />
+                          </Tooltip>
 
-                      )
-                    }
-                  </List>
 
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col xl={24} lg={24} md={24} sm={24}>
-                <FormItem label={'简介'}>
-                  {getFieldDecorator('description', {
-                    rules: [
-                      {
-                        // required: true,
-                        message: "description",
-                      },
-                    ],
-                  })(
-                    <TextArea
-                      style={{minHeight: 64, width: "100%"}}
-                      rows={6}
-                      cols={24}
-                    />
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
-        </Card>
+                          <Tooltip title={'在本节点前新增节点'}>
+                            <Icon
+                              style={{marginLeft: 200}}
+                              onClick={ () => {
+                                const cur1 = articles.slice(0, index);
+                                const cur2 = [{title: '默认节点', type: 'menu'}];
+                                const cur3 = articles.slice(index);
+                                const cur = cur1.concat(cur2).concat(cur3);
+                                setArticles(cur)
+                              }}
+                              className={styles.direction} type="plus" />
+                          </Tooltip>
+                          <Tooltip title={'删除此节点'}>
+                            <Icon
+                              onClick={ () => {
+                                const cur1 = articles.slice(0, index);
+                                const cur2 = articles.slice(index+1);
+                                const cur = cur1.concat(cur2);
+                                setArticles(cur)
+                              }}
+                              className={styles.direction} type="minus" />
+                          </Tooltip>
+                          {/*{*/}
+                          {/*  article.type === 'document' && {*/}
 
-        <Button type="primary" htmlType="submit" block onClick={this.handleSubmit}>
-          提交
-        </Button>
-        <FooterToolbar>
-          <div style={{'width': '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px'}}>
-            {/*<Button type="primary" style={{float:'left'}}*/}
-            {/*        onClick={() => message.warning('请双击来删除该文章')}*/}
-            {/*        onDoubleClick={() => this.deleteTopic(url)} >*/}
-            {/*  删除*/}
-            {/*</Button>*/}
-            <Button type="primary" htmlType="submit" onClick={this.handleSubmit} style={{float: 'right'}}>
-              提交
-            </Button>
-          </div>
+                          {/*     const cur = Topic.TopicInsert.articles.filter(a => a.Id === articles[index])*/}
+                          {/*     return cur.length > 0 && <a target='_blank' rel='noopener noreferrer' href={*/}
+                          {/*      `/ArticleManage/ArticleEdit/${cur[0].Url}`*/}
+                          {/*    }>编辑该文档</a>*/}
 
-        </FooterToolbar>
-      </PageHeaderWrapper>
+                          {/*  }*/}
 
-    );
-  }
+                          {/*}*/}
+                        </List.Item>
+                      }
+
+                    )
+                  }
+                </List>
+
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col xl={24} lg={24} md={24} sm={24}>
+              <FormItem label="注解">
+                {getFieldDecorator('description', {
+                  initialValue: description,
+                  rules: [
+                    {
+                      // required: true,
+                      message: 'description',
+                    },
+                  ],
+                })(
+                  <TextArea
+                    style={{minHeight: 64, width: '100%'}}
+                    rows={6}
+                    cols={24}
+                  />,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
+
+      <FooterToolbar>
+        <div style={{ width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px' }}>
+          <Input
+            placeholder="请输入专栏名称"
+            style={{ margin: '0 10px 10px 0', width: 300, float: 'left'}}
+            suffix={
+              judgeDeleteStatus ? (
+                <Icon
+                  type="check-circle"
+                  theme="filled"
+                  style={{ color: '#1aad19', fontSize: '20px' }}
+                />
+              ) : (
+                <Icon
+                  type="close-circle"
+                  theme="filled"
+                  style={{ color: '#f5222d', fontSize: '20px' }}
+                />
+              )
+            }
+            onChange={e =>
+              setJudgeDeleteStatus(e.target.value.split(' ').join('') === name)
+            }
+          />
+          <Button type="primary" style={{float: 'left'}}
+                  disabled={!judgeDeleteStatus}
+                  onClick={() => deleteTopic(url)}
+          >
+            删除
+          </Button>
+          <Button type="primary" htmlType="submit" onClick={handleSubmit} style={{float: 'right' }}>
+            提交
+          </Button>
+        </div>
+
+      </FooterToolbar>
+    </PageHeaderWrapper>
+  );
+
 }
 
-export default TopicInsert;
+
+export default connect(({TopicInsert, loading, user}) => ({
+  TopicInsert,
+  currentUser: user.currentUser,
+  loading: loading.effects['TopicInsert/init'],
+}))(Form.create({ })(TopicInsertComponent));
+
