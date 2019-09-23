@@ -1,0 +1,39 @@
+title = "Example"
+
+[PG]
+User = "postgres"
+Password = "password"
+Host = "localhost"
+Port = 5432
+DataBase = "website"
+SSLmode = "disable"
+
+[ADMIN]
+Name = "Name"
+Password = "password"
+Website = "https://example.org"
+Admin = true
+Email = "test@gmail.com"
+
+[GITHUB]
+ClientId = "ClientId"
+ClientSecret = "ClientSecret"
+
+[DOMAIN]
+MainDomain = "jansora.com"
+AdminDomain = "admin.jansora.com"
+
+
+[OSS]
+
+EndPoint = "oss-cn-shanghai.aliyuncs.com"
+
+AccessKeyId = "AccessKeyId"
+
+AccessKeySecret = "AccessKeySecret"
+
+Bucket = "jansora"
+
+AliasDomain = "cdn.jansora.com"
+
+Prefix = "UploadByGolang/"
