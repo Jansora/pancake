@@ -10,7 +10,7 @@ import (
 func commandline() (int, string) {
 
 	port := flag.Int("port", 0, "listening port. (Required)")
-	conf := flag.String("metric", "null", "configure path to parse. (Required)")
+	conf := flag.String("confPath", "null", "configure path to parse. (Required)")
 
 	flag.Parse()
 
