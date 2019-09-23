@@ -66,7 +66,7 @@ func (c Config) String() string {
 
 func GetConf() Config {
 	var conf Config
-	if _, err := toml.DecodeFile("/etc/conf.toml", &conf); err != nil {
+	if _, err := toml.DecodeFile(confPath, &conf); err != nil {
 		// handle error
 		fmt.Print("read conf error !", err)
 	}

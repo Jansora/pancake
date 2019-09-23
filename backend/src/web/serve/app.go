@@ -1,8 +1,10 @@
 package serve
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"web/serve/routers"
+	"web/tools"
 )
 
 func App () {
@@ -36,6 +38,7 @@ func App () {
 	})
 	routers.Init(r)
 
-	r.Run() // listen and serve on 0.0.0.0:8080
+	port := fmt.Sprint(":%d", tools.Port)
+	r.Run(port) // listen and serve on 0.0.0.0:8080
 }
 
