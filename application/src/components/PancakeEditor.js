@@ -14,7 +14,7 @@ import tasklists from 'markdown-it-task-lists'
 import hljs from 'highlight.js'
 import mk from "markdown-it-katex"
 import mc from "markdown-it-custom-block";
-
+import kbd from "markdown-it-kbd"
 import 'highlight.js/styles/atom-one-light.css'
 
 
@@ -46,6 +46,7 @@ const PancakeEditor = (props) => {
       .use(insert)
       .use(mark)
       .use(mk)
+      .use(kbd)
       .use(tasklists, { enabled: true })
       .use(mc, {
         img (url) {
