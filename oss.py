@@ -6,10 +6,10 @@ import sys
 conf = toml.loads(open('/etc/conf.toml').read())
 
 # 打包admin静态文件。
-os.system("cd admin && yarn build")
+os.system("cd admin && yarn && yarn build")
 
 # 打包application静态文件。
-os.system("cd application && export PUBLIC_URL=https://cdn.jansora.com/application&& yarn build")
+os.system("cd application && yarn && export PUBLIC_URL=https://cdn.jansora.com/application&& yarn build")
 
 
 
