@@ -1,6 +1,24 @@
 # Pancake
 > A Flexible Tech-blog System.  A truly demo: https://www.jansora.com
+# what
+---
+这是一个名为 **Pancake** 的博客项目，Github地址： [https://github.com/Jansora/pancake](https://github.com/Jansora/pancake)
 
+特性：
+1. **博客**。用于管理各个类别的文章（不同类型的文章通过标签和模糊搜索来进行过滤）
+2. **专栏**。类似于知乎，但增加了目录结构，用于更清晰的展示同一个专栏中不同文章之间的关系。
+3. **项目**。 用于内嵌页面，不熟悉前端的人可能用不到。
+
+# why
+市面上的博客不太适合自己，因此DIY了一个适合自己的博客项目，命名为 **Pancake** 。
+如果此博客项目刚好也适用于你，那么很荣幸能够帮到你。帮忙在 [Github](https://github.com/Jansora/pancake) 给个⭐️, 谢谢支持。
+
+# when
+本项目起于2017年11月份，定型于2019年9月份，期间经历多次版本迭代。[版本日志](https://jansora.com/topic/pancake/version)
+# who
+联系方式见我的个人博客右上角 [https://jansora.com](https://jansora.com)， 或者我的个人主页 [https://zhangyangyuan.com](https://zhangyangyuan.com)。
+# how
+使用方式见[使用手册](https://jansora.com/topic/pancake/pancake-how-to-use)
 # 技术栈
 ## 前端
 - **前端(应用)**: [React](https://reactjs.org) + [Material Design](https://material-ui.com)
@@ -17,36 +35,12 @@
 ## 编辑器
 - **markdown 文本编辑器**: [react-markdown-editor-lite](https://github.com/HarryChen0506/react-markdown-editor-lite)
 
----
 
-# 安装 
-
-详见 [使用文档](https://jansora.com/topic/pancake/)
-
-## 配置环境
-这里以 Ubuntu 18.04 为例，配置Golang + PostgreSQL10 + NodeJS
-## Golang
-主流的Golang版本均可
-1. apt 安装
-
-执行 `sudo apt install golang`， 安装完毕后执行`go version` 出现对应的版本信息
-
-2. 自定义安装
-
-国内的下载见[Go语言中文网](https://studygolang.com/dl)
-```
-```
-
-## Usage
-
-```
-```
-
-## Contributing
+# Contributing
 
 PRs accepted.
 >
 
-## License
+# License
 
 MIT © Jansora
