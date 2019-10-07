@@ -16,7 +16,9 @@
 # when
 本项目起于2017年11月份，定型于2019年9月份，期间经历多次版本迭代。[版本日志](https://jansora.com/topic/pancake/version)
 # who
-联系方式见我的个人博客右上角 [https://jansora.com](https://jansora.com)， 或者我的个人主页 [https://zhangyangyuan.com](https://zhangyangyuan.com)。
+联系方式见我的个人博客右上角 [https://jansora.com](https://jansora.com)， 或者我的个人主页 [https://zhangyangyuan.com](https://zhangyangyuan.com)
+
+有任何疑问或建议，请联系我，欢迎骚扰。
 # how
 使用方式见[使用手册](https://jansora.com/topic/pancake/what-why-when-who-how)
 # 技术栈
