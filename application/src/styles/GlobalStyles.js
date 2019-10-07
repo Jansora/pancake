@@ -6,6 +6,8 @@ export const GlobalStyle = createGlobalStyle`
       height: 100vh;
       width: 100vw;
       margin: 0;
+      overflow: auto;
+      overflow-x: hidden;
       //width: 100%;
       // overflow: hidden;
       scroll-behavior: smooth;
