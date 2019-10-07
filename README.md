@@ -22,21 +22,28 @@
 # how
 使用方式见[使用手册](https://jansora.com/topic/pancake/what-why-when-who-how)
 # 技术栈
-## 前端
-- **前端(应用)**: [React](https://reactjs.org) + [Material Design](https://material-ui.com)
-- **前端(后台管理)**: [Ant Design Pro v4](https://pro.ant.design)
 
-## 后端
+# 前端
+## 前端(应用)
+[React](https://reactjs.org) + [Material Design](https://material-ui.com).  
+技术特点：
+1. **No Class Component**.  使用 `Function Component` 覆写所有的 `Class Component`
+2. **No Redux**.  使用 `createContext` 和 `useReducer` 替代 `Redux`
+3. **No CSS，All in JS**. 使用 `style-components` 将 `css` 组件化
+## 前端(后台管理)
+ [Ant Design Pro v4](https://pro.ant.design)
+全部基于`React Hooks` 开发页面
+
+# 后端
 - **后端语言**: [Golang](https://golang.org)
 - **后端Web框架**: [Gin](https://github.com/gin-gonic/gin)
 
-## 数据
-- **数据持久化**: [PostgreSQL ](https://www.postgresql.org/)
+# 数据
+- **数据持久化**: [PostgreSQL 10 ](https://www.postgresql.org/)
 - **文件/图片存储**: [阿里云对象存储](https://aliyun.com/product/oss)
 
-## 编辑器
+# 编辑器
 - **markdown 文本编辑器**: [react-markdown-editor-lite](https://github.com/HarryChen0506/react-markdown-editor-lite)
-
 
 # Contributing
 
