@@ -18,7 +18,7 @@
 # who
 联系方式见我的个人博客右上角 [https://jansora.com](https://jansora.com)， 或者我的个人主页 [https://zhangyangyuan.com](https://zhangyangyuan.com)。
 # how
-使用方式见[使用手册](https://jansora.com/topic/pancake/pancake-how-to-use)
+使用方式见[使用手册](https://jansora.com/topic/pancake/what-why-when-who-how)
 # 技术栈
 ## 前端
 - **前端(应用)**: [React](https://reactjs.org) + [Material Design](https://material-ui.com)
