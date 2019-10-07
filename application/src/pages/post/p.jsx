@@ -235,13 +235,14 @@ const P = (props) => {
               <span className='name'>{comment.From}</span>
             <span className='date'>{moment(comment.ReplyTime).fromNow()}</span>
           </div>
-          <div className='text'>
+          <div className='text' style={{color: comment.id === ReplyId ? "red": 'black'}}>
             {comment.Content}
+              <span className='reply' onClick={() => {
+                  setReplyTo(comment.From); setReplyId(comment.id);
+                  document.querySelector('#new-comment').scrollIntoView({ behavior: 'smooth' });
+              }}>回复</span>
           </div>
-            <span className='reply' onClick={() => {
-            setReplyTo(comment.From); setReplyId(comment.id);
-            document.querySelector('#new-comment').scrollIntoView({ behavior: 'smooth' });
-            }}>回复</span>
+
           {
             comment.children &&
             renderComment(comment.children)
@@ -279,10 +280,12 @@ const P = (props) => {
                                   } else {
                                       const paths = location.pathname.split('/');
                                       paths[paths.length - 1] = e.Url;
-                                      return <Tooltip title={e.Title} key={e.Url}>
-                                              <NavLink to={paths.join('/')} className={`document`} >{e.Title}
-                                              </NavLink>
-                                      </Tooltip>
+                                      return <NavLink to={paths.join('/')} className={`document`} key={index}>
+                                                  <Tooltip title={e.Title} >
+                                                      <span>{e.Title}</span>
+                                                  </Tooltip>
+                                             </NavLink>
+
                                   }
                               })
                             }
@@ -310,7 +313,7 @@ const P = (props) => {
                       Comments.length > 0 &&
                       <>
                         <h3>评论栏</h3>
-                        <Divider component='div'/>
+                        {/*<Divider component='div'/>*/}
                         {renderComment(Comments)}
                       </>
                     }

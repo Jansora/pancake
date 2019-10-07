@@ -1088,15 +1088,16 @@ export const Comment = styled.div`
 
   div.item{
     display: flex;
-
-    padding: 10px 0;
-    width: 100%;
+        width: 100%;
+    margin: 10px 0 0 0;
+    padding: 10px 0 0 0;
     border-top: 1px solid #aaa;
     div.avatar{
       color: white;
       margin: 5px 10px 0 0;
     }
     div.content{
+        width: 100%;
       display: flex;
       flex-direction: column;
       div.title{
@@ -1106,7 +1107,7 @@ export const Comment = styled.div`
         }
         span.date{
           display: inline-block;
-          margin-left: .5em;
+          margin-left: 1em;
           color: rgba(0,0,0,.6);
           font-size: .72em;
         }
@@ -1114,11 +1115,13 @@ export const Comment = styled.div`
       div.text{
         white-space: pre;
         padding: 8px 0;
-      }
-      span.reply{
+        span.reply{
          cursor: pointer;
          font-size: .75em;
+         float: right;
+        }
       }
+
     }
   }
   
