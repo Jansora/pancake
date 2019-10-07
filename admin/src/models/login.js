@@ -1,10 +1,12 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'querystring';
+import { message } from 'antd';
 import { getFakeCaptcha } from '@/services/login';
-import {fakeAccountLogin, Logout} from '@/services/golang';
+import { fakeAccountLogin, Logout } from '@/services/golang';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
-import { message } from 'antd';
+
+
 const Model = {
   namespace: 'login',
   state: {
@@ -13,32 +15,12 @@ const Model = {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      }); // Login successfully
-
       if (response.ret) {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
-
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = redirect;
-            return;
-          }
-        }
-
-        yield put(routerRedux.replace(redirect || '/'));
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response,
+        }); // Login successfully
+        yield put(routerRedux.replace('/'));
       } else {
         message.error(response.res)
       }
@@ -48,7 +30,7 @@ const Model = {
       yield call(getFakeCaptcha, payload);
     },
 
-    *logout(_, { put, call}) {
+    *logout(_, { put, call }) {
       const { redirect } = getPageQuery(); // redirect
       const response = yield call(Logout);
       if (!response.ret){
@@ -66,7 +48,6 @@ const Model = {
           );
         }
       }
-
     },
   },
   reducers: {
