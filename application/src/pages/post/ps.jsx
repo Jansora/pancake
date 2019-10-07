@@ -13,8 +13,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-
-
 import {client, format} from "../../utils/requests";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -23,8 +21,15 @@ import TextField from "@material-ui/core/TextField";
 
 import {Store} from "../../utils/store";
 import {classes} from "../../utils/constants";
+import Button from "@material-ui/core/Button";
+import UpdateIcon from '@material-ui/icons/Update';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import TitleIcon from '@material-ui/icons/Title';
 
-
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 const PS = () => {
 
     const {dispatch, } = React.useContext(Store);
@@ -65,20 +70,6 @@ const PS = () => {
 
     }, [sortType, sort, title, tags]);
 
-    useEffect(()=>{
-      const scroll =() => {
-
-        const progress = (window.scrollY + 1) / (document.body.scrollHeight - document.body.clientHeight + 1) * 100;
-    
-        if(progress > 70 && !loading && data.length < total) {
-          setLoading(true);
-          fetch(false, offset);
-        }
-      
-      };
-        document.addEventListener('scroll', scroll);
-        return () => document.removeEventListener('scroll', scroll);
-    }, );
 
     useEffect(() => {
         fetch()
@@ -152,39 +143,84 @@ const PS = () => {
                           onChange={(e) => setTitle(e.target.value)}
                       />
                   </div>
-                  <Divider style={{margin: '10px 20px 3px 20px'}}/>
+                  {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
                   <p>排序字段</p>
                   <div>
-                    <Chip
-                          variant="outlined" component='button' label='博客标题' className={sortType === 'title' ? 'active' : '' }
+                      <Chip
+                          variant="outlined" component='button'
+                          label={
+                              <Tooltip title={`博客标题`}>
+                                  <TitleIcon/>
+                              </Tooltip>
+                          }
+                          className={sortType === 'title' ? 'active' : '' }
                           onClick={() => setSortType('title')}
-                    />
-                  </div>
-                  <div>
-                    <Chip variant="outlined" component='button' label='点赞数' className={sortType === 'like_num' ? 'active' : '' }
+                      />
+                    <Chip variant="outlined" component='button'
+                          label={
+                              <Tooltip title={`点赞数`}>
+                                  <ThumbUpAltIcon/>
+                              </Tooltip>
+                          }
+
+                          className={sortType === 'like_num' ? 'active' : '' }
                           onClick={() => setSortType('like_num')}
                     />
-                    <Chip variant="outlined" component='button' label='阅读量' className={sortType === 'read_num' ? 'active' : '' }
+
+                    <Chip variant="outlined" component='button'
+                          label={
+                              <Tooltip title={`阅读量`}>
+                                  <VisibilityIcon/>
+                              </Tooltip>
+                          }
+                          className={sortType === 'read_num' ? 'active' : '' }
                           onClick={() => setSortType('read_num')}
                     />
-                    <Chip variant="outlined" component='button' label='发表时间' className={sortType === 'create_time' ? 'active' : '' }
+
+
+                    <Chip variant="outlined" component='button'
+                          label={
+                              <Tooltip title={`发表时间`}>
+                                  <AccessTimeIcon/>
+                              </Tooltip>
+                          }
+                          className={sortType === 'create_time' ? 'active' : '' }
                           onClick={() => setSortType('create_time')}/>
-                    <Chip variant="outlined" component='button' label='更新时间'  className={sortType === 'modify_time' ? 'active' : '' }
+                    <Chip variant="outlined" component='button'
+                          label={
+                        <Tooltip title={`更新时间`}>
+                            <UpdateIcon/>
+                        </Tooltip>
+                    }  className={sortType === 'modify_time' ? 'active' : '' }
                           onClick={() => setSortType('modify_time')}/>
                   </div>
 
-                  <Divider style={{margin: '10px 20px 3px 20px'}}/>
+                  {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
                   <p>排序属性</p>
                   <div>
-                    <Chip variant="outlined" component='button' label='从大到小' className={sort === 'desc' ? 'active' : '' }
+                    <Chip variant="outlined" component='button'
+                          // label='从大到小'
+                          label={
+                              <Tooltip title={`从大到小`}>
+                                  <ArrowDropDownIcon/>
+                              </Tooltip>
+                          }
+                          className={sort === 'desc' ? 'active' : '' }
                           onClick={() => setSort('desc')}
                     />
-                    <Chip variant="outlined" component='button' label='从小到大' className={sort === 'asc' ? 'active' : '' }
+                    <Chip variant="outlined" component='button'
+                          // label='从小到大'
+                          label={
+                              <Tooltip title={`从小到大`}>
+                                  <ArrowDropUpIcon/>
+                              </Tooltip>
+                          }
+                          className={sort === 'asc' ? 'active' : '' }
                           onClick={() => setSort( 'asc')}
                     />
 
                   </div>
-                    <Divider style={{margin: '10px 20px 3px 20px'}}/>
+                    {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
                     <p>标签过滤</p>
                     <div className='tags'>
                         {
@@ -286,11 +322,26 @@ const PS = () => {
                         <CardMedia
                             className='bootstrap-logo'
                             image={e.Logo_url.endsWith('.gif')? e.Logo_url :`${e.Logo_url}?x-oss-process=style/posts`}
-                            title="Live from space album cover"
+                            title={e.Title}
                         />
 
                     </Card>)
                     }
+
+                    {
+                        // total > 0 &&
+                        <Button color="primary" variant="outlined" style={{padding: "10px 0", marginTop: "20px"}}
+                                                             onClick={()=> {
+                                                                 if (data.length < total) {
+                                                                     setLoading(true);
+                                                                     fetch(false, offset);
+                                                                 }
+                                                             }}
+                        >
+                            {data.length < total ? `当前已展示 ${offset} / ${total} 条 ， 点击查看更多 ` : "没有更多数据了" }
+                        </Button>
+                    }
+
                 </ContentWrapper>
                 </>
 

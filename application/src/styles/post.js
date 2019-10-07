@@ -1090,6 +1090,8 @@ export const Comment = styled.div`
     display: flex;
 
     padding: 10px 0;
+    width: 100%;
+    border-top: 1px solid #aaa;
     div.avatar{
       color: white;
       margin: 5px 10px 0 0;

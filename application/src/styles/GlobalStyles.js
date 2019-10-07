@@ -2,8 +2,12 @@ import {createGlobalStyle} from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     body{
+     
+      height: 100vh;
+      width: 100vw;
       margin: 0;
-      width: 100%;
+      //width: 100%;
+      // overflow: hidden;
       scroll-behavior: smooth;
       color: #595959;
       font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -23,7 +27,7 @@ export const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar {
       width: 6px;
       height: 5px;
-      border: 2px;
+      border: 3px;
     }
     ::-webkit-scrollbar-thumb {
       width:6px;
@@ -34,10 +38,12 @@ export const GlobalStyle = createGlobalStyle`
       border: 3px solid  var(--primary-color);
     }
     ::-webkit-scrollbar-track {
+      display: none;
     }
 
     body::-webkit-scrollbar {
-    
+        //display: none;
+
     }
 
 `;

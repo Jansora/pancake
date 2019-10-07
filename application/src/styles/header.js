@@ -99,7 +99,7 @@ export const Navbar = styled.div`
   height: 80px;
   position: fixed;
   right:100px;
-  bottom: 50px;
+  bottom: 100px;
   svg{
     color: #fff;
     background-color: var(--primary-color);

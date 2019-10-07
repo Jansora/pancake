@@ -12,11 +12,14 @@ import Logo from "../logo.png"
 import WeChat from "../assets/wechat.jpg"
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Chip from "@material-ui/core/Chip";
+import CameraIcon from '@material-ui/icons/Camera';
+
 
 import {Store} from "../utils/store";
+import {Button} from "@material-ui/core";
+import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 
-
+import AppsIcon from '@material-ui/icons/Apps';
 const Header = (props) => {
 
 
@@ -39,27 +42,36 @@ const Header = (props) => {
         </Breadcrumbs>
       </Left>
       <Middle>
-          <Chip
-              variant="outlined"
+
+          <Button
+              // variant="outlined"
               component={Link}
-              label={'博客'}
               to='/post'
+              // style={{margin: 20}}
               className={location.pathname.startsWith('/post') ? 'active' : ''}
-          />
-          <Chip
-              variant="outlined"
+          >
+              <AppsIcon style={{marginRight: 5}} />  博客
+          </Button>
+          <Button
+              // variant="outlined"
               component={Link}
-              label={'专栏'}
               to='/topic'
+              // style={{margin: 20}}
               className={location.pathname.startsWith('/topic') ? 'active' : ''}
-          />
-          <Chip
-              variant="outlined"
+          >
+              <CameraIcon style={{marginRight: 5}} />  专栏
+          </Button>
+          <Button
+              // variant="outlined"
               component={Link}
-              label={'项目'}
               to='/project'
+              // style={{margin: 20}}
               className={location.pathname.startsWith('/project') ? 'active' : ''}
-          />
+          >
+              <SportsSoccerIcon style={{marginRight: 5}} />  项目
+
+          </Button>
+
       </Middle>
       <Right>
           <Tooltip title="个人主页">

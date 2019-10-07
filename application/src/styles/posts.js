@@ -46,6 +46,8 @@ export const MenuWrapper = styled.div`
 
 
 export const FilterWrapper = styled.div`
+    top: 50px;
+    position: sticky;
     display: flex;
     border-radius: 8px;
     flex-direction: column;
@@ -59,20 +61,25 @@ export const FilterWrapper = styled.div`
     }
     >div{
         display: flex;
-        justify-content: space-around;
+        justify-content: center;        
         flex-wrap: wrap;
+    }
+    span.MuiChip-label{
+      padding: 0 3px;
     }
     button{
      cursor: pointer;
-     color: var(--primary-color);
+     //color: var(--primary-color);
      background: none;
      border: none;
-     margin: 2px 10px; 
-     padding: 0 10px;
+     padding: 0;
+     margin: 0 4px;
+     //margin: 2px 10px; 
+     //padding: 0 10px;
     }
     button.active , button.focus{
-     background-color:  var(--primary-color) !important;
-     color: white;
+     //background-color:  var(--primary-color) !important;
+     color: var(--primary-color) !important;
     }
     div.tags{
         >span{
