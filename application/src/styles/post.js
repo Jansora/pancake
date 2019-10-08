@@ -1176,7 +1176,10 @@ export const TopicInPost = styled.div`
         margin-left: 20px;
       }
       a.active{
-        color: var(--primary-active-color);
+
+        span{
+          color: var(--primary-active-color);
+        }
       }
     }
   }
