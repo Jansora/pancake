@@ -84,13 +84,14 @@ const P = (props) => {
     }, [dispatch, Title, Topic, location.pathname]);
 
     useEffect(()=>{
-      setLoading(true)
+      setLoading(true);
+      setContent('');
       client.get(`/Article/${url}`)
         .then(r => {
             if (r.data.ret) {
               const data = r.data.res;
               setId(data.Id);
-                setAuthor(data.Author);
+              setAuthor(data.Author);
               setCreate_time(data.Create_time);
               setModify_time(data.Modify_time);
 
