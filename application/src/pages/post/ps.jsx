@@ -201,7 +201,7 @@ const PS = () => {
                     <Chip variant="outlined" component='button'
                           // label='从大到小'
                           label={
-                              <Tooltip title={`从大到小`}>
+                              <Tooltip title={`时间从大到小`}>
                                   <ArrowDropDownIcon/>
                               </Tooltip>
                           }
@@ -211,7 +211,7 @@ const PS = () => {
                     <Chip variant="outlined" component='button'
                           // label='从小到大'
                           label={
-                              <Tooltip title={`从小到大`}>
+                              <Tooltip title={`时间从小到大`}>
                                   <ArrowDropUpIcon/>
                               </Tooltip>
                           }
@@ -283,10 +283,10 @@ const PS = () => {
                                     </p>
                                 </Tooltip>
                                 <div className='bottom'>
-                                    <Tooltip title="个人主页 https://zhangyangyuan.com">
-                                        <a target='_blank' rel='noopener noreferrer' href='https://zhangyangyuan.com'>
+                                    <Tooltip title="作者">
+                                        <span>
                                             <Icon name='user'/> {e.Author}
-                                        </a>
+                                        </span>
                                     </Tooltip>
                                     <Divider orientation='vertical' style={{margin: '0 20px'}}/>
                                     <Tooltip title={`首次创作于: ${e.Create_time.split('T')[0]}, 最近更新: ${e.Modify_time.split('T')[0]}`}>
