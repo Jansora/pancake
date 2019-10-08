@@ -27,7 +27,7 @@ const Header = (props) => {
 
   const {breadcrumb} = React.useContext(Store);
 
-  document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''} - Jansora个人博客`
+  document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''}`
   return (
     <>
     <HeaderWrapper>
