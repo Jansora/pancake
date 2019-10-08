@@ -12,7 +12,7 @@ import insert from 'markdown-it-ins'
 import mark from 'markdown-it-mark'
 import tasklists from 'markdown-it-task-lists'
 import hljs from 'highlight.js'
-import mk from "markdown-it-katex"
+import mk from "@iktakahiro/markdown-it-katex"
 import mc from "markdown-it-custom-block";
 import kbd from "markdown-it-kbd"
 import 'highlight.js/styles/atom-one-light.css'
@@ -45,7 +45,7 @@ const PancakeEditor = (props) => {
       .use(abbreviation)
       .use(insert)
       .use(mark)
-      .use(mk)
+      .use(mk, {"throwOnError" : false, "errorColor" : " #cc0000"})
       .use(kbd)
       .use(tasklists, { enabled: true })
       .use(mc, {

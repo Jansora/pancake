@@ -33,6 +33,7 @@
   "dependencies": {
     "@ant-design/pro-layout": "^4.5.9",
     "@antv/data-set": "^0.10.2",
+    "@iktakahiro/markdown-it-katex": "^3.1.0",
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.isequal": "^4.5.5",
     "@types/react-router": "^5.0.2",
@@ -54,7 +55,6 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-footnote": "^3.0.2",
     "markdown-it-ins": "^2.0.0",
-    "markdown-it-katex": "^2.0.3",
     "markdown-it-kbd": "^2.0.0",
     "markdown-it-mark": "^2.0.0",
     "markdown-it-sub": "^1.0.0",

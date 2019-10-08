@@ -14,13 +14,18 @@
       overflow-wrap: break-word;
     }
     blockquote{
-      padding: 5px 5px 5px 15px;
-      border-left: 5px solid #D6DBDF;
-
-      border-left: 5px solid var(--primary-color);
-
-      border-radius: 10px;
-      color: var(--primary-color);
+      //padding: 5px 5px 5px 15px;
+      //border-left: 5px solid #D6DBDF;
+      //
+      //border-left: 5px solid var(--primary-color);
+      //
+      //border-radius: 10px;
+      //color: var(--primary-color);
+      margin: 1em 0;
+      padding-left: .8em;
+      color: #697b8c;
+      font-size: 90%;
+      border-left: 4px solid #ebedf0;
     }
     span.katex, a{
       color: var(--primary-color);
@@ -31,10 +36,10 @@
     table{
       margin: auto;
     }
-  h1 {
-    font-size: 25px;
-    margin: 16px 0;
-  }
+    h1 {
+      font-size: 25px;
+      margin: 16px 0;
+    }
     h2 {
       margin: 8px 0;
       font-size: 20px;
@@ -45,17 +50,26 @@
       padding: 0 3px;
       margin: 0 3px;
     }
-    pre code{
-      color: black;
-      padding: 0;
-      margin: 0;
+    pre {
+
+      margin: 0 0 10px 0;
+      padding: 10px;
+      code{
+        color: black;
+        padding: 0;
+        margin: 0;
+      }
     }
 
     ol, ul{
-      padding-left: 20px;
+      padding-left: 14px;
       li {
         padding-left: 3px;
       }
+    }
+
+    kbd{
+      border: 1px solid #aaa;
     }
   }
 
