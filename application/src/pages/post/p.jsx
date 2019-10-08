@@ -234,7 +234,11 @@ const P = (props) => {
         <div className='content'>
           <div className='title'>
               <span className='name'>{comment.From}</span>
-            <span className='date'>{moment(comment.ReplyTime).fromNow()}</span>
+            <span className='date'>
+                <Tooltip title={moment(comment.ReplyTime).format("llll")}>
+                    <span>{moment(comment.ReplyTime).fromNow()}</span>
+                </Tooltip>
+            </span>
           </div>
           <div className='text' style={{color: comment.id === ReplyId ? "red": 'black'}}>
             {comment.Content}
@@ -277,7 +281,7 @@ const P = (props) => {
                                   const obj = JSON.parse(Topic.Articles[index]);
 
                                   if(obj.type === 'menu') {
-                                      return <span className={`menu`} key={e.Url}>{obj.title}</span>
+                                      return <span className={`menu`} key={index}>{obj.title}</span>
                                   } else {
                                       const paths = location.pathname.split('/');
                                       paths[paths.length - 1] = e.Url;

@@ -1117,12 +1117,13 @@ export const Comment = styled.div`
         }
       }
       div.text{
-        white-space: pre;
-        padding: 8px 0;
+        white-space: pre-wrap;
+        padding: 8px 32px 8px 0;
         span.reply{
          cursor: pointer;
          font-size: .75em;
          float: right;
+         margin-right: -32px;
         }
       }
 
