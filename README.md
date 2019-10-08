@@ -1,5 +1,3 @@
-# Pancake
-> A Flexible Tech-blog System.  A truly demo: https://www.jansora.com
 # what
 这是一个名为 **Pancake** 的博客项目，Github地址： [https://github.com/Jansora/pancake](https://github.com/Jansora/pancake)
 
