@@ -60,14 +60,14 @@ const Background = () => {
   
     function drawStars () {
       var pixelX, pixelY, pixelRadius;
-    
+
       // Resize to the screen
       if (canvas.width !== window.innerWidth || canvas.width !== window.innerWidth) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         initializeStars()
       }
-    
+
       c.fillStyle = 'rgba(255, 255, 255,1)'
       c.fillRect(0, 0, canvas.width, canvas.height);
       // c.fillStyle = 'rgba(62,175,125, ' + radius + ')'
@@ -89,24 +89,35 @@ const Background = () => {
     initializeStars();
     executeFrame();
 
+    window.addEventListener('resize', resizeCanvas, false);
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      /**
+       * Your drawings need to be inside this function otherwise they will be reset when
+       * you resize the browser window and the canvas goes will be cleared.
+       */
+      drawStars();
+    }
+
   }, );
-  
+
 
   
 
   const style = {
     "width":"100vw",
     "height":"100vh",
+    "display": "block",
     "top": 0,
     "position":"fixed",
     "zIndex": -2,
   }
   
-  return (
-    <div style={style}>
-      <canvas id="space"> </canvas>
-    </div>
-  )
+  return <canvas id="space" style={style}> </canvas>
+
   
   
 }
