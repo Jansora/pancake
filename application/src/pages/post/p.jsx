@@ -329,13 +329,13 @@ const P = (props) => {
                       <Grid component='div' item xs={5} >
                         <TextField
                           required
-                          error={From.length > 10 || (From.length < 3 && From.length !== 0)}
+                          error={From.length > 50 || (From.length < 3 && From.length !== 0)}
                           label="昵称"
                           id="margin-dense"
                           style={{width: '100%',  margin: '10px auto'}}
                           helperText={
-                            From.length > 10 || (From.length < 3 && From.length !== 0)
-                              ? "3 <= 长度 <= 20"
+                            From.length > 50 || (From.length < 3 && From.length !== 0)
+                              ? "2 <= 长度 <= 50"
                               : "输入昵称"
                           }
                           value={From}
@@ -374,8 +374,8 @@ const P = (props) => {
 
                           style={{width: '100%', marginBottom: 20}}
                           helperText={
-                            ReplyContent.length > 1000
-                              ? "长度 <= 1000"
+                            ReplyContent.length > 10000
+                              ? "长度 <= 10000"
                               : "输入正文内容"
                           }
                         />
