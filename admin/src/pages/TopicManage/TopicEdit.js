@@ -18,7 +18,7 @@ const { TextArea } = Input;
 
 
 const TopicEditComponent = props => {
-  const [ articles, setArticles ] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [judgeDeleteStatus, setJudgeDeleteStatus] = useState(false);
 
   const { dispatch, match } = props;
@@ -41,7 +41,7 @@ const TopicEditComponent = props => {
     const { form } = props;
     const { url } = props.match.params;
     form.validateFieldsAndScroll((err, values) => {
-      let d = { ...values };
+      const d = { ...values };
       if (!err) {
         d.isPublic = d.isPublic === 'true';
         d.articles = articles.map(JSON.stringify);
@@ -116,12 +116,12 @@ const TopicEditComponent = props => {
               <Form.Item label="url">
                 {getFieldDecorator('url', {
                   initialValue: url,
-                  rules: [{required: true, message: '请输入logo地址'}],
+                  rules: [{ required: true, message: '请输入logo地址' }],
                 })(
                   <Input
-                    style={{width: '100%'}}
+                    style={{ width: '100%' }}
                     placeholder="请输入"
-                  />
+                  />,
                 )}
               </Form.Item>
             </Col>
@@ -138,7 +138,7 @@ const TopicEditComponent = props => {
                                    style={{marginLeft: 20, fontSize: 20}}
                                    onClick={ () => {
                                      const cur1 = articles.slice(0);
-                                     const cur2 = [{title: '默认节点', type: 'menu'}];
+                                     const cur2 = [{ title: '默认节点', type: 'menu' }];
                                      const cur = cur1.concat(cur2);
                                      setArticles(cur)
                                    }}
@@ -179,7 +179,7 @@ const TopicEditComponent = props => {
                               style={{ width: 400 }}
                               onChange={ title => {
                                 setArticles(articles.map((e, i2) =>
-                                  i2 === index ? { type: 'menu', title: title.target.value} : e
+                                  (i2 === index ? { type: 'menu', title: title.target.value} : e)
                                 ),)
                               }}/>
                           }
@@ -257,17 +257,30 @@ const TopicEditComponent = props => {
                               }}
                               className={styles.direction} type="minus" />
                           </Tooltip>
-                          {/*{*/}
-                          {/*  article.type === 'document' && {*/}
-
-                          {/*     const cur = Topic.TopicInsert.articles.filter(a => a.Id === articles[index])*/}
-                          {/*     return cur.length > 0 && <a target='_blank' rel='noopener noreferrer' href={*/}
-                          {/*      `/ArticleManage/ArticleEdit/${cur[0].Url}`*/}
-                          {/*    }>编辑该文档</a>*/}
-
-                          {/*  }*/}
-
-                          {/*}*/}
+                          {
+                            article.type === 'document'
+                            && TopicEdit.articles.filter(
+                              a => a.Id === articles[index].id).length > 0
+                            &&
+                            <Tooltip title={'编辑该文档'}>
+                              <a target="_blank"
+                                 rel="noopener noreferrer"
+                                 href={
+                                   `/ArticleManage/ArticleEdit/${
+                                     TopicEdit.articles.filter(a => a.Id === articles[index].id)[0].Url}`
+                                 }
+                              >
+                              <Icon
+                                onClick={ () => {
+                                  const cur1 = articles.slice(0, index);
+                                  const cur2 = articles.slice(index+1);
+                                  const cur = cur1.concat(cur2);
+                                  setArticles(cur)
+                                }}
+                                className={styles.direction} type="edit" />
+                              </a>
+                            </Tooltip>
+                          }
                         </List.Item>
                       }
 

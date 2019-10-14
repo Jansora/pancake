@@ -255,20 +255,31 @@ const TopicInsertComponent = props => {
                               }}
                               className={styles.direction} type="minus" />
                           </Tooltip>
-                          {/*{*/}
-                          {/*  article.type === 'document' && {*/}
-
-                          {/*     const cur = Topic.TopicInsert.articles.filter(a => a.Id === articles[index])*/}
-                          {/*     return cur.length > 0 && <a target='_blank' rel='noopener noreferrer' href={*/}
-                          {/*      `/ArticleManage/ArticleEdit/${cur[0].Url}`*/}
-                          {/*    }>编辑该文档</a>*/}
-
-                          {/*  }*/}
-
-                          {/*}*/}
+                          <Tooltip title={'删除此节点'}>
+                            <Icon
+                              onClick={ () => {
+                                const cur1 = articles.slice(0, index);
+                                const cur2 = articles.slice(index+1);
+                                const cur = cur1.concat(cur2);
+                                setArticles(cur)
+                              }}
+                              className={styles.direction} type="minus" />
+                          </Tooltip>
+                          {
+                            article.type === 'document'
+                            && TopicInsert.articles.filter(
+                              a => a.Id === articles[index]).length > 0
+                            &&
+                            <a target="_blank"
+                               rel="noopener noreferrer"
+                               href={
+                                `/ArticleManage/ArticleEdit/${
+                                  TopicInsert.articles.filter(a => a.Id === articles[index])[0].Url}`
+                              }
+                            >编辑该文档</a>
+                          }
                         </List.Item>
-                      }
-
+                      },
                     )
                   }
                 </List>

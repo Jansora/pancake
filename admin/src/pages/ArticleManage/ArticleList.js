@@ -52,6 +52,8 @@ const ArticleListComponent = props => {
       type: 'ArticleList/init',
     });
   }, []);
+
+
   const { ArticleList, loading } = props;
   const Articles = ArticleList.Articles.filter(
     article => article.Title.toLowerCase().indexOf(filter.toLowerCase()) !== -1);

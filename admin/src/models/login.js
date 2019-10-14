@@ -20,7 +20,8 @@ const Model = {
           type: 'changeLoginStatus',
           payload: response,
         }); // Login successfully
-        yield put(routerRedux.replace('/'));
+        window.location.href = '/';
+        // yield put(routerRedux.replace('/'));
       } else {
         message.error(response.res)
       }
@@ -34,9 +35,9 @@ const Model = {
       const { redirect } = getPageQuery(); // redirect
       const response = yield call(Logout);
       if (!response.ret){
-         message.error('退出登陆失败')
+         message.error('退出登录失败')
       } else {
-        message.success('退出登陆成功');
+        message.success('退出登录成功');
         if (window.location.pathname !== '/user/login' && !redirect) {
           yield put(
             routerRedux.replace({

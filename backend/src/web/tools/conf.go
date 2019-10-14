@@ -35,6 +35,10 @@ type Domain struct {
 	AdminDomain string
 }
 
+type Storage struct {
+	Type string   // "local" or "AliyunOSS"
+	Assets string // "/path"
+}
 type Oss struct {
 	EndPoint string
 	AccessKeyId string
