@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'dva';
 import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List} from 'antd';
 
@@ -10,12 +10,18 @@ import styles from './style.less'
 
 import 'highlight.js/styles/atom-one-light.css'
 
+import update from 'immutability-helper'
+
+import DragItem from './DragItems';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 
 const { TextArea } = Input;
 
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import Ca from './card'
 
 const TopicEditComponent = props => {
   const [articles, setArticles] = useState([]);
@@ -35,6 +41,19 @@ const TopicEditComponent = props => {
   useEffect(() => {
     setArticles(props.TopicEdit.data.articles)
   }, [props.TopicEdit.data.articles]);
+
+  const moveItem = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragArticle = articles[dragIndex]
+      setArticles(
+        update(articles, {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragArticle]],
+        }),
+      )
+    },
+    [articles],
+  )
+
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -116,7 +135,7 @@ const TopicEditComponent = props => {
               <Form.Item label="url">
                 {getFieldDecorator('url', {
                   initialValue: url,
-                  rules: [{ required: true, message: '请输入logo地址' }],
+                  rules: [{ required: true, message: '请输入url地址' }],
                 })(
                   <Input
                     style={{ width: '100%' }}
@@ -152,140 +171,21 @@ const TopicEditComponent = props => {
                 <List
                   bordered
                 >
-                  {
-                    articles.map((article, index) => {
-                        return <List.Item key={index}>
-                          <Select
-                            value={article.type}
-                            style={{ width: 80, marginRight: 30 }}
-                            optionFilterProp="children"
-                            onChange={ type => {
-                              setArticles(articles.map(
-                                (e, i2) =>
-                                (i2 === index ? { ...e, type } : e),
-                              ))
-                            }}
-                            filterOption={(input, option) =>
-                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                          >
-                            <Option value="menu">菜单</Option>
-                            <Option value="document">文档</Option>
-                          </Select>
-                          {
-                            article.type === 'menu' &&
-                            <Input
-                              value={articles[index].title}
-                              style={{ width: 400 }}
-                              onChange={ title => {
-                                setArticles(articles.map((e, i2) =>
-                                  (i2 === index ? { type: 'menu', title: title.target.value} : e)
-                                ),)
-                              }}/>
-                          }
-                          {
-                            article.type === 'document' &&
-                            <Select
-                              value={article.id}
-                              showSearch
-                              style={{ width: 400 }}
-                              optionFilterProp="children"
-                              onChange={ id => setArticles(articles.map((e, i2) => (i2 === index ? {...e, id } : e)))
-                              }
-                              filterOption={(input, option) =>
-                                option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                              }
-                            >
-                              {
-                                TopicEdit.articles.map(e=>
-                                  <Option value={e.Id} key={e.Id} ><Tooltip title={e.Url}>{e.Title}</Tooltip></Option>
-                                )
-                              }
-                            </Select>
-                          }
-
-                          <Tooltip title={index === 0 ? '已经到顶部了' : '向上移动'}>
-                            <Icon
-                              onClick={ () => {
-                                if (index <= 0) return;
-                                const cur1 = articles.slice(0, index-1);
-                                const cur2 = articles.slice(index-1, index);
-                                const cur3 = articles.slice(index, index+1);
-                                const cur4 = articles.slice(index+1);
-                                const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
-                                setArticles(cur)
-                              }}
-                              style={{ cursor: index === 0 ? 'not-allowed' : 'pointer' }}
-                              className={styles.direction}
-                              type="arrow-up" />
-                          </Tooltip>
-                          <Tooltip title={index === articles.length - 1 ? '已经到底部了' : '向下移动'}>
-                            <Icon
-                              onClick={ () => {
-                                if (index >= articles.length) return;
-                                const cur1 = articles.slice(0, index);
-                                const cur2 = articles.slice(index, index+1);
-                                const cur3 = articles.slice(index+1, index+2);
-                                const cur4 = articles.slice(index+2);
-                                const cur = cur1.concat(cur3).concat(cur2).concat(cur4);
-                                setArticles(cur)
-                              }}
-                              style={{ cursor: index === articles.length - 1 ? 'not-allowed' : 'pointer'}}
-                              className={styles.direction} type="arrow-down" />
-                          </Tooltip>
-
-
-                          <Tooltip title={'在本节点前新增节点'}>
-                            <Icon
-                              style={{marginLeft: 200}}
-                              onClick={ () => {
-                                const cur1 = articles.slice(0, index);
-                                const cur2 = [{title: '默认节点', type: 'menu'}];
-                                const cur3 = articles.slice(index);
-                                const cur = cur1.concat(cur2).concat(cur3);
-                                setArticles(cur)
-                              }}
-                              className={styles.direction} type="plus" />
-                          </Tooltip>
-                          <Tooltip title={'删除此节点'}>
-                            <Icon
-                              onClick={ () => {
-                                const cur1 = articles.slice(0, index);
-                                const cur2 = articles.slice(index+1);
-                                const cur = cur1.concat(cur2);
-                                setArticles(cur)
-                              }}
-                              className={styles.direction} type="minus" />
-                          </Tooltip>
-                          {
-                            article.type === 'document'
-                            && TopicEdit.articles.filter(
-                              a => a.Id === articles[index].id).length > 0
-                            &&
-                            <Tooltip title={'编辑该文档'}>
-                              <a target="_blank"
-                                 rel="noopener noreferrer"
-                                 href={
-                                   `/ArticleManage/ArticleEdit/${
-                                     TopicEdit.articles.filter(a => a.Id === articles[index].id)[0].Url}`
-                                 }
-                              >
-                              <Icon
-                                onClick={ () => {
-                                  const cur1 = articles.slice(0, index);
-                                  const cur2 = articles.slice(index+1);
-                                  const cur = cur1.concat(cur2);
-                                  setArticles(cur)
-                                }}
-                                className={styles.direction} type="edit" />
-                              </a>
-                            </Tooltip>
-                          }
-                        </List.Item>
+                  <DndProvider backend={HTML5Backend}>
+                    <div>
+                      {
+                        articles.map((article, index) => <DragItem
+                            moveItem={moveItem}
+                            setArticles={setArticles}
+                            index={index}
+                            article={article}
+                            articles={articles}
+                            collections={TopicEdit.articles}
+                          />,
+                        )
                       }
-
-                    )
-                  }
+                    </div>
+                  </DndProvider>
                 </List>
 
               </Form.Item>
@@ -336,7 +236,7 @@ const TopicEditComponent = props => {
               )
             }
             onChange={e =>
-              setJudgeDeleteStatus(e.target.value.split(' ').join('') === name)
+              setJudgeDeleteStatus(e.target.value === name)
             }
           />
           <Button type="primary" style={{float: 'left'}}

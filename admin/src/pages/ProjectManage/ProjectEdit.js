@@ -176,7 +176,7 @@ const ProjectEditComponent = props => {
               )
             }
             onChange={e =>
-              setJudgeDeleteStatus(e.target.value.split(' ').join('') === name)
+              setJudgeDeleteStatus(e.target.value === name)
             }
           />
           <Button type="primary" style={{ float: 'left' }}

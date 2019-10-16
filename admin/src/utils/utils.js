@@ -21,3 +21,31 @@ export const isAntDesignProOrDev = () => {
   return isAntDesignPro();
 };
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
+
+
+// 更新单层数组某一项 （原数组， 待更新项， 待更新索引（从0开始计算））
+export const updateSingleArrayItem = (arr, replaceItem, replaceIndex) =>
+  arr.map((item, index) =>
+    (index === replaceIndex ? replaceItem : item));
+
+
+// 更新双层数组某一项 （原数组， 待更新项， 外层待更新索引， 内层待更新索引（从0开始计算）
+export const updateDoubleArrayItem = (arr, replaceItem, outIndex1, innerIndex1) =>
+  updateSingleArrayItem(
+    arr, updateSingleArrayItem(
+      arr[outIndex1], replaceItem, innerIndex1), outIndex1,
+  );
+
+
+// 删除单层数组某一项 （原数组， 待删除项， 待删除索引（从0开始计算））
+export const deleteSingleArrayItem = (arr, deleteIndex) =>
+  arr.filter((item, index) =>
+    (index !== deleteIndex));
+
+
+// 删除双层数组某一项 （原数组， 待更新项， 外层待删除索引， 内层待删除索引（从0开始计算）
+export const deleteDoubleArrayItem = (arr, outIndex1, innerIndex1) =>
+  updateSingleArrayItem(
+    arr, deleteSingleArrayItem(
+      arr[outIndex1], innerIndex1), outIndex1,
+  );

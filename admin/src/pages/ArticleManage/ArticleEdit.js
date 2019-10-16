@@ -226,7 +226,7 @@ const ArticleEditComponent = props => {
               )
             }
             onChange={e =>
-             setJudgeDeleteStatus(e.target.value.split(' ').join('') === title)
+             setJudgeDeleteStatus(e.target.value === title)
             }
           />
           <Button type="primary" style={{float: 'left'}}
