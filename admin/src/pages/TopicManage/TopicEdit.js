@@ -21,7 +21,7 @@ const { TextArea } = Input;
 
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import Ca from './card'
+
 
 const TopicEditComponent = props => {
   const [articles, setArticles] = useState([]);

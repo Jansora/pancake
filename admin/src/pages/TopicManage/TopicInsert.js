@@ -1,18 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { connect } from 'dva';
 import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List} from 'antd';
-
+import update from 'immutability-helper';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import DragItem from '@/pages/TopicManage/DragItems';
 
 import FooterToolbar from '@/components/FooterToolbar';
 
 import styles from './style.less'
 
 import 'highlight.js/styles/atom-one-light.css'
-import {DndProvider} from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-import DragItem from "@/pages/TopicManage/DragItems";
-import update from "immutability-helper";
 
 
 const FormItem = Form.Item;
