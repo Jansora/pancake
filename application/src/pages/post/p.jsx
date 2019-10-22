@@ -120,7 +120,11 @@ const P = (props) => {
 
           }
         ).catch(e => {
-          console.log(e);
+          console.error(e);
+          dispatch({
+              type: 'message',
+              payload: {open: true, variant: 'error', content: '服务器异常！', duration: 2000}
+          })
         }).finally(()=> {
           setLoading(false)
         })

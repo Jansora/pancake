@@ -183,12 +183,6 @@ const DragItem = ({ index, moveItem, article, articles, setArticles, collections
              }
           >
             <Icon
-              onClick={ () => {
-                const cur1 = articles.slice(0, index);
-                const cur2 = articles.slice(index+1);
-                const cur = cur1.concat(cur2);
-                setArticles(cur)
-              }}
               className={styles.direction} type="edit" />
           </a>
         </Tooltip>

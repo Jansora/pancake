@@ -56,7 +56,7 @@ const Projects = (props) => {
         type: 'message',
         payload: {open: true, variant: 'error', content: '服务器异常或网络异常', duration: 2000}
       });
-      console.log(e);
+      console.error(e);
     }).finally(()=> {
       setLoading(false)
     })

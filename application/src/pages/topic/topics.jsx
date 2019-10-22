@@ -85,7 +85,6 @@ const Topics = (props) => {
             {
               data.map(e=> {
                 const urls = e.ArticleObjects.filter(e => e.Id !== 0);
-                console.log(urls, e)
                 return <Grid component='div' item xs={4} key={e.Url}>
                 
                     <Card className={classes.card} >
