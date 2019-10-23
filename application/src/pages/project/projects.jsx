@@ -92,7 +92,7 @@ const Projects = (props) => {
                       />
                       <Content>
                         <Link to={`/project/${e.Url}`} className='title'>  {e.Name}</Link>
-                        <span className='date'>{moment(e.Create_time).fromNow()}</span>
+                        <span className='date'>最后更新于{moment(e.Modify_time).fromNow()}</span>
                         {/*<p> {e.Description}</p>*/}
                       </Content>
                       

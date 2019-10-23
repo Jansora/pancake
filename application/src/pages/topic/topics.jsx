@@ -96,7 +96,7 @@ const Topics = (props) => {
                       />
                       <Content>
                         <Link to={`${url}/${e.Url}/${urls.length > 0 ? urls[0].Url : null}`} className='title'>  {e.Name}</Link>
-                        <span className='date'>{moment(e.Create_time).fromNow()}</span>
+                        <span className='date'>最后更新于{moment(e.Modify_time).fromNow()}</span>
                         {/*<p> {e.Description}</p>*/}
                       </Content>
                       
