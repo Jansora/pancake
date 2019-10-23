@@ -20,7 +20,7 @@ func commandline() (int, string) {
 	}
 
 	if *port == 0 || *conf == "null" {
-		fmt.Printf("Error! configure path must be assigned!\n for example:\n    ./main --confPath=/etc/conf.toml\n")
+		fmt.Printf("Error! configure path must be assigned!\nfor example:\n    ./main --confPath=/etc/conf.toml\n")
 		os.Exit(1)
 	}
 
