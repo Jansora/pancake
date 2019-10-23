@@ -38,7 +38,7 @@ func Selects(db *sql.DB,  IsPublic bool) ([]Project, error) {
 		querySql += "WHERE Is_public=true"
 	}
 	querySql += "  ORDER BY Modify_time "
-	
+
 	r, err := db.Query(querySql)
 	if err != nil {
 		fmt.Println(err)
