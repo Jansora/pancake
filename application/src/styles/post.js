@@ -36,7 +36,8 @@ export const Article = styled(PancakeEditor)`
     }
     blockquote{
         margin: 1em 0;
-        padding-left: .8em;
+        //padding-left: .8em;
+        padding: 8px 15px;
         color: #697b8c;
         font-size: 90%;
         border-left: 4px solid #ebedf0;
