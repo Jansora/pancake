@@ -43,8 +43,9 @@ func Selects(db *sql.DB,  IsPublic bool) ([]Topic, error) {
 	querySql := `SELECT Id , Name , Url, Description, Articles, Is_public, Logo_Url, Create_time, Modify_time FROM Topic `
 
 	if IsPublic {
-		querySql += "WHERE Is_public=true"
+		querySql += " WHERE Is_public=true "
 	}
+	querySql += "  ORDER BY Modify_time "
 	r, err := db.Query(querySql)
 	if err != nil {
 		fmt.Println(err)
