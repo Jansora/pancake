@@ -15,12 +15,12 @@ func commandline() (int, string) {
 	flag.Parse()
 
 	if *port == 0 {
-		fmt.Printf("listening port must be assigned\n for example: \n ./main --port=8080")
+		fmt.Printf("Error! listening port must be assigned!\nfor example:\n    ./main --port=8080\n")
 		os.Exit(1)
 	}
 
 	if *port == 0 || *conf == "null" {
-		fmt.Printf("configure path must be assigned\n for example: \n ./main --confPath=/etc/conf.toml")
+		fmt.Printf("Error! configure path must be assigned!\n for example:\n    ./main --confPath=/etc/conf.toml\n")
 		os.Exit(1)
 	}
 
