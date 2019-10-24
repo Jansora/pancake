@@ -38,7 +38,7 @@ const PS = () => {
     const limit = 10;
 
     const [loading, setLoading] = React.useState(false);
-    const [sortType, setSortType] = React.useState('create_time');
+    const [sortType, setSortType] = React.useState('modify_time');
     const [sort, setSort] = React.useState('desc');
     const [tags, setTags] = React.useState(['所有']);
     const [totalTags, setTotalTags] = React.useState([]);
@@ -291,7 +291,7 @@ const PS = () => {
                                     <Divider orientation='vertical' style={{margin: '0 20px'}}/>
                                     <Tooltip title={`首次创作于: ${e.Create_time.split('T')[0]}, 最近更新: ${e.Modify_time.split('T')[0]}`}>
                                         <span>
-                                            <Icon name='clock-o'/> {e.Create_time.split('T')[0]}
+                                            <Icon name='clock-o'/> {e.Modify_time.split('T')[0]}
                                         </span>
                                     </Tooltip>
                                     <Divider orientation='vertical' style={{margin: '0 20px'}}/>
