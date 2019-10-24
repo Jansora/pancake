@@ -1057,7 +1057,7 @@ export const Loading = styled.div`
    `
 
 export const TabWrapper = styled.div`
-  top: 101px;
+  top: 51px;
   position: sticky;
   width: 300px;
   margin: auto;
@@ -1139,7 +1139,8 @@ export const Comment = styled.div`
 
 
 export const TopicInPost = styled.div`
-
+  
+  margin-top: -20px;
   position: sticky;
   padding: 16px;
   width: 300px;
