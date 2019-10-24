@@ -1,11 +1,11 @@
 import React, { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { Icon, Input, List, Select, Tooltip } from 'antd';
+import { Icon, Input, List, Select, Tooltip, Radio } from 'antd';
 import { updateSingleArrayItem, updateDoubleArrayItem, deleteSingleArrayItem, deleteDoubleArrayItem} from "@/utils/utils";
 import styles from './style.less';
 
 const style = {
-  border: '1px solid gray',
+  border: '1px solid #ccc',
   margin: '20px',
   marginBottom: '.5rem',
   backgroundColor: 'white',
@@ -67,23 +67,20 @@ const DragItem = ({ index, moveItem, article, articles, setArticles, collections
   return (
     <div key={index} ref={ref} style={{ ...style, opacity }}>
     <List.Item >
-    <Select
-      value={article.type}
-      style={{ width: 80, marginRight: 30 }}
-      optionFilterProp="children"
-      onChange={ type => {
-        setArticles(articles.map(
-          (e, i2) =>
-            (i2 === index ? { ...e, type } : e),
-        ))
-      }}
-      filterOption={(input, option) =>
-      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    }
-    >
-    <Option value="menu">菜单</Option>
-      <Option value="document">文档</Option>
-      </Select>
+
+      <Radio.Group
+        style={{ marginRight: 30 }}
+        value={article.type} buttonStyle="solid"
+                   onChange={ event => {
+                     setArticles(articles.map(
+                       (e, i2) =>
+                         (i2 === index ? { ...e, type: event.target.value } : e),
+                     ))
+                   }}
+      >
+        <Radio.Button value="menu">菜单</Radio.Button>
+        <Radio.Button value="document">文档</Radio.Button>
+      </Radio.Group>
       {
         article.type === 'menu' &&
         <Input
