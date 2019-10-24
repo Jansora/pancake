@@ -1,2 +1,34 @@
 # https://www.robotstxt.org/robotstxt.html
-User-agent: *
+User-agent:  Baiduspider
+Allow:  /topic
+Allow:  /post
+Allow:  /project
+Disallow:  /
+
+User-agent:  Googlebot
+Allow:  /topic
+Allow:  /post
+Allow:  /project
+Disallow:  /
+
+User-agent:  Bingbot
+Allow:  /topic
+Allow:  /post
+Allow:  /project
+Disallow:  /
+
+User-agent:  360Spider
+Allow:  /topic
+Allow:  /post
+Allow:  /project
+Disallow:  /
+
+User-agent:  Sogouspider
+Allow:  /topic
+Allow:  /post
+Allow:  /project
+Disallow:  /
+
+
+User-Agent:  *
+Disallow:  /
