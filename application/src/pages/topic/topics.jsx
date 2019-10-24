@@ -16,6 +16,7 @@ import {client} from "../../utils/requests";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import {Store} from "../../utils/store";
+import {formatTime} from "../../utils/utils";
 
 moment.locale('zh-CN');
 
@@ -96,7 +97,7 @@ const Topics = (props) => {
                       />
                       <Content>
                         <Link to={`${url}/${e.Url}/${urls.length > 0 ? urls[0].Url : null}`} className='title'>  {e.Name}</Link>
-                        <span className='date'>最后更新于 {moment(e.Modify_time).fromNow()}</span>
+                        <span className='date'>最后更新于 {moment(formatTime(e.Modify_time)).fromNow()}</span>
                         {/*<p> {e.Description}</p>*/}
                       </Content>
                       
