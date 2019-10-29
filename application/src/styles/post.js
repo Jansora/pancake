@@ -409,7 +409,7 @@ export const Article = styled(PancakeEditor)`
 }
 
 .custom-html-style h3 {
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .custom-html-style h3,

@@ -137,7 +137,7 @@ const P = (props) => {
       setTimeout(() => {
         const article = document.querySelector(".custom-html-style");
         if(null == article) return;
-        const hs = article.querySelectorAll("h1,h2");
+        const hs = article.querySelectorAll("h1,h2,h3");
         const Anchor = [];
 
         hs.forEach((item, index) => {
