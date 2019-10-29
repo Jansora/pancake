@@ -23,7 +23,8 @@ import 'highlight.js/styles/atom-one-light.css'
 
 
 const PancakeEditor = (props) => {
-  
+
+  const [iframeHeights, setIframeHeights] = ([])
   const mdParser = new MarkdownIt({
       html: true,
       linkify: true,
@@ -58,11 +59,18 @@ const PancakeEditor = (props) => {
         scripts (script) {
           return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">${script}</div>>`
         },
-        iframe (script) {
-          return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-             <iframe width="100%" frameborder="0" scrolling="no" src="${script.trim()}"></iframe>
+        iframe(script) {
+            const random = Math.random()
+            return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+             <iframe 
+             id=${random}
+             name=${random}
+             onload="this.height=this.contentWindow.document.body.scrollHeight+'px'"
+             width="100%" 
+             frameborder="0" scrolling="no" 
+             src="${script.trim()}" allowfullscreen></iframe>
           </div>`
-        },
+          },
       });
 
   const renderHTML = (text) => {

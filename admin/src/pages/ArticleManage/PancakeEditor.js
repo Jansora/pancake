@@ -62,7 +62,11 @@ const PancakeEditor = (props) => {
       },
       iframe(script) {
         return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-             <iframe width="100%" frameborder="0" scrolling="no" src="${script.trim()}" allowfullscreen></iframe>
+             <iframe 
+             onload="this.height=this.contentWindow.document.body.scrollHeight+'px'"
+             width="100%" 
+             frameborder="0" scrolling="no" 
+             src="${script.trim()}" allowfullscreen></iframe>
           </div>`
       },
     });
