@@ -60,12 +60,9 @@ const PancakeEditor = (props) => {
           return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">${script}</div>>`
         },
         iframe(script) {
-            const random = Math.random()
             return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
              <iframe 
-             id=${random}
-             name=${random}
-             onload="this.height=this.contentWindow.document.body.scrollHeight+'px'"
+             height="500"
              width="100%" 
              frameborder="0" scrolling="no" 
              src="${script.trim()}" allowfullscreen></iframe>
