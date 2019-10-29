@@ -63,6 +63,7 @@ const PancakeEditor = (props) => {
       iframe(script) {
         return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
              <iframe 
+                          height="500"
                 width="100%" 
              frameborder="0"
              src="${script.trim()}" allowfullscreen></iframe>
