@@ -64,6 +64,7 @@ const PancakeEditor = (props) => {
              <iframe 
              height="500"
              width="100%" 
+             frameborder="0"
              src="${script.trim()}" allowfullscreen></iframe>
           </div>`
           },
