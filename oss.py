@@ -22,7 +22,7 @@ def dirlist(path):
 
         if os.path.isdir(filepath):
             dirlist(filepath)
-        elif not filepath.endswith(".map"):
+        else:
             allfile.append(filepath)
 
 
