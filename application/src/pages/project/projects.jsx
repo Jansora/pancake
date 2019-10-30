@@ -18,7 +18,6 @@ import {Store} from "../../utils/store";
 import {formatTime} from "../../utils/utils";
 import {useMediaQuery} from "react-responsive";
 import {desktopStyle} from "../../utils/constants";
-import {TopicWrapper} from "../../styles/topic";
 
 moment.locale('zh-CN');
 

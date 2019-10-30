@@ -24,7 +24,6 @@ import 'highlight.js/styles/atom-one-light.css'
 
 const PancakeEditor = (props) => {
 
-  const [iframeHeights, setIframeHeights] = ([])
   const mdParser = new MarkdownIt({
       html: true,
       linkify: true,
