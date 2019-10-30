@@ -270,9 +270,11 @@ const P = (props) => {
   return (
           <PostWrapper>
             <Grid container justify={'space-around'} component='div' >
-              <Grid component='div' item xs={3}>
-                {
-                  isDesktop && Topic && Topic.hasOwnProperty('Id') &&
+              {
+                isDesktop &&
+                <Grid component='div' item xs={3}>
+                  {
+                    Topic && Topic.hasOwnProperty('Id') &&
                     <TopicInPost>
                       <Card>
                         <CardMedia
@@ -286,28 +288,29 @@ const P = (props) => {
                           <div className='group'>
                             {
                               Topic.ArticleObjects.map((e, index) => {
-                                  const obj = JSON.parse(Topic.Articles[index]);
+                                const obj = JSON.parse(Topic.Articles[index]);
 
-                                  if(obj.type === 'menu') {
-                                      return <span className={`menu`} key={index}>{obj.title}</span>
-                                  } else {
-                                      const paths = location.pathname.split('/');
-                                      paths[paths.length - 1] = e.Url;
-                                      return <NavLink to={paths.join('/')} className={`document`} key={index}>
-                                                  <Tooltip title={e.Title} >
-                                                      <span>{e.Title}</span>
-                                                  </Tooltip>
-                                             </NavLink>
+                                if (obj.type === 'menu') {
+                                  return <span className={`menu`} key={index}>{obj.title}</span>
+                                } else {
+                                  const paths = location.pathname.split('/');
+                                  paths[paths.length - 1] = e.Url;
+                                  return <NavLink to={paths.join('/')} className={`document`} key={index}>
+                                    <Tooltip title={e.Title}>
+                                      <span>{e.Title}</span>
+                                    </Tooltip>
+                                  </NavLink>
 
-                                  }
+                                }
                               })
                             }
                           </div>
                         </div>
                       </Card>
                     </TopicInPost>
-                }
-              </Grid>
+                  }
+                </Grid>
+              }
               <Grid component='div' item xs={isDesktop ? 6 : 12}>
                 {
                   loading && <Loading><CircularProgress  color="secondary" /></Loading>
@@ -402,54 +405,60 @@ const P = (props) => {
                 }
 
               </Grid>
-              <Grid component='div' item xs={3}>
-                {
-                  isDesktop && !loading &&
-                  <TabWrapper>
-                    <HorizontalTab
+              {
+                isDesktop &&
+                <Grid component='div' item xs={3}>
+                  {
+                    !loading &&
+                    <TabWrapper>
+                      <HorizontalTab
                         bootstrap
                         centered
                         active={1}
                         labels={['文章大纲', '文章属性']}
                         tabs={[
-                        <Anchor onClick={(e,f) => e.preventDefault()} offsetTop={60} style={{marginLeft: 0}}>
-                          {
-                            Anchors.map((e, index) => {
-                              return <Anchor.Link
-                                key={index} href={`#${e.id}`}
-                                title={
-                                  <span style={{marginLeft: 14 * (parseInt(e.id[8]) -1), fontWeight:e.id[8] === "1" ? "bold" :"normal"  }}>{e.text}</span>
-                                }
-                              />
-                            })
-                          }
-                          <Anchor.Link
-                            href={`#Comments`} style={{marginLeft: 20}}
-                            title={<span style={{marginLeft: 0, fontWeight:"bold"}}>评论栏</span>}
-                          />
-                        </Anchor>,
-                            <ul className='property'>
-                                <li><span>标题：</span>{Title}</li>
-                                <li><span>作者：</span>{Author}</li>
-                                <li><span>文章ID：</span>{Id}</li>
-                                <li><span>创建时间：</span>{Create_time}</li>
-                                <li><span>最后更新：</span>{Modify_time}</li>
-                                <li><span>发表地址：</span>{Site}</li>
+                          <Anchor onClick={(e, f) => e.preventDefault()} offsetTop={60} style={{marginLeft: 0}}>
+                            {
+                              Anchors.map((e, index) => {
+                                return <Anchor.Link
+                                  key={index} href={`#${e.id}`}
+                                  title={
+                                    <span style={{
+                                      marginLeft: 14 * (parseInt(e.id[8]) - 1),
+                                      fontWeight: e.id[8] === "1" ? "bold" : "normal"
+                                    }}>{e.text}</span>
+                                  }
+                                />
+                              })
+                            }
+                            <Anchor.Link
+                              href={`#Comments`} style={{marginLeft: 20}}
+                              title={<span style={{marginLeft: 0, fontWeight: "bold"}}>评论栏</span>}
+                            />
+                          </Anchor>,
+                          <ul className='property'>
+                            <li><span>标题：</span>{Title}</li>
+                            <li><span>作者：</span>{Author}</li>
+                            <li><span>文章ID：</span>{Id}</li>
+                            <li><span>创建时间：</span>{Create_time}</li>
+                            <li><span>最后更新：</span>{Modify_time}</li>
+                            <li><span>发表地址：</span>{Site}</li>
 
-                                <li><span>阅读量：</span>{Read_num}</li>
-                                <li><span>点赞数：</span>{Like_num}</li>
-                                <li><span>是否公开：</span>{Is_public}</li>
-                                <li><span>点赞数：</span>{Like_num}</li>
+                            <li><span>阅读量：</span>{Read_num}</li>
+                            <li><span>点赞数：</span>{Like_num}</li>
+                            <li><span>是否公开：</span>{Is_public}</li>
+                            <li><span>点赞数：</span>{Like_num}</li>
 
-                            </ul>
-                      ]}
+                          </ul>
+                        ]}
                         style={{position: 'fixed'}}
-                    />
+                      />
 
-                  </TabWrapper>
-                }
+                    </TabWrapper>
+                  }
 
-              </Grid>
+                </Grid>
+              }
             </Grid>
 
           </PostWrapper>

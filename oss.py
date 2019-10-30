@@ -22,7 +22,7 @@ def dirlist(path):
 
         if os.path.isdir(filepath):
             dirlist(filepath)
-        else:
+        elif not filepath.endswith("robots.txt"):
             allfile.append(filepath)
 
 
