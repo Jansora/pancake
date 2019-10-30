@@ -31,11 +31,15 @@ import 'moment/locale/zh-cn';
 import CardMedia from "@material-ui/core/CardMedia";
 import Card from "@material-ui/core/Card";
 import {Store} from "../../utils/store";
+import {useMediaQuery} from "react-responsive";
+import {desktopStyle} from "../../utils/constants";
 
 moment.locale('zh-CN');
 
 
 const P = (props) => {
+
+    const isDesktop = useMediaQuery({query: desktopStyle});
 
     const {dispatch,} = React.useContext(Store);
 
@@ -268,7 +272,7 @@ const P = (props) => {
             <Grid container justify={'space-around'} component='div' >
               <Grid component='div' item xs={3}>
                 {
-                  Topic && Topic.hasOwnProperty('Id') &&
+                  isDesktop && Topic && Topic.hasOwnProperty('Id') &&
                     <TopicInPost>
                       <Card>
                         <CardMedia
@@ -304,7 +308,7 @@ const P = (props) => {
                     </TopicInPost>
                 }
               </Grid>
-              <Grid component='div' item xs={6}>
+              <Grid component='div' item xs={isDesktop ? 6 : 12}>
                 {
                   loading && <Loading><CircularProgress  color="secondary" /></Loading>
                 }
@@ -333,13 +337,13 @@ const P = (props) => {
                       <Grid component='div' item xs={5} >
                         <TextField
                           required
-                          error={From.length > 50 || (From.length < 3 && From.length !== 0)}
+                          error={From.length > 50 || (From.length < 1 && From.length !== 0)}
                           label="昵称"
                           id="margin-dense"
                           style={{width: '100%',  margin: '10px auto'}}
                           helperText={
-                            From.length > 50 || (From.length < 3 && From.length !== 0)
-                              ? "2 <= 长度 <= 50"
+                            From.length > 50 || (From.length < 1 && From.length !== 0)
+                              ? "1 <= 长度 <= 50"
                               : "输入昵称"
                           }
                           value={From}
@@ -400,7 +404,7 @@ const P = (props) => {
               </Grid>
               <Grid component='div' item xs={3}>
                 {
-                  !loading &&
+                  isDesktop && !loading &&
                   <TabWrapper>
                     <HorizontalTab
                         bootstrap

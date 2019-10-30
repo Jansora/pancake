@@ -102,7 +102,7 @@ export const ContentWrapper = styled.div`
     filter: ${props => props.loading ? 'blur(1px)' : 'none'};
     div.card{
        display: flex;
-       height: 150px;
+       //height: 150px;
        border-bottom: 1px solid #bababa;
        animation: ${scala} 500ms;
     }

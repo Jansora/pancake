@@ -1,14 +1,11 @@
 import React, {createContext, useReducer} from 'react';
 
-
 const defaultValue = {
     message: {open: false, variant: 'success', content: ``, direction: 1000},
     breadcrumb: [],
 };
 
-
 export const Store = createContext(defaultValue);
-
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -16,6 +13,8 @@ const reducer = (state, action) => {
             return {...state, message: action.payload};
         case 'breadcrumb':
             return {...state, breadcrumb: action.payload};
+        case 'responsive':
+            return {...state, responsive: action.payload};
         default:
             return state
     }

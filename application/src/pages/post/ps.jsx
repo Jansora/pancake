@@ -30,10 +30,15 @@ import TitleIcon from '@material-ui/icons/Title';
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+
+import {desktopStyle} from "../../utils/constants";
+import {useMediaQuery} from "react-responsive";
+
 const PS = () => {
 
     const {dispatch, } = React.useContext(Store);
 
+    const isDesktop = useMediaQuery({query: desktopStyle});
 
     const limit = 10;
 
@@ -126,122 +131,127 @@ const PS = () => {
     }, [])
     return (
           <PostsWrapper>
-            <Grid container justify={'space-around'} component='div' spacing={3}>
-              <Grid component='div' item xs={3}>
-                <FilterWrapper>
+            <Grid container justify={'space-around'} component='div' >
+                {
+                    isDesktop &&
+                    <Grid component='div' item xs={3}>
+                        <FilterWrapper>
 
-                  <p>模糊搜索</p>
-                  <div>
-                      <TextField
-                          variant="outlined"
-                          required
-                          error={title.length > 10 }
-                          label="标题"
-                          id="margin-dense"
-                          style={{width: 200,  margin: '10px auto'}}
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                      />
-                  </div>
-                  {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
-                  <p>排序字段</p>
-                  <div>
-                      <Chip
-                          variant="outlined" component='button'
-                          label={
-                              <Tooltip title={`博客标题`}>
-                                  <TitleIcon/>
-                              </Tooltip>
-                          }
-                          className={sortType === 'title' ? 'active' : '' }
-                          onClick={() => setSortType('title')}
-                      />
-                    <Chip variant="outlined" component='button'
-                          label={
-                              <Tooltip title={`点赞数`}>
-                                  <ThumbUpAltIcon/>
-                              </Tooltip>
-                          }
+                            <p>模糊搜索</p>
+                            <div>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    error={title.length > 10 }
+                                    label="标题"
+                                    id="margin-dense"
+                                    style={{width: 200,  margin: '10px auto'}}
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+                            </div>
+                            {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
+                            <p>排序字段</p>
+                            <div>
+                                <Chip
+                                    variant="outlined" component='button'
+                                    label={
+                                        <Tooltip title={`博客标题`}>
+                                            <TitleIcon/>
+                                        </Tooltip>
+                                    }
+                                    className={sortType === 'title' ? 'active' : '' }
+                                    onClick={() => setSortType('title')}
+                                />
+                                <Chip variant="outlined" component='button'
+                                      label={
+                                          <Tooltip title={`点赞数`}>
+                                              <ThumbUpAltIcon/>
+                                          </Tooltip>
+                                      }
 
-                          className={sortType === 'like_num' ? 'active' : '' }
-                          onClick={() => setSortType('like_num')}
-                    />
+                                      className={sortType === 'like_num' ? 'active' : '' }
+                                      onClick={() => setSortType('like_num')}
+                                />
 
-                    <Chip variant="outlined" component='button'
-                          label={
-                              <Tooltip title={`阅读量`}>
-                                  <VisibilityIcon/>
-                              </Tooltip>
-                          }
-                          className={sortType === 'read_num' ? 'active' : '' }
-                          onClick={() => setSortType('read_num')}
-                    />
+                                <Chip variant="outlined" component='button'
+                                      label={
+                                          <Tooltip title={`阅读量`}>
+                                              <VisibilityIcon/>
+                                          </Tooltip>
+                                      }
+                                      className={sortType === 'read_num' ? 'active' : '' }
+                                      onClick={() => setSortType('read_num')}
+                                />
 
 
-                    <Chip variant="outlined" component='button'
-                          label={
-                              <Tooltip title={`发表时间`}>
-                                  <AccessTimeIcon/>
-                              </Tooltip>
-                          }
-                          className={sortType === 'create_time' ? 'active' : '' }
-                          onClick={() => setSortType('create_time')}/>
-                    <Chip variant="outlined" component='button'
-                          label={
-                        <Tooltip title={`更新时间`}>
-                            <UpdateIcon/>
-                        </Tooltip>
-                    }  className={sortType === 'modify_time' ? 'active' : '' }
-                          onClick={() => setSortType('modify_time')}/>
-                  </div>
+                                <Chip variant="outlined" component='button'
+                                      label={
+                                          <Tooltip title={`发表时间`}>
+                                              <AccessTimeIcon/>
+                                          </Tooltip>
+                                      }
+                                      className={sortType === 'create_time' ? 'active' : '' }
+                                      onClick={() => setSortType('create_time')}/>
+                                <Chip variant="outlined" component='button'
+                                      label={
+                                          <Tooltip title={`更新时间`}>
+                                              <UpdateIcon/>
+                                          </Tooltip>
+                                      }  className={sortType === 'modify_time' ? 'active' : '' }
+                                      onClick={() => setSortType('modify_time')}/>
+                            </div>
 
-                  {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
-                  <p>排序属性</p>
-                  <div>
-                    <Chip variant="outlined" component='button'
-                          // label='从大到小'
-                          label={
-                              <Tooltip title={`时间从大到小`}>
-                                  <ArrowDropDownIcon/>
-                              </Tooltip>
-                          }
-                          className={sort === 'desc' ? 'active' : '' }
-                          onClick={() => setSort('desc')}
-                    />
-                    <Chip variant="outlined" component='button'
-                          // label='从小到大'
-                          label={
-                              <Tooltip title={`时间从小到大`}>
-                                  <ArrowDropUpIcon/>
-                              </Tooltip>
-                          }
-                          className={sort === 'asc' ? 'active' : '' }
-                          onClick={() => setSort( 'asc')}
-                    />
+                            {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
+                            <p>排序属性</p>
+                            <div>
+                                <Chip variant="outlined" component='button'
+                                    // label='从大到小'
+                                      label={
+                                          <Tooltip title={`时间从大到小`}>
+                                              <ArrowDropDownIcon/>
+                                          </Tooltip>
+                                      }
+                                      className={sort === 'desc' ? 'active' : '' }
+                                      onClick={() => setSort('desc')}
+                                />
+                                <Chip variant="outlined" component='button'
+                                    // label='从小到大'
+                                      label={
+                                          <Tooltip title={`时间从小到大`}>
+                                              <ArrowDropUpIcon/>
+                                          </Tooltip>
+                                      }
+                                      className={sort === 'asc' ? 'active' : '' }
+                                      onClick={() => setSort( 'asc')}
+                                />
 
-                  </div>
-                    {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
-                    <p>标签过滤</p>
-                    <div className='tags'>
-                        {
-                            Object.keys(totalTags).map(tag => classes.indexOf(tag) === -1 &&
-                                <Tooltip title={`共有 ${totalTags[tag]} 条`} key={tag}>
-                                    <Chip
-                                        variant="outlined"
-                                        component='span'
-                                        label={tag}
-                                        onClick={() => setTags([tag])}
-                                        className={tags.indexOf(tag) >= 0 ? 'active' : ''}
-                                    />
-                                </Tooltip>
-                    )
+                            </div>
+                            {/*<Divider style={{margin: '10px 20px 3px 20px'}}/>*/}
+                            <p>标签过滤</p>
+                            <div className='tags'>
+                                {
+                                    Object.keys(totalTags).map(tag => classes.indexOf(tag) === -1 &&
+                                        <Tooltip title={`共有 ${totalTags[tag]} 条`} key={tag}>
+                                            <Chip
+                                                variant="outlined"
+                                                component='span'
+                                                label={tag}
+                                                onClick={() => setTags([tag])}
+                                                className={tags.indexOf(tag) >= 0 ? 'active' : ''}
+                                            />
+                                        </Tooltip>
+                                    )
 
-                        }
-                    </div>
-                  {/*<Divider style={{margin: '10px 20px'}}/>*/}
-                </FilterWrapper>
-              </Grid>
-              <Grid component='div' item xs={9}>
+                                }
+                            </div>
+                            {/*<Divider style={{margin: '10px 20px'}}/>*/}
+                        </FilterWrapper>
+                    </Grid>
+                }
+
+
+              <Grid component='div' item xs={isDesktop ? 9 : 12}>
 
                 <>
                   <MenuWrapper>
@@ -282,43 +292,48 @@ const PS = () => {
                                         {e.Summary}
                                     </p>
                                 </Tooltip>
+                              {
+                                isDesktop &&
                                 <div className='bottom'>
-                                    <Tooltip title="作者">
+                                  <Tooltip title="作者">
                                         <span>
                                             <Icon name='user'/> {e.Author}
                                         </span>
-                                    </Tooltip>
-                                    <Divider orientation='vertical' style={{margin: '0 20px'}}/>
-                                    <Tooltip title={`首次创作于: ${e.Create_time.split('T')[0]}, 最近更新: ${e.Modify_time.split('T')[0]}`}>
+                                  </Tooltip>
+                                  <Divider orientation='vertical' style={{margin: '0 20px'}}/>
+                                  <Tooltip title={`首次创作于: ${e.Create_time.split('T')[0]}, 最近更新: ${e.Modify_time.split('T')[0]}`}>
                                         <span>
                                             <Icon name='clock-o'/> {e.Modify_time.split('T')[0]}
                                         </span>
-                                    </Tooltip>
-                                    <Divider orientation='vertical' style={{margin: '0 20px'}}/>
-                                    <Tooltip title={`创作地点: ${e.Site}`}>
+                                  </Tooltip>
+                                  <Divider orientation='vertical' style={{margin: '0 20px'}}/>
+                                  <Tooltip title={`创作地点: ${e.Site}`}>
                                         <span>
                                             <Icon name='paper-plane'/> {e.Site}
                                         </span>
-                                    </Tooltip>
-                                    <Divider orientation='vertical' style={{margin: '0 20px'}}/>
-                                    <Tooltip title={`阅读量 ${e.Read_num}`}>
+                                  </Tooltip>
+                                  <Divider orientation='vertical' style={{margin: '0 20px'}}/>
+                                  <Tooltip title={`阅读量 ${e.Read_num}`}>
                                         <span>
                                             <Icon name='fire'/> {e.Read_num}
                                         </span>
-                                    </Tooltip>
-                                    <Divider orientation='vertical' style={{margin: '0 20px'}}/>
-                                    <Tooltip title={`点赞数 ${e.Like_num}`}>
+                                  </Tooltip>
+                                  <Divider orientation='vertical' style={{margin: '0 20px'}}/>
+                                  <Tooltip title={`点赞数 ${e.Like_num}`}>
                                         <span>
                                             <Icon name='fire'/> {e.Like_num}
                                         </span>
-                                    </Tooltip>
+                                  </Tooltip>
                                 </div>
+                              }
+
 
                                 {/*<Divider style={{margin: '0'}}/>*/}
                             </CardContent>
                             {/*<div className={classes.controls}>*/}
                             {/*</div>*/}
                         </div>
+
                         <CardMedia
                             className='bootstrap-logo'
                             image={e.Logo_url.endsWith('.gif')? e.Logo_url :`${e.Logo_url}?x-oss-process=style/posts`}

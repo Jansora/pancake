@@ -4,7 +4,7 @@ export const TopicWrapper = styled.main`
     padding-top: 50px;
     padding-bottom: 50px;
     margin: auto;
-    max-width: 1000px;
+    max-width: ${props => props.isDesktop ? '1200px' : '100vw'};
     div.tool-bar{
       display: none;
     }

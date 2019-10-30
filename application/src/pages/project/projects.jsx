@@ -16,12 +16,18 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import {Store} from "../../utils/store";
 import {formatTime} from "../../utils/utils";
+import {useMediaQuery} from "react-responsive";
+import {desktopStyle} from "../../utils/constants";
+import {TopicWrapper} from "../../styles/topic";
 
 moment.locale('zh-CN');
 
 
 
 const Projects = (props) => {
+
+  const isDesktop = useMediaQuery({query: desktopStyle});
+
   const {dispatch} = React.useContext(Store);
 
 
@@ -75,15 +81,15 @@ const Projects = (props) => {
   const classes = useStyles();
 
   return (
-        <ProjectsWrapper>
+        <ProjectsWrapper isDesktop={isDesktop}>
           {
             loading && <Loading><CircularProgress  /></Loading>
           }
-          <Grid container component='div' spacing={5}>
+          <Grid container component='div' spacing={isDesktop ? 5 : 2} justify="space-around">
             {
               data.map(e=> {
-                return <Grid component='div' item xs={4} key={e.Url}>
-                
+                return <Grid component='div' item xs={isDesktop ? 3 : 5}
+                             key={e.Url} >
                     <Card className={classes.card} >
                       <CardMedia
                         className={classes.media}

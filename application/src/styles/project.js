@@ -4,7 +4,7 @@ export const ProjectsWrapper = styled.main`
     padding-top: 50px;
     margin: auto;
 
-    max-width: 1000px;
+    max-width: ${props => props.isDesktop ? '1200px' : '100vw'};
     div.tool-bar{
       display: none;
     }
@@ -34,13 +34,13 @@ export const Content = styled.div`
 
 export const IFrame = styled.iframe`
     height: 800px;
-    width: 1000px;
+    width: ${props => props.isDesktop ? '1200px' : '100vw'};
     margin: auto;
     border: none;
 `;
 
 export const IFrameWrapper = styled.div`
-    width: 1000px;
+    max-width: ${props => props.isDesktop ? '1200px' : '100vw'};
     display: flex;
     flex-direction: column;
     align-items: center;

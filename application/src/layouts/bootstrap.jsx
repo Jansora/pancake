@@ -11,6 +11,7 @@ import Project from "../pages/project";
 
 const BootStrap = () => {
 
+
     return (
         <PageWrapper id='PageWrapper'>
             <Route path='/' exact render={() => <Redirect to="/post"/>}/>

@@ -12,11 +12,15 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Tooltip from "@material-ui/core/Tooltip";
 import {Store} from "../../utils/store";
+import {useMediaQuery} from "react-responsive";
+import {desktopStyle} from "../../utils/constants";
 
 
 
 
 const Project = (props) => {
+
+  const isDesktop = useMediaQuery({query: desktopStyle});
 
   const {dispatch} = React.useContext(Store);
   const {location} = props;
@@ -57,7 +61,7 @@ const Project = (props) => {
           {
             loading && <Loading><CircularProgress  /></Loading>
           }
-          <IFrameWrapper>
+          <IFrameWrapper isDesktop={isDesktop}>
             <Tooltip title={data.hasOwnProperty('Frame') ? data.Frame : ''}>
               <h1>
                 { data.Name}
