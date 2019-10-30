@@ -21,7 +21,6 @@ const {TextArea} = Input;
 const ArticleEditComponent = props => {
 
   const editorRef = useRef(null);
-  const [judgeDeleteStatus, setJudgeDeleteStatus] = useState(false);
 
   useEffect(() => {
     const { dispatch, match } = props;
@@ -56,13 +55,7 @@ const ArticleEditComponent = props => {
     });
   };
 
-  const deleteArticle = url => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'ArticleEdit/delete',
-      payload: { url },
-    });
-  }
+
   const { ArticleEdit, form: { getFieldDecorator } } = props;
   const { title, site, author, summary, content, tags, logoUrl, isPublic, url } = ArticleEdit.data;
 
@@ -206,40 +199,9 @@ const ArticleEditComponent = props => {
         </Form>
       </Card>
       <FooterToolbar>
-        <div style={{ width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px' }}>
-          <Input
-            placeholder="请输入文章标题"
-            style={{ margin: '0 10px 10px 0', width: 300, float: 'left' }}
-            suffix={
-              judgeDeleteStatus ? (
-                <Icon
-                  type="check-circle"
-                  theme="filled"
-                  style={{ color: '#1aad19', fontSize: '20px' }}
-                />
-              ) : (
-                <Icon
-                  type="close-circle"
-                  theme="filled"
-                  style={{ color: '#f5222d', fontSize: '20px' }}
-                />
-              )
-            }
-            onChange={e =>
-             setJudgeDeleteStatus(e.target.value === title)
-            }
-          />
-          <Button type="primary" style={{float: 'left'}}
-                  disabled={!judgeDeleteStatus}
-                  onClick={() => deleteArticle(url)}
-          >
-            删除
-          </Button>
-          <Button type="primary" htmlType="submit" onClick={handleSubmit} style={{ float: 'right' }}>
-            提交
-          </Button>
-        </div>
-
+        <Button type="primary" htmlType="submit" onClick={handleSubmit} style={{ float: 'right' }}>
+          提交
+        </Button>
       </FooterToolbar>
     </PageHeaderWrapper>
 

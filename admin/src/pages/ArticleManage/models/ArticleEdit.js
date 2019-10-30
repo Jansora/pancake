@@ -84,15 +84,13 @@ export default {
         message.error(r.res);
       }
     },
-    *delete({ payload }, { call }) {
+    *delete({ payload, callback }, { call }) {
 
       const r = yield call(deleteArticle, payload);
 
       if (r.ret) {
         message.success('刪除成功');
-        router.push({
-          pathname: '/ArticleManage/ArticleList',
-        })
+        callback(r)
       } else {
         message.error(r.res);
       }

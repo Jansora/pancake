@@ -14,18 +14,19 @@ import update from 'immutability-helper'
 
 import DragItem from './DragItems';
 
+
+import HTML5Backend from 'react-dnd-html5-backend'
+
+import { DndProvider } from 'react-dnd'
+
 const FormItem = Form.Item;
 const { Option } = Select;
 
 const { TextArea } = Input;
 
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-
 
 const TopicEditComponent = props => {
   const [articles, setArticles] = useState([]);
-  const [judgeDeleteStatus, setJudgeDeleteStatus] = useState(false);
 
   const { dispatch, match } = props;
   useEffect(() => {
@@ -76,12 +77,7 @@ const TopicEditComponent = props => {
     });
   };
 
-  const deleteTopic = url => {
-    dispatch({
-      type: 'TopicEdit/delete',
-      payload: { url },
-    });
-  }
+
   const { TopicEdit, form: { getFieldDecorator } } = props;
   // const { articles } = TopicEdit;
   const { name, logoUrl, isPublic, url, description } = TopicEdit.data;
@@ -216,39 +212,9 @@ const TopicEditComponent = props => {
       </Card>
 
       <FooterToolbar>
-        <div style={{ width: '100vw', position: 'absolute', left: 0, padding: '10px 306px 0 50px' }}>
-          <Input
-            placeholder="请输入专栏名称"
-            style={{ margin: '0 10px 10px 0', width: 300, float: 'left'}}
-            suffix={
-              judgeDeleteStatus ? (
-                <Icon
-                  type="check-circle"
-                  theme="filled"
-                  style={{ color: '#1aad19', fontSize: '20px' }}
-                />
-              ) : (
-                <Icon
-                  type="close-circle"
-                  theme="filled"
-                  style={{ color: '#f5222d', fontSize: '20px' }}
-                />
-              )
-            }
-            onChange={e =>
-              setJudgeDeleteStatus(e.target.value === name)
-            }
-          />
-          <Button type="primary" style={{float: 'left'}}
-                  disabled={!judgeDeleteStatus}
-                  onClick={() => deleteTopic(url)}
-          >
-            删除
-          </Button>
-          <Button type="primary" htmlType="submit" onClick={handleSubmit} style={{float: 'right' }}>
-            提交
-          </Button>
-        </div>
+        <Button type="primary" htmlType="submit" onClick={handleSubmit} style={{ float: 'right' }}>
+          提交
+        </Button>
 
       </FooterToolbar>
     </PageHeaderWrapper>

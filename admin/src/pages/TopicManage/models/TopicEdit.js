@@ -67,15 +67,13 @@ export default {
       }
     },
 
-    *delete({ payload }, { call }) {
+    *delete({ payload, callback }, { call }) {
 
       const {url} = payload;
       const r = yield call(deleteTopic, payload);
       if (r.ret) {
         message.success('刪除成功');
-        router.push({
-          pathname: '/TopicManage/TopicList',
-        })
+        callback(r)
       } else {
         message.error(r.res);
       }

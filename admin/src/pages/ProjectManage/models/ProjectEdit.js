@@ -51,14 +51,12 @@ export default {
       }
     },
 
-    *delete({ payload }, { call }) {
+    *delete({ payload, callback }, { call }) {
       const r = yield call(deleteProject, payload);
       if (r.ret) {
         message.success('刪除成功');
         message.success('已自动重定向到专栏列表面板');
-        router.push({
-          pathname: '/ProjectManage/ProjectList',
-        })
+        callback(r)
       } else {
         message.error(r.res);
       }
