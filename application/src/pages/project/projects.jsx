@@ -84,7 +84,8 @@ const Projects = (props) => {
           {
             loading && <Loading><CircularProgress  /></Loading>
           }
-          <Grid container component='div' spacing={isDesktop ? 5 : 2} justify="space-around">
+          <Grid container component='div'
+                spacing={isDesktop ? 5 : 2} justify={isDesktop ? "default" : "space-around"}>
             {
               data.map(e=> {
                 return <Grid component='div' item xs={isDesktop ? 3 : 5}

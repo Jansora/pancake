@@ -34,7 +34,7 @@ export const Content = styled.div`
 
 export const IFrame = styled.iframe`
     height: 800px;
-    width: ${props => props.isDesktop ? '1200px' : '100vw'};
+    width: ${props => props.isDesktop ? '100%' : '90%'};
     margin: auto;
     border: none;
 `;

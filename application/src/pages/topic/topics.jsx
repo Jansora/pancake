@@ -86,7 +86,8 @@ const Topics = (props) => {
           {
             loading && <Loading><CircularProgress  /></Loading>
           }
-          <Grid container component='div' spacing={isDesktop ? 5 : 2} justify="space-around">
+          <Grid container component='div'
+                spacing={isDesktop ? 5 : 2} justify={isDesktop ? "default" : "space-around"}>
             {
               data.map(e=> {
                 const urls = e.ArticleObjects.filter(e => e.Id !== 0);
