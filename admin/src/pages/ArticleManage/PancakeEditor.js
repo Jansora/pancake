@@ -60,13 +60,13 @@ const PancakeEditor = (props) => {
       scripts(script) {
         return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">${script}</div>>`
       },
-      iframe(script) {
+      iframe(src) {
         return `<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-             <iframe 
-                          height="500"
-                width="100%" 
-             frameborder="0"
-             src="${script.trim()}" allowfullscreen></iframe>
+            为了提升渲染效率, 避免页面卡顿, 编辑页面已屏蔽iframe页面渲染, 该iframe地址:
+            <a target="_blank" rel="noreferrer" href="${src.trim()}" style="align-self: flex-end"> 
+            在新窗口打开
+             </a>
+
           </div>`
       },
     });
