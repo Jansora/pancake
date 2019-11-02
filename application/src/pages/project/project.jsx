@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {withRouter} from 'react-router-dom';
 
 
-import {IFrameWrapper, IFrame, Loading, ProjectsWrapper} from "../../styles/project";
+import {IFrameWrapper, IFrame, Loading} from "../../styles/project";
 import {client} from "../../utils/requests";
 
 

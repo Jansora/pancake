@@ -29,7 +29,6 @@ const Header = (props) => {
   const isDesktop = useMediaQuery({query: desktopStyle});
 
   const {breadcrumb} = React.useContext(Store);
-  console.log(React.useContext(Store))
   document.title = `${breadcrumb.length > 0 ? breadcrumb[breadcrumb.length -1].value : ''}`
   return (
 
