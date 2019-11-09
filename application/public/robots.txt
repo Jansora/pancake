@@ -3,7 +3,7 @@ User-agent:  Baiduspider
 Allow:  /topic
 Allow:  /post
 Allow:  /project
-
+Disallow: 
 
 User-agent:  Googlebot
 Allow:  /topic
