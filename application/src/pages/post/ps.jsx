@@ -131,7 +131,7 @@ const PS = () => {
     }, [])
     return (
           <PostsWrapper>
-            <Grid container justify={'space-around'} component='div' >
+            <Grid container justify={'space-around'} component='div' spacing={isDesktop ? 1 : 0} >
                 {
                     isDesktop &&
                     <Grid component='div' item xs={3}>
