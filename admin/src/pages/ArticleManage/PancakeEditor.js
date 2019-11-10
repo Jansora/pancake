@@ -89,7 +89,14 @@ const PancakeEditor = (props) => {
 
   }
 
-  const renderHTML = mdParser.render;
+  const renderHTML = (text) => {
+    // 模拟异步渲染Markdown
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(mdParser.render(text))
+      }, 0)
+    })
+  }
 
   return (
     <div>
