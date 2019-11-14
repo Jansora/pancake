@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'dva';
-import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List} from 'antd';
+import {Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip, List, message} from 'antd';
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -63,6 +63,9 @@ const TopicEditComponent = props => {
     form.validateFieldsAndScroll((err, values) => {
       const d = { ...values };
       if (!err) {
+        if (articles.filter(a => a.type === 'document' && !a.id).length > 0){
+          return message.error('文档不能为空')
+        }
         d.isPublic = d.isPublic === 'true';
         d.articles = articles.map(JSON.stringify);
 

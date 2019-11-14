@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { connect } from 'dva';
-import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List} from 'antd';
+import { Button, Card, Col, Form, Input, Row, Select, Icon, Tooltip , List, message} from 'antd';
 import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -56,6 +56,9 @@ const TopicInsertComponent = props => {
     form.validateFieldsAndScroll((err, values) => {
       let d = { ...values };
       if (!err) {
+        if (articles.filter(a => a.type === 'document' && !a.id).length > 0){
+          return message.error('文档不能为空')
+        }
         d.isPublic = d.isPublic === 'true';
         d.articles = articles.map(JSON.stringify);
 
