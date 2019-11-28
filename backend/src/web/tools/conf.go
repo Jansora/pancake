@@ -22,30 +22,26 @@ type Admin struct {
 	Admin bool
 }
 
-type Oauth struct {
-	GITHUB   Github
-}
 
-type Github struct {
-	ClientId string
-	ClientSecret string
-}
 type Domain struct {
 	MainDomain string
 	AdminDomain string
 }
 
+
 type Storage struct {
-	Type string   // "local" or "AliyunOSS"
-	Assets string // "/path"
-}
-type Oss struct {
+
+	UseOss bool
 	EndPoint string
 	AccessKeyId string
 	AccessKeySecret string
 	Bucket string
 	AliasDomain string
-	Prefix string
+
+	OssPrefix  string
+	LocalSavePrefix string
+	LocalReturnPrefix string
+
 }
 
 
@@ -57,9 +53,9 @@ func (p Postgres) Connect() string {
 type Config struct {
 	PG Postgres
 	ADMIN Admin
-	GITHUB Github
+
 	DOMAIN Domain
-	OSS Oss
+	STORAGE Storage
 }
 
 func (c Config) String() string {

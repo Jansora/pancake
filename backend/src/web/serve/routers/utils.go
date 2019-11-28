@@ -25,7 +25,7 @@ func Utils(r *gin.Engine)  {
 		src, _ := file.Open()
 
 
-		r := tools.Upload(tools.Bucket, src, file.Filename)
+		r := tools.Upload(src, file.Filename)
 
 		if len(r) > 0{
 
