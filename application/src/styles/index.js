@@ -13,7 +13,7 @@ export const PageWrapper = styled.main`
     padding-top: 51px;
     //overflow: scroll;
     min-height: calc(100vh - 50px);
-    animation: ${scala} 200ms;
+    // animation: ${scala} 200ms;
     
 `;
 

@@ -2,7 +2,7 @@ import styled, {keyframes} from "styled-components";
 
 const scala = keyframes`
   from {
-    transform: scale(0.8);
+    transform: scale(0.92);
   }
 
   to {
@@ -16,7 +16,7 @@ export const PostsWrapper = styled.main`
     padding-bottom: 50px;
     max-width: 1000px;
     margin: auto;
-    animation: ${scala} 200ms;
+    //animation: ${scala} 200ms;
 `;
 
 
