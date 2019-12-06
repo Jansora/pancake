@@ -47,7 +47,7 @@ export async function UpdateArticle(params) {
 }
 
 export async function getArticleList() {
-  return request('/Golang/Article');
+  return request('/Golang/Article?sort=desc');
 }
 
 export async function getArticle(params) {
@@ -65,7 +65,7 @@ export async function getTopicArticleList() {
 }
 
 export async function getTopics() {
-  return request('/Golang/Topic');
+  return request('/Golang/Topic?sort=desc');
 }
 
 export async function getTopic(params) {
@@ -93,7 +93,7 @@ export async function deleteTopic(params) {
 }
 
 export async function getProjects() {
-  return request('/Golang/Project');
+  return request('/Golang/Project?sort=desc');
 }
 
 export async function getProject(params) {
