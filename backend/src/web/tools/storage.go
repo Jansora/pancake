@@ -36,7 +36,7 @@ func uploadToOSS(fp io.Reader, objectName string) string {
 	bucket := Bucket(Client())
 	ossPath := Conf.STORAGE.OssPrefix + time.Now().Format("2006-01-02") + "/" + objectName
 
-	err := bucket.PutObject(objectName, fp)
+	err := bucket.PutObject(ossPath, fp)
 	if err != nil {
 		fmt.Println("Error:2", err)
 		return ""
