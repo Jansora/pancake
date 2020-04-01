@@ -1,7 +1,14 @@
 # 演示
 前台地址: [https://pancake.jansora.com](https://pancake.jansora.com)
+
 管理端地址: [https://admin.pancake.jansora.com](https://admin.pancake.jansora.com)
-测试账户: 用户名: Jansora 密码: demo
+
+测试账户: 
+
+用户名: Jansora
+
+密码: demo
+
 # what
 这是一个名为 **Pancake** 的博客项目，Github地址： [https://github.com/Jansora/pancake](https://github.com/Jansora/pancake)
 
