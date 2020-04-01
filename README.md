@@ -1,3 +1,7 @@
+# 演示
+前台地址: [https://pancake.jansora.com](https://pancake.jansora.com)
+管理端地址: [https://admin.pancake.jansora.com](https://admin.pancake.jansora.com)
+测试账户: 用户名: Jansora 密码: demo
 # what
 这是一个名为 **Pancake** 的博客项目，Github地址： [https://github.com/Jansora/pancake](https://github.com/Jansora/pancake)
 
@@ -11,12 +15,12 @@
 如果此博客项目刚好也适用于你，那么很荣幸能够帮到你。帮忙在 [Github](https://github.com/Jansora/pancake) 给个⭐️, 谢谢支持。
 
 # when
-本项目起于2017年11月份，定型于2019年9月份，期间经历多次版本迭代。[版本日志](https://jansora.com/topic/pancake/version)
+本项目起于2017年11月份，定型于2019年9月份，期间经历多次版本迭代。[版本日志](https://pancake.jansora.com/topic/pancake/version)
 # who
-联系方式见我的个人博客右上角 [https://jansora.com](https://jansora.com)
+联系方式见 [https://jansora.com/concat](https://jansora.com/concat)
 有任何疑问或建议，请联系我，欢迎骚扰。
 # how
-使用方式见[使用手册](https://jansora.com/topic/pancake/what-why-when-who-how)
+使用方式见[使用手册](https://pancake.jansora.com/topic/pancake/what-why-when-who-how)
 # 技术栈
 
 # 前端
