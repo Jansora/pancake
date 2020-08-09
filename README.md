@@ -1,5 +1,5 @@
 # Pancake 个人博客
-基于 React Semantic UI + Spring Boot 构建的单页面博客系统.
+基于 Spring boot 和 React 构建的单页面个人网站(博客, 专栏, 项目).
 
 一个真实世界的网站: https://www.jansora.com
 
