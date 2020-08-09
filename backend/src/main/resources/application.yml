@@ -1,0 +1,33 @@
+server:
+  servlet:
+
+    context-path: /v2
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  datasource:
+    hikari:
+      maximum-pool-size: 5
+
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+    url: ${PG_CONNECT_URL}
+
+    schema: classpath:sql/schema.sql
+    data: classpath:sql/init.sql
+    initialization-mode: always
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+  mapper-locations: classpath:mapper/**/*.xml
+  type-handlers-package: com.jansora.handler
+
