@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Pancake. 基于 React 和 Spring boot 构建。"
+    />
+    <meta
+      name="keywords"
+      content="Pancake, 博客, 个人网站, 机器学习, "
+    />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <link href="https://cdn.staticfile.org/antd/3.26.8/antd.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/semantic-ui/2.4.1/semantic.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.staticfile.org/KaTeX/0.10.0/katex.min.css" rel="stylesheet">
+
+
+
+
+    <title>Pancake 个人博客</title>
+
+    <script type="text/javascript" src="/monaco-editor/0.20.0/min/vs/loader.js"></script>
+
+    <script>
+
+      window.MonacoEnvironment = {
+        getWorkerUrl: function (workerId, label) {
+          return '/monaco-editor-worker-loader-proxy.js';
+        }
+      };
+
+
+    </script>
+
+
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+  </body>
+</html>
