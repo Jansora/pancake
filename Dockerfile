@@ -14,6 +14,7 @@ COPY ./backend/target/pancake-${version}.jar /app/pancake.jar
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
+RUN mkdir -p /app/resource
 
 WORKDIR /app
 
