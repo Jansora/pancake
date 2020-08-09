@@ -32,7 +32,8 @@ public class OssUtils {
 
     private static final String localReturnPrefix = System.getenv("LOCAL_RETURN_PREFIX");
 
-    private static final OSS ossClient =  new OSSClientBuilder().build(EndPoint, AccessKeyId, AccessKeySecret);
+    private static final OSS ossClient =  UseOss
+            ? new OSSClientBuilder().build(EndPoint, AccessKeyId, AccessKeySecret) : null;
 
 
 
