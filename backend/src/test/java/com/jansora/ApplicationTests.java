@@ -1,4 +1,4 @@
-package com.jansora.easycode;
+package com.jansora;
 
 import com.jansora.service.UserService;
 import org.junit.jupiter.api.Test;
