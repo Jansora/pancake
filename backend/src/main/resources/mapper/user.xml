@@ -16,9 +16,6 @@
     </resultMap>
     <select id="count" resultType="int">
         SELECT count(1) FROM account WHERE 1 = 1
-        <choose><when test="id != null"> AND id = #{id}</when></choose>
-        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
-        <choose><when test="version != null and version != ''"> AND version = #{version}</when></choose>
     </select>
     <select id="find"  resultMap="UserEntity">
         SELECT * FROM account WHERE 1 = 1
