@@ -11,7 +11,7 @@
 	<groupId>com.jansora</groupId>
 	<artifactId>pancake</artifactId>
 	<version>2.0.0</version>
-	<name>application</name>
+	<name>pancake</name>
 	<description>A personal web application, powered by jansora</description>
 
 	<properties>
