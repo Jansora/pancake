@@ -1,5 +1,5 @@
-# Pancake 个人网站 (1.0)
-基于 React Semantic UI + Spring Boot 构建.
+# Pancake 个人博客
+基于 React Semantic UI + Spring Boot 构建的单页面博客系统.
 
 一个真实世界的网站: https://www.jansora.com
 
