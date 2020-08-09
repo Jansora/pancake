@@ -7,9 +7,6 @@ RUN mkdir -p /app
 
 COPY ./frontend/build /app/dist
 
-RUN ls -l /app/dist
-
-
 COPY ./backend/target/pancake-${version}.jar /app/pancake.jar
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
