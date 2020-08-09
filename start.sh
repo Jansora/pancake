@@ -11,4 +11,4 @@ sudo docker run -d -p 9191:8081 --name pancake \
 -e LOCAL_DOMAIN=127.0.0.1:9191 \
 -e LOCAL_LOCATION=/app/resource \
 -e LOCAL_RETURN_PREFIX=/ \
--v /home/ubuntu/github/Application/frontend/build:/app/dist jansora/pancake:v2 \
+jansora/pancake:v2 \
