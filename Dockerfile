@@ -16,9 +16,10 @@ RUN apt-get install nginx openjdk-8-jdk postgresql -y
 
 RUN mkdir -p /app
 
-COPY ./frontend/build /app/
+COPY ./frontend/build /app/dist
 
-RUN mv /app/build /app/dist
+RUN ls -l /app/dist
+
 
 COPY ./backend/target/pancake-${version}.jar /app/pancake.jar
 
