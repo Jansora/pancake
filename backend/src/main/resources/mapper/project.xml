@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jansora.dao.ProjectDao">
+    <resultMap id="ProjectEntity" type="com.jansora.entity.ProjectEntity">
+        <result property="id" column="id"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+        <result property="iframe" column="iframe"/>
+        <result property="description" column="description"/>
+        <result property="title" column="title"/>
+        <result property="url" column="url"/>
+        <result property="logo" column="logo"/>
+        <result property="permission" column="permission"/>
+    </resultMap>
+    <select id="count" resultType="int">
+        SELECT count(1) FROM BLOG_PROJECT WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id}</when></choose>
+        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
+        <choose><when test="title != null and title != ''"> AND title = #{title}</when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+
+    </select>
+    <select id="find"  resultMap="ProjectEntity">
+        SELECT * FROM BLOG_PROJECT WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id} </when></choose>
+        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
+        <choose><when test="title != null and title != ''"> AND title = #{title}</when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+        ORDER BY
+        <choose><when test="orderBy != null and orderBy != '' ">${orderBy} </when><otherwise> update_at </otherwise></choose>
+        <choose><when test="sort != null ">${sort </when></choose>
+        <choose><when test="limit != null and offset != null"> LIMIT #{limit} OFFSET #{offset} </when></choose>
+    </select>
+    <select id="findOne"  resultMap="ProjectEntity">
+        SELECT * FROM BLOG_PROJECT WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id} </when></choose>
+        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
+        <choose><when test="title != null and title != ''"> AND title = #{title}</when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+        ORDER BY
+        <choose><when test="orderBy != null and orderBy != '' ">${orderBy} </when><otherwise> update_at </otherwise></choose>
+        <choose><when test="sort != null ">${sort} </when></choose>
+
+        LIMIT 1;
+    </select>
+    <select id="findLogos"  resultMap="ProjectEntity">
+        SELECT distinct logo, title FROM BLOG_PROJECT;
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO BLOG_PROJECT (
+            create_at, update_at,
+            owner_id, description, title,
+            url, logo, permission, iframe
+        )
+        VALUES ( NOW(), NOW(), #{ownerId}, #{description}, #{title}, #{url}, #{logo}, #{permission}, #{iframe} );
+    </insert>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE BLOG_PROJECT SET
+            update_at = NOW()
+        <choose><when test="logo != null and logo != ''"> , logo = #{logo}</when></choose>
+        <choose><when test="description != null and description != ''"> , description = #{description}</when></choose>
+        <choose><when test="title != null and title != ''"> , title = #{title}</when></choose>
+        <choose><when test="url != null and url != ''"> , url = #{url}</when></choose>
+        <choose><when test="iframe != null and iframe != ''"> , iframe = #{iframe}</when></choose>
+        <choose><when test="permission != null and permission != ''"> , permission = #{permission}</when></choose>
+        WHERE id=#{id} ;
+
+    </update>
+
+    <delete id="delete">
+        DELETE FROM BLOG_PROJECT WHERE id=#{id} ;
+    </delete>
+</mapper>
