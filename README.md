@@ -1,6 +1,3 @@
----
-description: Pancake 是基于 Spring boot 和 React 构建的个人网站
----
 
 # 简介
 
@@ -61,4 +58,5 @@ Pancake 共分为三个模块, 博客, 专栏, 项目
 `1.0` [https://github.com/Jansora/pancake/tree/1.0](https://github.com/Jansora/pancake/tree/1.0)
 
 `2.0` [https://github.com/Jansora/pancake/tree/2.0](https://github.com/Jansora/pancake/tree/1.0)
+
 
