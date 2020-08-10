@@ -1,4 +1,4 @@
-sudo docker run -d -p 9191:8081 --name pancake \
+sudo docker run -d -p 9191:8081 --name pancake --restart \
 -e PG_USERNAME=postgres -e PG_PASSWORD=postgres \
 -e PG_CONNECT_URL=jdbc:postgresql://127.0.0.1:5432/ \
 -e OSS_AVAILABLE=false \
