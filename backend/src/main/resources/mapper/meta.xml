@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jansora.dao.MetaDao">
+
+    <resultMap id="MetaEntity" type="com.jansora.entity.MetaEntity">
+        <result property="id" column="id"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+        <result property="ownerId" column="owner_id"/>
+<!--        <result property="tag" column="tag" />-->
+        <result property="tags" column="tags" />
+        <result property="title" column="title"/>
+        <result property="url" column="url"/>
+        <result property="logo" column="logo"/>
+        <result property="description" column="description"/>
+        <result property="permission" column="permission"/>
+    </resultMap>
+
+    <resultMap id="QueryLogoEntity" type="com.jansora.entity.QueryLogoEntity">
+        <result property="id" column="id"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+
+        <result property="tags" column="tags" />
+        <result property="title" column="title"/>
+        <result property="source" column="source"/>
+        <result property="logo" column="logo"/>
+
+    </resultMap>
+
+    <select id="queryLogos" resultMap="QueryLogoEntity">
+         SELECT DISTINCT ON (logo) logo, title, "source" FROM (
+         SELECT logo, title, owner_id , 'blog' as "source" FROM blog_post_meta UNION
+         SELECT logo, title, owner_id , 'topic' as "source" FROM blog_topic UNION
+         SELECT logo, title, owner_id , 'project' as "source" FROM blog_project ) as t
+        WHERE 1 = 1
+        <choose><when test="id != null"> AND owner_id = #{id}</when></choose>
+
+    </select>
+
+
+    <select id="count" resultType="int">
+        SELECT count(*) FROM BLOG_POST_META WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id}</when></choose>
+        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
+        <choose><when test="title != null and title != ''"> AND title ILIKE CONCAT('%',#{title},'%') </when></choose>
+        <choose><when test="tag != null and tag != ''"> AND #{tag} = ANY (tags)</when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+    </select>
+    <select id="find"  resultMap="MetaEntity">
+        SELECT * FROM BLOG_POST_META WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id}</when></choose>
+        <choose><when test="ownerId != null"> AND owner_id = #{ownerId}</when></choose>
+        <choose><when test="title != null and title != ''"> AND title ILIKE CONCAT('%',#{title},'%') </when></choose>
+        <choose><when test="tag != null  and tag != ''"> AND #{tag} = ANY (tags) </when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+        ORDER BY
+        <choose><when test="orderBy != null and orderBy != '' "> ${orderBy} </when><otherwise> update_at </otherwise></choose>
+        <choose><when test="sort != null and sort != ''  "> ${sort} </when></choose>
+        <choose><when test="limit != null and offset != null"> LIMIT #{limit} OFFSET #{offset} </when></choose>
+    </select>
+    <select id="findOne"  resultMap="MetaEntity">
+        SELECT * FROM BLOG_POST_META WHERE 1 = 1
+        <choose><when test="id != null"> AND id = #{id}</when></choose>
+        <choose><when test="url != null and url != ''"> AND url = #{url}</when></choose>
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+        ORDER BY
+        <choose><when test="orderBy != null and orderBy != '' ">${orderBy} </when><otherwise> update_at </otherwise></choose>
+        <choose><when test="sort != null ">${sort} </when></choose>
+
+        LIMIT 1;
+    </select>
+    <select id="findTags"  resultMap="MetaEntity">
+        SELECT tags FROM BLOG_POST_META where tags IS NOT NULL
+        <choose>
+            <when test="permission != null and permission != ''">
+                <choose>
+                    <when test="ownerId != null"> AND ( permission = #{permission} OR owner_id = #{ownerId} ) </when>
+                    <otherwise> AND permission = #{permission}  </otherwise>
+                </choose>
+            </when>
+        </choose>
+;
+    </select>
+    <select id="findLogos"  resultMap="MetaEntity">
+        SELECT distinct logo, title FROM BLOG_POST_META;
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO BLOG_POST_META (
+            create_at, update_at,
+            owner_id, tags, title, url, logo, like_num, read_num, description, permission
+        )
+        VALUES (
+                   NOW(), NOW(), #{ownerId}, #{tags}, #{title}, #{url}, #{logo}, 0, 0, #{description}, #{permission}
+               );
+    </insert>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE BLOG_POST_META SET
+            update_at = NOW()
+        <choose><when test="title != null and title != ''"> , title = #{title}</when></choose>
+        <choose><when test="tags != null"> , tags = #{tags}</when></choose>
+        <choose><when test="url != null and url != ''"> , url = #{url}</when></choose>
+        <choose><when test="logo != null and logo != ''"> , logo = #{logo}</when></choose>
+        <choose><when test="description != null and description != ''"> , description = #{description}</when></choose>
+        <choose><when test="permission != null and permission != ''"> , permission = #{permission}</when></choose>
+        <choose><when test="readNum != null"> , read_num = #{readNum}</when></choose>
+        <choose><when test="likeNum != null"> , like_num = #{likeNum}</when></choose>
+        WHERE id=#{id} ;
+
+    </update>
+
+    <update id="updateRead" useGeneratedKeys="true" keyProperty="id">
+        UPDATE BLOG_POST_META SET
+        read_num = read_num + 1
+        WHERE id=#{id} ;
+
+    </update>
+
+    <update id="updateLike" useGeneratedKeys="true" keyProperty="id">
+        UPDATE BLOG_POST_META SET
+        like_num = like_num + 1
+        WHERE id=#{id} ;
+
+    </update>
+
+    <delete id="delete">
+        DELETE FROM BLOG_POST_META WHERE id=#{id} ;
+    </delete>
+</mapper>
