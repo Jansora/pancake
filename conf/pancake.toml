@@ -1,0 +1,34 @@
+[PG]
+User = "postgres"
+Password = "pancake"
+Host = "localhost"
+Port = 5432
+DataBase = "postgres"
+SSLmode = "disable"
+
+[ADMIN]
+Admin = true
+Name = "admin"
+Password = "admin"
+
+Website = "https://example.org"
+Email = "test@gmail.com"
+
+
+[DOMAIN]
+MainDomain = "jansora.com"
+
+
+[Storage]
+
+UseOss = true
+EndPoint = "oss-cn-shanghai.aliyuncs.com"
+AccessKeyId = "----"
+AccessKeySecret = "----"
+Bucket = "jansora"
+AliasDomain = "cdn.jansora.com"
+OssPrefix = "UploadByGolang/"
+
+
+LocalSavePrefix = "/static/"
+LocalReturnPrefix = "/static/"

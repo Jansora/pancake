@@ -5,7 +5,8 @@
 *.ali
 
 .idea
-
+main
+main.exe
 
 yarn.lock
 
@@ -22,7 +23,7 @@ pkg
 
 
 dist
-
+build
 backend/src/github.com/go-redis/redis/
 backend/src/github.com/ugorji/go/codec/codecgen/go.sum
 backend/src/github.com/ugorji/go/codec/go.sum

@@ -1,18 +1,9 @@
-FROM jansora/pancake-dependencies:v1
-
-ENV version 2.0.0
-
-
-RUN mkdir -p /app
-
-COPY ./frontend/build /app/dist
-
-COPY ./backend/target/pancake-${version}.jar /app/pancake.jar
-
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
-RUN mkdir -p /app/resource
+ARG  UBUNTU_VERSION=18.04
+FROM ubuntu:${UBUNTU_VERSION}
 
 WORKDIR /app
+#CMD ["apt", "update"]
+RUN apt update && apt install postgresql -y && apt install vim -y
 
-CMD ["sh","-c", "service postgresql restart && service nginx restart && java -jar pancake.jar"]
+
+
