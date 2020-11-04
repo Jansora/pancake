@@ -3,6 +3,8 @@
 
 管理端地址: [https://admin.pancake.jansora.com](https://admin.pancake.jansora.com)
 
+文档： https://doc.pancake.jansora.com/
+
 测试账户: 
 
 用户名: Jansora
