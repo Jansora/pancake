@@ -1,4 +1,4 @@
-[PG]
+g[PG]
 User = "postgres"
 Password = "pancake"
 Host = "localhost"
@@ -20,24 +20,15 @@ MainDomain = "jansora.com"
 
 
 [Storage]
-
 UseOss = true
 EndPoint = "oss-cn-shanghai.aliyuncs.com"
 AccessKeyId = "----"
 AccessKeySecret = "----"
 Bucket = "jansora"
-AliasDomain = "cdn.jansora.com"
+AliasDomain = "https://cdn.jansora.com"
 OssPrefix = "UploadByGolang/"
 
 
 LocalSavePrefix = "/static/"
 LocalReturnPrefix = "/static/"
 
-
-
-[OSS]
-EndPoint = "oss-cn-shanghai.aliyuncs.com"
-AccessKeyId = "AccessKeyId"
-AccessKeySecret = "AccessKeySecret"
-Bucket = "jansora"
-AliasDomain = "cdn.jansora.com"

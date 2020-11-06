@@ -3,29 +3,23 @@ package tools
 import (
 	"flag"
 	"fmt"
-	"os"
 )
 
 func commandline() (int, string) {
 
-	port := flag.Int("port", 0, "listening port. (Required)")
-	conf := flag.String("confPath", "null", "configure path to parse. (Required)")
+	port := flag.Int("port", 0, "listening port. default 8083")
+	conf := flag.String("conf", "null", "configure path to parse. default /app/pancake.toml")
 
 	flag.Parse()
 
-	if *port == 0 && *conf == "null" {
-		fmt.Printf("Error! configure path and listening port must be assigned!\nfor example:\n    --port=8080\n    --confPath=/etc/conf.toml\n")
-		os.Exit(1)
-	}
-
 	if *port == 0 {
-		fmt.Printf("Error! listening port must be assigned!\nfor example:\n    --port=8080\n")
-		os.Exit(1)
+		fmt.Printf("Listen port hasn't assigned. Now enable default port 8083. \n Assign the port with --port={port}. for example  --port=8080.")
+		*port = 8083
 	}
 
-	if *port == 0 || *conf == "null" {
-		fmt.Printf("Error! configure path must be assigned!\nfor example:\n    --confPath=/etc/conf.toml\n")
-		os.Exit(1)
+	if *conf == "null" {
+		fmt.Printf("Configure file port hasn't assigned. Now enable default conf file '/app/pancake.toml'. \n Assign the conf file with --conf={filePath}. for example --conf=/etc/pancake.toml.")
+		*conf = "/app/pancake.toml"
 	}
 
 	return *port, *conf
@@ -33,6 +27,3 @@ func commandline() (int, string) {
 }
 
 var Port, confPath = commandline()
-
-//var Port = 8075
-//var confPath = "conf/pancake.toml"
