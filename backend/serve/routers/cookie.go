@@ -9,10 +9,10 @@ import (
 )
 
 func SetLoginCookie(c *gin.Context, account account.Account) {
-	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", tools.Conf.DOMAIN.MainDomain, false, true)
-	c.SetCookie("token", account.Password, 36000000, "/", tools.Conf.DOMAIN.MainDomain, false, true)
-	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", "localhost", false, true)
-	c.SetCookie("token", account.Password, 36000000, "/", "localhost", false, true)
+	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", tools.Conf.DOMAIN.AppDomain, false, true)
+	c.SetCookie("token", account.Password, 36000000, "/", tools.Conf.DOMAIN.AppDomain, false, true)
+	c.SetCookie("Id", fmt.Sprintf("%d", account.Id), 36000000, "/", tools.Conf.DOMAIN.AdminDOmain, false, true)
+	c.SetCookie("token", account.Password, 36000000, "/", tools.Conf.DOMAIN.AdminDOmain, false, true)
 }
 
 func GetLoginCookie(c *gin.Context) account.Account {
