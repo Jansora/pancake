@@ -1,7 +1,6 @@
-ARG UBUNTU_VERSION=18.04
+ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
-
-ENV version 1.0.0
+ENV GIN_MODE release
 
 RUN apt update && apt install ca-certificates -y
 
@@ -12,19 +11,19 @@ RUN rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update
 
-RUN apt-get install nginx openjdk-8-jdk -y
+RUN apt-get install nginx -y
 
 
 RUN mkdir -p /app
 
-COPY ./backend/target /app/server
+COPY ./deploy/app /app/
 
-COPY ./backend/target/application-${version}.jar /app/server/app-spring-boot-server.jar
-
-COPY ./deploy/dependencies/nginx.conf /etc/nginx/nginx.conf
-
+COPY ./deploy/dependencies/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY deploy/dependencies/nginx/sites-enabled/app.conf /etc/nginx/sites-enabled/app.conf
 
 WORKDIR /app
 
-CMD ["sh","-c", "service nginx restart && java -Dspring.profiles.active=prod -jar server/app-spring-boot-server.jar"]
+RUN chmod 755 server/pancake
+
+CMD ["sh","-c", "service nginx restart && server/pancake --conf=server/conf/pancake.toml --port=8080"]
 

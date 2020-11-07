@@ -1,0 +1,35 @@
+[PG]
+User = "postgres"
+Password = "postgres"
+Host = "172.17.0.1"
+Port = 5432
+DataBase = "postgres"
+SSLmode = "disable"
+
+[ADMIN]
+Admin = true
+Name = "admin"
+Password = "admin"
+
+Website = "https://example.org"
+Email = "test@gmail.com"
+
+
+[DOMAIN]
+AppDomain = "pancake.jansora.com"
+AdminDOmain = "admin.pancake.jansora.com"
+
+[Storage]
+UseOss = false
+
+EndPoint = ""
+AccessKeyId = ""
+AccessKeySecret = ""
+Bucket = ""
+AliasDomain = ""
+OssPrefix = "Pancake/"
+
+
+LocalSavePrefix = "/resource/"
+LocalReturnPrefix = "/resource/"
+

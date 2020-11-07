@@ -16,8 +16,8 @@ Email = "test@gmail.com"
 
 
 [DOMAIN]
-MainDomain = "jansora.com"
-
+AppDomain = "pancake.jansora.com"
+AdminDOmain = "admin.pancake.jansora.com"
 
 [Storage]
 UseOss = true
@@ -26,7 +26,7 @@ AccessKeyId = "----"
 AccessKeySecret = "----"
 Bucket = "jansora"
 AliasDomain = "https://cdn.jansora.com"
-OssPrefix = "UploadByGolang/"
+OssPrefix = "Pancake/"
 
 
 LocalSavePrefix = "/static/"

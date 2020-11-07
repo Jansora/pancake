@@ -23,8 +23,8 @@ type Admin struct {
 }
 
 type Domain struct {
-	MainDomain  string
-	AdminDomain string
+	AppDomain   string
+	AdminDOmain string
 }
 
 type Storage struct {
