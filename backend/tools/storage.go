@@ -58,7 +58,7 @@ func saveToLocal(fp io.Reader, objectName string) string {
 		return "写文件失败"
 	}
 
-	return Conf.STORAGE.LocalReturnPrefix + "/" + objectName
+	return Conf.STORAGE.AliasDomain + Conf.STORAGE.LocalReturnPrefix + "/" + objectName
 
 }
 
