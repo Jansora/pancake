@@ -30,13 +30,11 @@
 # 产品演示
 ## 管理端
 地址: [https://admin.pancake.jansora.com](https://admin.pancake.jansora.com)
-
-
+测试账户: 
+用户名: admin
+密码: admin
 ## 用户端
-
-
-演示Demo: [https://pancake.jansora.com](https://pancake.jansora.com/) or [http://www.jansora.com:9191](http://www.jansora.com:9191/)
-‌
+演示Demo: [https://pancake.jansora.com](https://pancake.jansora.com/) 
 # 版本说明
 当前主干分支版本为 `1.0`  2.0 版本和 1.0 版本的主要区别如下:
 ## 功能对比

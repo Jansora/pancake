@@ -26,10 +26,10 @@ EndPoint = ""
 AccessKeyId = ""
 AccessKeySecret = ""
 Bucket = ""
-AliasDomain = ""
+AliasDomain = "https://pancake.jansora.com"
 OssPrefix = "Pancake/"
 
 
 LocalSavePrefix = "/resource/"
-LocalReturnPrefix = "/resource/"
+LocalReturnPrefix = "/resource"
 
