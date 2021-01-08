@@ -3,7 +3,7 @@ package tools
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
-	"github.com/Jansora/pancake/backend"
+	"github.com/Jansora/pancake/backend/serve/routes"
 )
 
 type Postgres struct {
@@ -30,8 +30,8 @@ type Storage struct {
 }
 
 type Config struct {
-	PG   Postgres
-	User main.User
+	PG      Postgres
+	Account routes.Account
 
 	STORAGE Storage
 }

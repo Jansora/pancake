@@ -1,17 +1,19 @@
-package main
+package routes
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 )
 
-type User struct {
+type Account struct {
 	Name  string `json:"name"`
 	Token string `json:"token"`
 }
 
 var JSON_ERROR = "JSON 解析失败"
+var FORBIDDEN = "没有访问权限"
 
 type Article struct {
 	Id          int       `json:"Id"`
@@ -74,4 +76,17 @@ func (c *Condition) Init(e *gin.Context) {
 	c.Classify = e.DefaultQuery("Classify", "")
 
 	c.Tag = e.DefaultQuery("Title", "")
+}
+
+func ReturnFalse(c *gin.Context, message string) {
+	Return(c, true, nil, message)
+	return
+}
+func ReturnTrue(c *gin.Context, data interface{}) {
+	Return(c, true, data, "")
+	return
+}
+func Return(c *gin.Context, status bool, data interface{}, message string) {
+	c.JSON(http.StatusOK, gin.H{"status": status, "message": message, "data": data})
+	return
 }

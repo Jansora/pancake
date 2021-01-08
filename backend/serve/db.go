@@ -1,14 +1,15 @@
-package main
+package serve
 
 import (
 	"database/sql"
 	"fmt"
+	"github.com/Jansora/pancake/backend/serve/routes"
 	"github.com/Jansora/pancake/backend/tools"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
 )
 
-func client() *sql.DB {
+func getClient() *sql.DB {
 
 	db, err := sql.Open("mysql", tools.Conf.PG.ConnectString)
 
@@ -18,10 +19,10 @@ func client() *sql.DB {
 	return db
 }
 
-var Client = client()
+var client = getClient()
 
 
-func CreateTable(db *sql.DB) {
+func CreateTable() {
 	s := `
 CREATE TABLE IF NOT EXISTS Article(
 	Id 			SERIAL     PRIMARY KEY  NOT NULL,
@@ -35,16 +36,16 @@ CREATE TABLE IF NOT EXISTS Article(
 	Description TEXT                            ,
 	Raw         TEXT                            ,	
 );`
-	_, err := db.Exec(s)
+	_, err := client.Exec(s)
 	if err != nil {
 		panic(err)
 	}
 }
 
 
-func FetchArticles(db *sql.DB, c Condition, Enabled bool) ([]Article, error) {
+func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
 
-	As := []Article{}
+	As := []routes.Article{}
 
 	querySql := `SELECT Id, CLassify, CreateAt, UpdateAt, Tag, Logo, Title, Description, Enabled FROM Article WHERE 1 = 1 `
 
@@ -64,14 +65,14 @@ func FetchArticles(db *sql.DB, c Condition, Enabled bool) ([]Article, error) {
 
 
 
-	r, err := db.Query(querySql)
+	r, err := client.Query(querySql)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer r.Close()
 
 	for r.Next() {
-		var A Article
+		var A routes.Article
 		r.Scan(
 			&A.Id,
 			&A.Classify,
@@ -90,7 +91,7 @@ func FetchArticles(db *sql.DB, c Condition, Enabled bool) ([]Article, error) {
 	return As, err
 }
 
-func FetchArticlesCount(db *sql.DB, c Condition, Enabled bool) (int, error) {
+func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
 
 	querySql := `SELECT COUNT (1) FROM Article WHERE 1 = 1 `
 
@@ -108,7 +109,7 @@ func FetchArticlesCount(db *sql.DB, c Condition, Enabled bool) (int, error) {
 		querySql += " AND Title ILIKE '%" + c.Title + "%'  "
 	}
 
-	err := db.QueryRow(querySql).Scan(
+	err := client.QueryRow(querySql).Scan(
 		&length,
 	)
 
@@ -120,17 +121,17 @@ func FetchArticlesCount(db *sql.DB, c Condition, Enabled bool) (int, error) {
 }
 
 
-func FetchArticle(db *sql.DB, Id int64, Enabled bool) (Article, error) {
+func FetchArticle( Id string, Enabled bool) (routes.Article, error) {
 
-	A := Article{}
+	A := routes.Article{}
 	querySql := fmt.Sprintf(`SELECT 
 Id, Classify,  Raw, CreateAt, UpdateAt, Tag, Enabled, Logo, Title, Description
-FROM Article WHERE id = '%d' `, Id)
+FROM Article WHERE id = '%s' `, Id)
 	if Enabled {
 		querySql += "AND Enabled=true"
 	}
 
-	err := db.QueryRow(querySql).Scan(
+	err := client.QueryRow(querySql).Scan(
 		&A.Id,
 		&A.Classify,
 		&A.Raw,
@@ -148,13 +149,13 @@ FROM Article WHERE id = '%d' `, Id)
 
 
 
-func InsertArticle(db *sql.DB, A Article) error {
+func InsertArticle( A routes.Article) error {
 
 	sql := `INSERT INTO Article
 (CreateAt, UpdateAt, Classify, Tag, Enabled, Logo, Title, Description, Raw) VALUES
 ($1, $2,  $3, $4, $5, $6, $7, $8, $9);`
 
-	_, err := db.Exec(sql,
+	_, err := client.Exec(sql,
 		time.Now(),
 		time.Now(),
 		&A.Classify,
@@ -171,14 +172,14 @@ func InsertArticle(db *sql.DB, A Article) error {
 }
 
 
-func UpdateArticle(db *sql.DB, A Article, Id int64) error {
+func UpdateArticle( A routes.Article) error {
 
 	sql := `UPDATE Article SET
  CreateAt= $1, UpdateAt = $2, CLassify = $3
 Tag= $4, Enabled= $5,  Logo= $6,Title= $7, Description= $8, Raw= $9
 WHERE Id = $10;`
 
-	_, err := db.Exec(sql,
+	_, err := client.Exec(sql,
 		A.CreateAt,
 		time.Now(),
 		A.Classify,
@@ -188,7 +189,7 @@ WHERE Id = $10;`
 		A.Title,
 		A.Description,
 		A.Raw,
-		Id,
+		A.Id,
 	)
 
 	return err
@@ -196,25 +197,20 @@ WHERE Id = $10;`
 
 
 
-func DeleteArticle(db *sql.DB, Id int64) (bool, error) {
+func DeleteArticle( Id string) error {
 
-	querySql := fmt.Sprintf(`DELETE FROM Article WHERE id = '%d' `, Id)
-	res, err := db.Exec(querySql)
+	querySql := fmt.Sprintf(`DELETE FROM Article WHERE id = '%s' `, Id)
+	res, err := client.Exec(querySql)
 
 	if err != nil {
-		fmt.Println(err)
-		return false, err
+		return err
 	}
-	num, err := res.RowsAffected()
-	if num > 0 {
-		return true, err
-	}
-
-	return false, err
+	_, err = res.RowsAffected()
+	return  err
 }
 
 
-func FetchTags(db *sql.DB, Enabled bool) ([][]string, error) {
+func FetchTags( Enabled bool) ([][]string, error) {
 
 	Tags := [][]string{}
 	querySql := fmt.Sprintf(`SELECT DISTINCT Tag FROM Article `)
@@ -222,7 +218,7 @@ func FetchTags(db *sql.DB, Enabled bool) ([][]string, error) {
 		querySql += " Where Enabled=true;"
 	}
 
-	r, err := db.Query(querySql)
+	r, err := client.Query(querySql)
 
 	if err != nil {
 		return Tags, err
