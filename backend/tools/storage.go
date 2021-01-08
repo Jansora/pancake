@@ -11,7 +11,7 @@ import (
 
 func Client() *oss.Client {
 
-	client, err := oss.New(Conf.STORAGE.EndPoint, Conf.STORAGE.AccessKeyId, Conf.STORAGE.AccessKeySecret)
+	client, err := oss.New(Conf.Storage.EndPoint, Conf.Storage.AccessKeyId, Conf.Storage.AccessKeySecret)
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(-1)
@@ -22,7 +22,7 @@ func Client() *oss.Client {
 func Bucket(client *oss.Client) *oss.Bucket {
 
 	// 获取存储空间。
-	bucket, err := client.Bucket(Conf.STORAGE.Bucket)
+	bucket, err := client.Bucket(Conf.Storage.Bucket)
 	if err != nil {
 		fmt.Println("Error:1", err)
 		os.Exit(-1)
@@ -32,19 +32,19 @@ func Bucket(client *oss.Client) *oss.Bucket {
 
 func uploadToOSS(fp io.Reader, objectName string) string {
 	bucket := Bucket(Client())
-	ossPath := Conf.STORAGE.OssPrefix + time.Now().Format("2006-01-02") + "/" + objectName
+	ossPath := Conf.Storage.OssPrefix + time.Now().Format("2006-01-02") + "/" + objectName
 
 	err := bucket.PutObject(ossPath, fp)
 	if err != nil {
 		fmt.Println("Error:2", err)
 		return ""
 	}
-	return Conf.STORAGE.AliasDomain + "/" + ossPath
+	return Conf.Storage.AliasDomain + "/" + ossPath
 }
 
 func saveToLocal(fp io.Reader, objectName string) string {
 	objectName = time.Now().Format("2006-01-02") + "_" + objectName
-	localPath := Conf.STORAGE.LocalSavePrefix + objectName
+	localPath := Conf.Storage.LocalSavePrefix + objectName
 	f, err := os.Create(localPath)
 	if err != nil {
 		fmt.Println(err)
@@ -58,14 +58,14 @@ func saveToLocal(fp io.Reader, objectName string) string {
 		return "写文件失败"
 	}
 
-	return Conf.STORAGE.AliasDomain + Conf.STORAGE.LocalReturnPrefix + "/" + objectName
+	return Conf.Storage.AliasDomain + Conf.Storage.LocalReturnPrefix + "/" + objectName
 
 }
 
 func Upload(fp io.Reader, objectName string) string {
 
 	// 上传文件流。
-	if Conf.STORAGE.UseOss {
+	if Conf.Storage.UseOss {
 		return uploadToOSS(fp, objectName)
 	} else {
 		return saveToLocal(fp, objectName)

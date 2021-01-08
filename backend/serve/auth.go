@@ -1,7 +1,6 @@
 package serve
 
 import (
-	"github.com/Jansora/pancake/backend/serve/routes"
 	"github.com/Jansora/pancake/backend/tools"
 	"github.com/gin-gonic/gin"
 )
@@ -15,9 +14,9 @@ func RemoveLoginCookie(c *gin.Context) {
 	c.SetCookie("token", "", 36000000, "/", "", false, true)
 }
 
-func getLoginCookie(c *gin.Context) routes.Account {
+func getLoginCookie(c *gin.Context) tools.Account {
 
-	a := routes.Account{}
+	a := tools.Account{}
 	Name, err := c.Cookie("name")
 	if err != nil {
 		return a
@@ -36,6 +35,6 @@ func ValidateLoginStatus(c *gin.Context) bool {
 	return admin.Name == tools.Conf.Account.Name && admin.Token == tools.Conf.Account.Token
 }
 
-func ValidateLogin(j routes.Account) bool {
+func ValidateLogin(j tools.Account) bool {
 	return j.Name == tools.Conf.Account.Name && j.Token == tools.Conf.Account.Token
 }

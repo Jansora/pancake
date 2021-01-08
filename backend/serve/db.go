@@ -3,7 +3,6 @@ package serve
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Jansora/pancake/backend/serve/routes"
 	"github.com/Jansora/pancake/backend/tools"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
@@ -11,7 +10,7 @@ import (
 
 func getClient() *sql.DB {
 
-	db, err := sql.Open("mysql", tools.Conf.PG.ConnectString)
+	db, err := sql.Open("mysql", tools.Conf.Mysql.ConnectString)
 
 	if err != nil {
 		panic(err)
@@ -25,7 +24,7 @@ var client = getClient()
 func CreateTable() {
 	s := `
 CREATE TABLE IF NOT EXISTS Article(
-	Id 			SERIAL     PRIMARY KEY  NOT NULL,
+	Id 			INT        PRIMARY KEY  NOT NULL auto_increment,
 	CreateAt    TIMESTAMP               NOT NULL,
 	UpdateAt    TIMESTAMP               NOT NULL,
 	Classify    TEXT                    NOT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Article(
 	Logo        TEXT                    NOT NULL,
 	Title       TEXT                    NOT NULL,
 	Description TEXT                            ,
-	Raw         TEXT                            ,	
+	Raw         TEXT                            
 );`
 	_, err := client.Exec(s)
 	if err != nil {
@@ -43,9 +42,9 @@ CREATE TABLE IF NOT EXISTS Article(
 }
 
 
-func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
+func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 
-	As := []routes.Article{}
+	As := []Article{}
 
 	querySql := `SELECT Id, CLassify, CreateAt, UpdateAt, Tag, Logo, Title, Description, Enabled FROM Article WHERE 1 = 1 `
 
@@ -72,7 +71,7 @@ func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
 	defer r.Close()
 
 	for r.Next() {
-		var A routes.Article
+		var A Article
 		r.Scan(
 			&A.Id,
 			&A.Classify,
@@ -91,7 +90,7 @@ func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
 	return As, err
 }
 
-func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
+func FetchArticlesCount(c Condition, Enabled bool) (int, error) {
 
 	querySql := `SELECT COUNT (1) FROM Article WHERE 1 = 1 `
 
@@ -121,9 +120,9 @@ func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
 }
 
 
-func FetchArticle( Id string, Enabled bool) (routes.Article, error) {
+func FetchArticle( Id string, Enabled bool) (Article, error) {
 
-	A := routes.Article{}
+	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
 Id, Classify,  Raw, CreateAt, UpdateAt, Tag, Enabled, Logo, Title, Description
 FROM Article WHERE id = '%s' `, Id)
@@ -149,7 +148,7 @@ FROM Article WHERE id = '%s' `, Id)
 
 
 
-func InsertArticle( A routes.Article) error {
+func InsertArticle( A Article) error {
 
 	sql := `INSERT INTO Article
 (CreateAt, UpdateAt, Classify, Tag, Enabled, Logo, Title, Description, Raw) VALUES
@@ -172,7 +171,7 @@ func InsertArticle( A routes.Article) error {
 }
 
 
-func UpdateArticle( A routes.Article) error {
+func UpdateArticle( A Article) error {
 
 	sql := `UPDATE Article SET
  CreateAt= $1, UpdateAt = $2, CLassify = $3
