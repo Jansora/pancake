@@ -9,6 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/lib/pq v1.7.0
+	github.com/go-sql-driver/mysql v1.5.0
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899

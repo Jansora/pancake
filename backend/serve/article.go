@@ -1,7 +1,7 @@
-package routers
+package serve
 
 import (
-	pg "github.com/Jansora/pancake/backend/postgres"
+	"github.com/Jansora/pancake/backend"
 	"github.com/Jansora/pancake/backend/postgres/article"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -16,11 +16,11 @@ func InitArticle(r *gin.Engine) {
 
 func Article(r *gin.Engine) {
 	r.GET("/api/v2/Article/:id", func(c *gin.Context) {
-		if a, err := article.Select(pg.Client, c.Param("id"), !ValidateLoginStatus(c)); err == nil {
-			ReturnTrue(c, a)
+		if a, err := article.Select(main.Client, c.Param("id"), !ValidateLoginStatus(c)); err == nil {
+			main.ReturnTrue(c, a)
 			return
 		}
-		ReturnFalse(c, "")
+		main.ReturnFalse(c, "")
 	})
 
 	r.POST("/api/v2/Article", func(c *gin.Context) {
@@ -29,10 +29,10 @@ func Article(r *gin.Engine) {
 		}
 		var j InsertArticleType
 		if c.BindJSON(&j) != nil {
-			ReturnFalse(c, JSON_ERROR)
+			main.ReturnFalse(c, JSON_ERROR)
 			return
 		}
-		a := article.Article{
+		a := main.Article{
 			Author:      j.Author,
 			CreateAt:    time.Now(),
 			UpdateAt:    time.Now(),
@@ -48,7 +48,7 @@ func Article(r *gin.Engine) {
 			Raw:         j.Content,
 			Html:        j.Html,
 		}
-		if err := article.Insert(pg.Client, a); err != nil {
+		if err := article.Insert(main.Client, a); err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"ret": false, "res": "参数不能为空！" + err.Error(),
 			})
@@ -73,9 +73,9 @@ func Article(r *gin.Engine) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
 		}
-		if a, err := article.Select(pg.Client, c.Param("Url"), false); err == nil {
+		if a, err := article.Select(main.Client, c.Param("Url"), false); err == nil {
 			a.Raw = j.Content
-			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
+			if err := article.Update(main.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
 					"ret": false, "res": "更新失敗！" + err.Error(),
 				})
@@ -105,7 +105,7 @@ func Article(r *gin.Engine) {
 			return
 		}
 
-		if a, err := article.Select(pg.Client, c.Param("Url"), false); err == nil {
+		if a, err := article.Select(main.Client, c.Param("Url"), false); err == nil {
 			a.Title = j.Title
 			a.Url = j.Url
 			a.Author = j.Author
@@ -117,7 +117,7 @@ func Article(r *gin.Engine) {
 			a.Description = j.Summary
 			a.Raw = j.Content
 			a.Html = j.Html
-			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
+			if err := article.Update(main.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
 					"ret": false, "res": "更新失敗！" + err.Error(),
 				})
@@ -134,9 +134,9 @@ func Article(r *gin.Engine) {
 	})
 
 	r.POST("/api/v2/Article/UpdateLike/:Url", func(c *gin.Context) {
-		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
+		if a, err := article.Select(main.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
 			a.LikeNum += 1
-			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
+			if err := article.Update(main.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
 					"ret": false, "res": "更新失敗！" + err.Error(),
 				})
@@ -157,7 +157,7 @@ func Article(r *gin.Engine) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
 		}
-		if _, err := article.Delete(pg.Client, c.Param("Url")); err == nil {
+		if _, err := article.Delete(main.Client, c.Param("Url")); err == nil {
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": ""})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "获取Article信息失败！" + err.Error()})
@@ -167,24 +167,24 @@ func Article(r *gin.Engine) {
 
 	r.GET("/api/v2/Article", func(c *gin.Context) {
 
-		var con article.Condition
+		var con main.Condition
 		con.Init(c)
-		if as, err := article.Selects(pg.Client, con, !ValidateLoginStatus(c)); err == nil {
-			length, _ := article.SelectsLength(pg.Client, con, !ValidateLoginStatus(c))
+		if as, err := article.Selects(main.Client, con, !ValidateLoginStatus(c)); err == nil {
+			length, _ := article.SelectsLength(main.Client, con, !ValidateLoginStatus(c))
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": as, "total": length})
 		} else {
-			Return(c, false, "get Article failed！"+err.Error())
+			main.Return(c, false, "get Article failed！"+err.Error())
 		}
 	})
 
 	r.GET("/api/v2/ArticleLength", func(c *gin.Context) {
 
-		var con article.Condition
+		var con main.Condition
 		con.Init(c)
-		if length, err := article.SelectsLength(pg.Client, con, !ValidateLoginStatus(c)); err == nil {
-			Return(c, true, length)
+		if length, err := article.SelectsLength(main.Client, con, !ValidateLoginStatus(c)); err == nil {
+			main.Return(c, true, length)
 		} else {
-			Return(c, false, "get Article length failed！"+err.Error())
+			main.Return(c, false, "get Article length failed！"+err.Error())
 		}
 	})
 
@@ -192,14 +192,14 @@ func Article(r *gin.Engine) {
 
 		arrStr := strings.Split(c.DefaultQuery("ids", ""), ",")
 		if arrStr[0] == "" {
-			Return(c, false, "ArticleByIds is null！")
+			main.Return(c, false, "ArticleByIds is null！")
 			return
 		}
 
-		if as, err := article.SelectsByIds(pg.Client, arrStr, !ValidateLoginStatus(c)); err == nil {
-			Return(c, true, as)
+		if as, err := article.SelectsByIds(main.Client, arrStr, !ValidateLoginStatus(c)); err == nil {
+			main.Return(c, true, as)
 		} else {
-			Return(c, false, "get Article failed！"+err.Error())
+			main.Return(c, false, "get Article failed！"+err.Error())
 		}
 	})
 
@@ -209,10 +209,10 @@ func GetTagList(r *gin.Engine) {
 
 	r.GET("/api/v2/Tag", func(c *gin.Context) {
 
-		if as, err := article.SelectTags(pg.Client, !ValidateLoginStatus(c)); err == nil {
-			Return(c, true, as)
+		if as, err := article.SelectTags(main.Client, !ValidateLoginStatus(c)); err == nil {
+			main.Return(c, true, as)
 		} else {
-			Return(c, false, "获取 tag 失败！"+err.Error())
+			main.Return(c, false, "获取 tag 失败！"+err.Error())
 		}
 
 	})

@@ -1,6 +1,8 @@
-package routers
+package main
 
 import (
+	"fmt"
+	"github.com/Jansora/pancake/backend/serve"
 	"github.com/Jansora/pancake/backend/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -19,28 +21,22 @@ func Return(c *gin.Context, status bool, data interface{}, message string) {
 	return
 }
 
-func InitUtils(r *gin.Engine) {
-	Utils(r)
+
+func dbOp()  {
+	CreateTable(Client)
 }
 
-func Utils(r *gin.Engine) {
+func main() {
+	dbOp()
 
-	r.POST("/api/v2/Upload", func(c *gin.Context) {
+	r := gin.New()
+	gin.SetMode(gin.ReleaseMode)
 
-		file, _ := c.FormFile("file")
+	serve.InitAuth(r)
+	serve.InitArticle(r)
+	serve.InitUtils(r)
 
-		src, _ := file.Open()
-
-		result := tools.Upload(src, file.Filename)
-
-		if len(result) > 0 {
-			ReturnTrue(c, result)
-			return
-		}
-
-		ReturnFalse(c, "")
-		return
-
-	})
+	port := fmt.Sprintf(":%d", tools.Port)
+	_ = r.Run(port) // listen and serve on 0.0.0.0:8080
 
 }

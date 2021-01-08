@@ -3,6 +3,7 @@ package tools
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/Jansora/pancake/backend"
 )
 
 type Postgres struct {
@@ -14,10 +15,6 @@ type Postgres struct {
 	SSLmode       string
 }
 
-type Admin struct {
-	Name  string
-	Token string
-}
 
 type Storage struct {
 	UseOss          bool
@@ -33,8 +30,8 @@ type Storage struct {
 }
 
 type Config struct {
-	PG    Postgres
-	ADMIN Admin
+	PG   Postgres
+	User main.User
 
 	STORAGE Storage
 }

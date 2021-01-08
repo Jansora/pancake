@@ -1,4 +1,4 @@
-package routers
+package serve
 
 import (
 	"github.com/Jansora/pancake/backend/tools"
@@ -14,21 +14,21 @@ func RemoveLoginCookie(c *gin.Context) {
 	c.SetCookie("token", "", 36000000, "/", "", false, true)
 }
 
-func GetLoginCookie(c *gin.Context) tools.Admin {
+func getLoginCookie(c *gin.Context) tools.User {
 
 	Name, err := c.Cookie("name")
 	if err != nil {
-		return tools.Admin{}
+		return tools.User{}
 	}
 	Token, err := c.Cookie("token")
 	if err != nil {
-		return tools.Admin{}
+		return tools.User{}
 	}
-	return tools.Admin{Name: Name, Token: Token}
+	return tools.User{Name: Name, Token: Token}
 }
 
 func ValidateLoginStatus(c *gin.Context) bool {
-	admin := GetLoginCookie(c)
+	admin := getLoginCookie(c)
 	return admin.Name == tools.Conf.ADMIN.Name && admin.Token == tools.Conf.ADMIN.Token
 }
 
