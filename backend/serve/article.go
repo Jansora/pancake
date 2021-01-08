@@ -81,9 +81,27 @@ func InitArticle(r *gin.Engine) {
 	})
 
 
-	r.GET("/api/v2/Tag", func(c *gin.Context) {
+	r.GET("/api/v2/tags", func(c *gin.Context) {
 
 		if tags, err := FetchTags(!ValidateLoginStatus(c)); err == nil {
+			ReturnTrue(c, tags)
+			return
+		}
+		ReturnFalse(c, "")
+
+	})
+	r.GET("/api/v2/classifies", func(c *gin.Context) {
+
+		if tags, err := FetchClassifies(!ValidateLoginStatus(c)); err == nil {
+			ReturnTrue(c, tags)
+			return
+		}
+		ReturnFalse(c, "")
+
+	})
+	r.GET("/api/v2/logos", func(c *gin.Context) {
+
+		if tags, err := FetchLogos(!ValidateLoginStatus(c)); err == nil {
 			ReturnTrue(c, tags)
 			return
 		}

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Checkbox, Dimmer, Dropdown, Form, Grid, Input, Loader, Select, TextArea} from "semantic-ui-react";
+import {Button, Checkbox, Dimmer, Dropdown, Form, Grid, Input, Loader, TextArea} from "semantic-ui-react";
 import {useHistory, useParams} from 'react-router-dom';
 
 import {Head, Section} from "../../components/styled/frameworks";
@@ -15,7 +15,7 @@ import {
 import styled from 'styled-components'
 import GetTheme from "../../components/hooks/GetTheme";
 import {StyledDescription} from "../../components/styled/common";
-import {useDebounceFn, useTitle} from "ahooks";
+import {useTitle} from "ahooks";
 import {message} from "antd";
 
 /**
@@ -52,7 +52,7 @@ const ModifyNote = (props) => {
   const [rawInit, setRawInit] = useState(!id);
   const [logos, setLogos, logosLoading] = FetchLogos();
   const [tags, setTags, tagsLoading] = FetchTags();
-  const [classifies, classifiesLoading] = FetchClassifies();
+  const [classifies, setClassifies, classifiesLoading] = FetchClassifies();
 
 
   useEffect(() => {
@@ -74,8 +74,8 @@ const ModifyNote = (props) => {
 
   const save = () => {
     const args = {
-      enabled, classify, id,
-      title, description, tag: `${!!tag ? tag.join(",") : ''}`, logo, raw
+      Enabled: enabled, Classify: classify, Id: id,
+      Title: title, Description: description, Tag: `${!!tag ? tag.join(",") : ''}`, logo, raw
     };
     const callback = (data) => history.push(`/notes/${data.id}`);
     if(!id) {
@@ -86,7 +86,7 @@ const ModifyNote = (props) => {
   }
   const autoSaveFn = () => {
     const args = {
-      enabled, classify, id, version: 'AUTO_CREATED',
+      Enabled: enabled, Classify: classify, Id: id, version: 'AUTO_CREATED',
       title, description, tag: `${!!tag ? tag.join(",") : ''}`, logo, raw
     };
     const callback = message.success("自动保存成功");
@@ -94,12 +94,7 @@ const ModifyNote = (props) => {
       UpdateNote(args, callback);
     }
   }
-  const { run } = useDebounceFn(
-      autoSaveFn,
-      {
-        wait: 8000,
-      },
-  );
+
 
   useTitle(!id ? "新建笔记" : `更新笔记 - ${title}`)
 
@@ -134,6 +129,7 @@ const ModifyNote = (props) => {
           <Grid >
             <Grid.Column width={3}>
               <Form.Field
+                  required
                   control={Input}
                   label='标题'
                   value={title}
@@ -143,15 +139,25 @@ const ModifyNote = (props) => {
             </Grid.Column>
             <Grid.Column width={3}>
 
-            <Form.Field
-              loading={classifiesLoading}
-              control={Select}
-              label='分类'
-              value={classify}
-              onChange={(event, {value}) => console.log(value) || setClassify(value)}
-              options={classifies.map(classify_ => ({key: classify_.id, text: classify_.name, value: classify_.id}))}
-              placeholder='请选择分类'
-          />
+              <Form.Field required>
+                <label>分类</label>
+                <StyledDropdown
+                    loading={classifiesLoading}
+                    onAddItem={(e, { value }) => {
+                      if(classifies.filter(l => l.value === value).length === 0) {
+                        setClassifies(classifies.concat([{ value, title: value}]))
+                      }
+                    }}
+                    onChange={(e, { value }) => console.log(value) ||setClassify(value)}
+                    options={classifies.map(classify_ => ({key: classify_.id, text: classify_.name, value: classify_.id}))}
+                    placeholder='请选择分类'
+                    search
+                    selection
+                    allowAdditions
+                    additionLabel={<StyledDescription>新增分类</StyledDescription>}
+                    value={classify}
+                />
+              </Form.Field>
             </Grid.Column>
             <Grid.Column width={5}>
 
@@ -182,25 +188,25 @@ const ModifyNote = (props) => {
             <Grid.Column width={5}>
 
             <Form.Field required>
-            <label>引导图片</label>
-            <StyledDropdown
-                loading={logosLoading}
-                onAddItem={(e, { value }) => {
-                  if(logos.filter(l => l.logo === value).length === 0) {
-                    setLogos(logos.concat([{logo: value, title: value}]))
-                  }
-                }}
-                onChange={(e, { value }) => console.log(value) ||setLogo(value)}
-                options={logos.map((l, index) => {return {key: index, text: `${l.title}` ,
-                  value: l.logo}})}
-                placeholder='选择Logo'
-                search
-                selection
-                allowAdditions
-                additionLabel={<StyledDescription>自定义标签</StyledDescription>}
-                value={logo}
-            />
-          </Form.Field>
+              <label>引导图片</label>
+              <StyledDropdown
+                  loading={logosLoading}
+                  onAddItem={(e, { value }) => {
+                    if(logos.filter(l => l.logo === value).length === 0) {
+                      setLogos(logos.concat([{logo: value, title: value}]))
+                    }
+                  }}
+                  onChange={(e, { value }) => console.log(value) ||setLogo(value)}
+                  options={logos.map((l, index) => {return {key: index, text: `${l.title}` ,
+                    value: l.logo}})}
+                  placeholder='选择Logo'
+                  search
+                  selection
+                  allowAdditions
+                  additionLabel={<StyledDescription>自定义标签</StyledDescription>}
+                  value={logo}
+              />
+            </Form.Field>
             </Grid.Column>
           </Grid>
           <Form.Field
@@ -223,7 +229,7 @@ const ModifyNote = (props) => {
 
         <Editor
             value={raw}
-            setValue={(v) => {setRaw(v); run()}}
+            setValue={(v) => {setRaw(v)}}
         />
       }
     </Form.Field>

@@ -17,7 +17,7 @@ export const FetchClassifies = () => {
   const [loading, setLoading] = useState(true);
   useEffect(()=> {
     if(loading) {
-      client.get(`notes/classifies`)
+      client.get(`classifies`)
           .then(setClassifies).finally(()=> {  setLoading(false)
       })
     }
@@ -26,7 +26,7 @@ export const FetchClassifies = () => {
 
 
 
-  return [classifies, loading];
+  return [classifies, setClassifies, loading];
 };
 
 
@@ -37,7 +37,7 @@ export const FetchLogos = () => {
   const [loading, setLoading] = useState(true);
   useEffect(()=> {
     if(loading) {
-      client.get(`notes/logos`)
+      client.get(`logos`)
           .then(setLogos).finally(()=> {  setLoading(false)
       })
     }
@@ -74,8 +74,8 @@ export const FetchTags = () => {
   const [loading, setLoading] = useState(true);
   useEffect(()=> {
     if(loading) {
-      client.get(`notes/tags`)
-          .then(data => setTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
+      client.get(`tags`)
+          .then(setTags)
           .finally(()=> {  setLoading(false)
       })
     }
@@ -110,7 +110,7 @@ export const FetchRelationTags = (classify) => {
 export const InsertNote = (data, callback) => {
 
 
-  client.post('note', data)
+  client.post('Article', data)
       .then(response =>  {
           message.success("添加成功")
           callback && callback(response)
@@ -123,7 +123,7 @@ export const InsertNote = (data, callback) => {
   return null;
 };
 export const UpdateNote = (data, callback) => {
-  client.put('note', data)
+  client.put('Article', data)
       .then(response =>  {
         // message.success("更新成功")
         callback && callback(response)
@@ -135,24 +135,18 @@ export const UpdateNote = (data, callback) => {
 
   return null;
 };
-export const FetchNote = (id, resource) => {
+export const FetchNote = (id) => {
 
 
   const [note, setNote] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(()=> {
-    if(loading && !!id  && IsNumber(id)) {
+    if(loading && IsNumber(id)) {
+      client.get(`Article/${id}`)
+          .then(setNote).finally(()=> {  setLoading(false)
+      })
+    }
 
-      client.get(`note/${id}`)
-          .then(setNote).finally(()=> {  setLoading(false)
-      })
-    }
-    console.log(id)
-    if(loading && !!id &&  !IsNumber(id) && id !== "new") {
-      client.get(`note/post/${id}`)
-          .then(setNote).finally(()=> {  setLoading(false)
-      })
-    }
 
 
 
@@ -195,7 +189,7 @@ export const FetchNotes = (classify, tag, title, offset, orderBy, sort, setOffse
       setLock(true);
       setLoading(true)
       const args = {sort, orderBy, tag, limit: 10, offset, title, classify};
-      client.get(`notes?${stringify(args)}`).then(response => {
+      client.get(`Article?${stringify(args)}`).then(response => {
         setTotal(response.total)
         setNotes(notes.concat(response.data));
 
@@ -209,7 +203,7 @@ export const FetchNotes = (classify, tag, title, offset, orderBy, sort, setOffse
 
 export const DeleteNote = (id, callback) => {
 
-  client.delete(`note/${id}`)
+  client.delete(`Article/${id}`)
       .then(response => {
         callback && callback()
       }).catch(e => {

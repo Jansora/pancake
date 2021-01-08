@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {DeleteNote, FetchNote, ImportNote} from "../../components/request/notebook";
+import {DeleteNote, FetchNote} from "../../components/request/notebook";
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {Aside, Head, Label as CustomLabel, Section} from "../../components/styled/frameworks";
 import styled from "styled-components";
@@ -9,7 +9,6 @@ import AdminLoginStatus from "../../components/hooks/AdminLoginStatus";
 import Confirm from "../../components/Confirm";
 import {useResponsive, useTitle} from "ahooks";
 import GetTheme from "../../components/hooks/GetTheme";
-import {IsNumber} from "../../components/utils";
 
 /**
  * <Description> <br>
@@ -131,13 +130,7 @@ const Note = (props) => {
         {/*}*/}
         {
           adminLoginStatus &&  <React.Fragment>
-            {
-              IsNumber(id) ?
-                  <Button  color={theme} as={Link} to={`/notes/${id}/edit`} style={{marginRight: 50}} size="mini"> 编辑笔记 </Button>
-              :  <Button  color={theme} as='a' style={{marginRight: 50}} size="mini"
-                          onClick={() => ImportNote(id, data => history.push(`/notes/${data.id}`)) } > 导入笔记 </Button>
-
-            }
+            <Button  color={theme} as={Link} to={`/notes/${id}/edit`} style={{marginRight: 50}} size="mini"> 编辑笔记 </Button>
             <Button  color="red" onClick={()=>setDeleteStatus(true)} size="mini"> 删除 </Button>
             { deleteStatus && <Confirm success={()=> DeleteNote(note.id,      ()=> history.push("/notes")) } content={'你确定要删除吗？'}/>}
 

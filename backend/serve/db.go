@@ -92,7 +92,7 @@ func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 
 func FetchArticlesCount(c Condition, Enabled bool) (int, error) {
 
-	querySql := `SELECT COUNT (1) FROM Article WHERE 1 = 1 `
+	querySql := `SELECT COUNT(1) FROM Article WHERE 1 = 1 `
 
 	length := 0
 
@@ -209,9 +209,9 @@ func DeleteArticle( Id string) error {
 }
 
 
-func FetchTags( Enabled bool) ([][]string, error) {
+func FetchTags( Enabled bool) ([]string, error) {
 
-	Tags := [][]string{}
+	Arrs := []string{}
 	querySql := fmt.Sprintf(`SELECT DISTINCT Tag FROM Article `)
 	if Enabled {
 		querySql += " Where Enabled=true;"
@@ -220,13 +220,57 @@ func FetchTags( Enabled bool) ([][]string, error) {
 	r, err := client.Query(querySql)
 
 	if err != nil {
-		return Tags, err
+		return Arrs, err
 	}
 	defer r.Close()
 	for r.Next() {
-		tag := []string{}
-		r.Scan(&tag)
-		Tags = append(Tags, tag)
+		element := ""
+		r.Scan(&element)
+		Arrs = append(Arrs, element)
 	}
-	return Tags, err
+	return Arrs, err
+}
+
+func FetchLogos( Enabled bool) ([]string, error) {
+
+	Arrs := []string{}
+	querySql := fmt.Sprintf(`SELECT DISTINCT Logo FROM Article `)
+	if Enabled {
+		querySql += " Where Enabled=true;"
+	}
+
+	r, err := client.Query(querySql)
+
+	if err != nil {
+		return Arrs, err
+	}
+	defer r.Close()
+	for r.Next() {
+		element := ""
+		r.Scan(&element)
+		Arrs = append(Arrs, element)
+	}
+	return Arrs, err
+}
+
+func FetchClassifies( Enabled bool) ([]string, error) {
+
+	Arrs := []string{}
+	querySql := fmt.Sprintf(`SELECT DISTINCT Classify FROM Article `)
+	if Enabled {
+		querySql += " Where Enabled=true;"
+	}
+
+	r, err := client.Query(querySql)
+
+	if err != nil {
+		return Arrs, err
+	}
+	defer r.Close()
+	for r.Next() {
+		element := ""
+		r.Scan(&element)
+		Arrs = append(Arrs, element)
+	}
+	return Arrs, err
 }
