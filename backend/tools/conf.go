@@ -3,29 +3,18 @@ package tools
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/Jansora/pancake/backend/serve/routes"
 )
 
 type Postgres struct {
-	User     string
-	Password string
-	Host     string
-	Port     int
-	DataBase string
-	SSLmode  string
+	ConnectString string
+	Password      string
+	Host          string
+	Port          int
+	DataBase      string
+	SSLmode       string
 }
 
-type Admin struct {
-	Name     string
-	Password string
-	Website  string
-	Email    string
-	Admin    bool
-}
-
-type Domain struct {
-	AppDomain   string
-	AdminDOmain string
-}
 
 type Storage struct {
 	UseOss          bool
@@ -40,31 +29,23 @@ type Storage struct {
 	LocalReturnPrefix string
 }
 
-func (p Postgres) Connect() string {
-	return fmt.Sprintf(`postgres://%s:%s@%s:%d/%s?sslmode=%s`,
-		p.User, p.Password, p.Host, p.Port, p.DataBase, p.SSLmode)
-}
-
 type Config struct {
-	PG    Postgres
-	ADMIN Admin
+	PG      Postgres
+	Account routes.Account
 
-	DOMAIN  Domain
 	STORAGE Storage
 }
 
 func (c Config) String() string {
-	return c.PG.Connect()
+	return c.PG.ConnectString
 }
 
-func GetConf() Config {
+func GetConfiguration() Config {
 	var conf Config
 	if _, err := toml.DecodeFile(confPath, &conf); err != nil {
-		// handle error
 		fmt.Print("read conf error !", err)
 	}
-	//fmt.Print(conf)
 	return conf
 }
 
-var Conf = GetConf()
+var Conf = GetConfiguration()

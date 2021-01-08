@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandline() (int, string) {
+func ReadCommand() (int, string) {
 
 	port := flag.Int("port", 0, "listening port. default 8083")
 	conf := flag.String("conf", "null", "configure path to parse. default /app/pancake.toml")
@@ -26,4 +26,4 @@ func commandline() (int, string) {
 
 }
 
-var Port, confPath = commandline()
+var Port, confPath = ReadCommand()
