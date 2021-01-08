@@ -10,14 +10,16 @@ import (
 func App() {
 	r := gin.New()
 	gin.SetMode(gin.ReleaseMode)
-
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
-	routers.Init(r)
+
+	routers.InitAuth(r)
+	routers.InitArticle(r)
+	routers.InitUtils(r)
 
 	port := fmt.Sprintf(":%d", tools.Port)
-	r.Run(port) // listen and serve on 0.0.0.0:8080
+	_ = r.Run(port) // listen and serve on 0.0.0.0:8080
 }

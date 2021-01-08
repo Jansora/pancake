@@ -27,7 +27,7 @@ func Article(r *gin.Engine) {
 
 	r.POST("/Golang/Article/Insert", func(c *gin.Context) {
 		var j InsertArticleType
-		println('a')
+
 		if err := c.BindJSON(&j); err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"ret": false,
@@ -182,7 +182,7 @@ func Article(r *gin.Engine) {
 			length, _ := article.SelectsLength(pg.Client, con, !LoginStatus(c))
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": as, "total": length})
 		} else {
-			Ret(c, false, "get Article failed！"+err.Error())
+			Return(c, false, "get Article failed！"+err.Error())
 		}
 	})
 
@@ -191,9 +191,9 @@ func Article(r *gin.Engine) {
 		var con article.Condition
 		con.Init(c)
 		if length, err := article.SelectsLength(pg.Client, con, !LoginStatus(c)); err == nil {
-			Ret(c, true, length)
+			Return(c, true, length)
 		} else {
-			Ret(c, false, "get Article length failed！"+err.Error())
+			Return(c, false, "get Article length failed！"+err.Error())
 		}
 	})
 
@@ -201,49 +201,17 @@ func Article(r *gin.Engine) {
 
 		arrStr := strings.Split(c.DefaultQuery("ids", ""), ",")
 		if arrStr[0] == "" {
-			Ret(c, false, "ArticleByIds is null！")
+			Return(c, false, "ArticleByIds is null！")
 			return
 		}
 
 		if as, err := article.SelectsByIds(pg.Client, arrStr, !LoginStatus(c)); err == nil {
-			Ret(c, true, as)
+			Return(c, true, as)
 		} else {
-			Ret(c, false, "get Article failed！"+err.Error())
+			Return(c, false, "get Article failed！"+err.Error())
 		}
 	})
 
-}
-
-func UpdateComment(r *gin.Engine) {
-	r.POST("/Golang/Comment/Update/:Url", func(c *gin.Context) {
-		var j UpdateCommentType
-
-		if err := c.BindJSON(&j); err != nil {
-			Ret(c, false, "Decode json error！"+err.Error())
-			return
-		}
-		IsLogin := LoginStatus(c)
-
-		a, err := article.Select(pg.Client, c.Param("Url"), !IsLogin)
-		if err != nil {
-			Ret(c, false, "获取 Comment 信息 失败！"+err.Error())
-			return
-		}
-		if len(a.Comment) > 100 {
-			Ret(c, false, "评论最长为100"+err.Error())
-			return
-		}
-		if len(a.Comment) > (len(j.Comments)) {
-			Ret(c, false, "违规操作"+err.Error())
-			return
-		}
-		a.Comment = j.Comments
-		if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
-			Ret(c, false, "更新评论失败"+err.Error())
-			return
-		}
-		Ret(c, true, a.Comment)
-	})
 }
 
 func GetTagList(r *gin.Engine) {
@@ -251,9 +219,9 @@ func GetTagList(r *gin.Engine) {
 	r.GET("/Golang/Tags", func(c *gin.Context) {
 
 		if as, err := article.SelectTags(pg.Client, !LoginStatus(c)); err == nil {
-			Ret(c, true, as)
+			Return(c, true, as)
 		} else {
-			Ret(c, false, "获取 tag 失败！"+err.Error())
+			Return(c, false, "获取 tag 失败！"+err.Error())
 		}
 
 	})

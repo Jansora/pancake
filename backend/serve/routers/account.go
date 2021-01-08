@@ -36,11 +36,11 @@ func Login(r *gin.Engine) {
 				})
 			} else {
 				log.Println("/Login" + "-----  account not found -----")
-				Ret(c, false, "")
+				Return(c, false, "")
 			}
 		} else {
 			log.Println("/Login" + "-----  Decode json error -----")
-			Ret(c, false, "数据格式错误")
+			Return(c, false, "数据格式错误")
 		}
 	})
 
@@ -58,19 +58,19 @@ func Login(r *gin.Engine) {
 
 		IdString, err := c.Cookie("Id")
 		if err != nil {
-			Ret(c, false, "无Cookie信息，请重新登陆")
+			Return(c, false, "无Cookie信息，请重新登陆")
 			return
 		}
 		Id, err := strconv.Atoi(IdString)
 		if err != nil {
 			log.Println("/Login/Check" + "-----   Cookie to Int error -----")
-			Ret(c, false, "Cookie无效，请重新登陆")
+			Return(c, false, "Cookie无效，请重新登陆")
 			return
 		}
 		token, err := c.Cookie("token")
 		if err != nil {
 			log.Println("/Login/Check" + "-----  get Cookie token error -----")
-			Ret(c, false, "令牌无效，请重新登陆")
+			Return(c, false, "令牌无效，请重新登陆")
 			return
 		}
 		u := account.GetUserInfo(

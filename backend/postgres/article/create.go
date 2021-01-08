@@ -21,10 +21,7 @@ Is_public      BOOLEAN                                  NOT NULL,
 Logo_url       TEXT                                     NOT NULL,
 Title          TEXT                                     NOT NULL,
 Summary        TEXT                                     ,
-Toc            TEXT []                                   	,
-Content        TEXT                                     ,
-Html        TEXT                                     ,
-Comment		   TEXT []                                  	
+Content        TEXT                                     ,	
 	);`
 	_, err := db.Exec(sql)
 	if err != nil {
@@ -36,8 +33,8 @@ func Insert(db *sql.DB, A Article) error {
 
 	sql := `INSERT INTO Article
 (Author, Create_time, Modify_time, Site, Url,       Read_num, Like_num, Tags, Is_public, Logo_url,
-Title, Summary,Content, Html, Comment, Toc) VALUES
-($1, $2,  $3, $4, $5, $6, $7, $8,  $9,$10, $11, $12,  $13, $14, $15, $16);`
+Title, Summary,Content) VALUES
+($1, $2,  $3, $4, $5, $6, $7, $8,  $9,$10, $11, $12,  $13);`
 
 	_, err := db.Exec(sql,
 		A.Author,
@@ -53,9 +50,6 @@ Title, Summary,Content, Html, Comment, Toc) VALUES
 		A.Title,
 		A.Summary,
 		A.Content,
-		A.Html,
-		pq.Array(A.Comment),
-		pq.Array(A.Toc),
 	)
 
 	return err

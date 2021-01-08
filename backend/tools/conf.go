@@ -22,11 +22,6 @@ type Admin struct {
 	Admin    bool
 }
 
-type Domain struct {
-	AppDomain   string
-	AdminDOmain string
-}
-
 type Storage struct {
 	UseOss          bool
 	EndPoint        string
@@ -49,7 +44,6 @@ type Config struct {
 	PG    Postgres
 	ADMIN Admin
 
-	DOMAIN  Domain
 	STORAGE Storage
 }
 

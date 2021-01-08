@@ -157,7 +157,7 @@ FROM Article WHERE Id = '%s' `, Id)
 		pq.Array(&A.Toc),
 	)
 	if IsPublic {
-		UpdateReadNum(db, A.Read_num+1, A.Id)
+		_ = UpdateReadNum(db, A.Read_num+1, A.Id)
 	}
 
 	return A, err
@@ -165,7 +165,7 @@ FROM Article WHERE Id = '%s' `, Id)
 
 func SelectsByIds(db *sql.DB, as []string, IsPublic bool) ([]Article, error) {
 
-	As := []Article{}
+	var As []Article
 
 	for _, a := range as {
 		if strings.Index(a, "document") != -1 {

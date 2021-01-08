@@ -1,4 +1,4 @@
-g[PG]
+[PG]
 User = "postgres"
 Password = "pancake"
 Host = "localhost"
@@ -14,10 +14,6 @@ Password = "admin"
 Website = "https://example.org"
 Email = "test@gmail.com"
 
-
-[DOMAIN]
-AppDomain = "pancake.jansora.com"
-AdminDOmain = "admin.pancake.jansora.com"
 
 [Storage]
 UseOss = true

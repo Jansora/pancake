@@ -20,11 +20,9 @@ type Article struct {
 	Is_public   bool
 	Logo_url    string
 	Summary     string
-	Toc         []string
 	Title       string
 	Content     string
 	Html        string
-	Comment     []string
 }
 
 func (a Article) String() string {
@@ -48,8 +46,8 @@ Comment: %s
 `,
 		a.Id, a.Author, a.Create_time, a.Modify_time,
 		a.Site, a.Url, a.Read_num, a.Like_num, a.Tags,
-		a.Is_public, a.Logo_url, a.Summary, a.Toc, a.Title,
-		a.Content, a.Comment)
+		a.Is_public, a.Logo_url, a.Summary, a.Title,
+		a.Content)
 }
 
 type Tags struct {

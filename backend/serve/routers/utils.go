@@ -6,8 +6,9 @@ import (
 	"net/http"
 )
 
-func Ret(c *gin.Context, ret bool, res interface{}) {
+func Return(c *gin.Context, ret bool, res interface{}) {
 	c.JSON(http.StatusOK, gin.H{"ret": ret, "res": res})
+	return
 }
 
 func InitUtils(r *gin.Engine) {
@@ -26,11 +27,11 @@ func Utils(r *gin.Engine) {
 
 		if len(r) > 0 {
 
-			Ret(c, true, r)
+			Return(c, true, r)
 
 		} else {
 
-			Ret(c, false, "")
+			Return(c, false, "")
 		}
 
 	})
