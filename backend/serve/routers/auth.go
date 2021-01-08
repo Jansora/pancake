@@ -5,9 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetLoginCookie(c *gin.Context) {
+func AddLoginCookie(c *gin.Context) {
 	c.SetCookie("name", tools.Conf.ADMIN.Name, 36000000, "/", "", false, true)
 	c.SetCookie("token", tools.Conf.ADMIN.Token, 36000000, "/", "", false, true)
+}
+func RemoveLoginCookie(c *gin.Context) {
+	c.SetCookie("name", "", 36000000, "/", "", false, true)
+	c.SetCookie("token", "", 36000000, "/", "", false, true)
 }
 
 func GetLoginCookie(c *gin.Context) tools.Admin {

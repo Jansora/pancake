@@ -3,64 +3,45 @@ package article
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"strings"
 	"time"
 )
 
 type Article struct {
 	Id          int
-	Author      string
-	Create_time time.Time
-	Modify_time time.Time
-	Url         string
-	Site        string
-	Read_num    int64
-	Like_num    int64
-	Tags        []string
-	Is_public   bool
-	Logo_url    string
-	Summary     string
+	CreateAt    time.Time
+	UpdateAt    time.Time
+	Classify    string
+	Tag         []string
+	Enabled     bool
+	Logo        string
+	Description string
 	Title       string
-	Content     string
-	Html        string
+	Raw         string
 }
 
 func (a Article) String() string {
 	return fmt.Sprintf(`
-Id: %d 
-Author: %s 
-Create_time: %s 
-Modify_time: %s 
-Site: %s 
-Url: %s
-Read_num: %d 
-Like_num: %d
-Tags: %s
-Is_public: %t 
-Logo_url: %s 
-Summary: %s 
-Toc: %s 
+Id: %d
+CreateAt: %s 
+UpdateAt: %s
+Tag: %s
+Enabled: %t 
+Logo: %s 
+Description: %s
 Title: %s
-Content: %s 
-Comment: %s
+Raw: %s
 `,
-		a.Id, a.Author, a.Create_time, a.Modify_time,
-		a.Site, a.Url, a.Read_num, a.Like_num, a.Tags,
-		a.Is_public, a.Logo_url, a.Summary, a.Title,
-		a.Content)
-}
-
-type Tags struct {
-	Tags []string
+		a.Id, a.CreateAt, a.UpdateAt, a.Tag, a.Enabled,
+		a.Logo, a.Description, a.Title, a.Raw)
 }
 
 type Condition struct {
-	Limit          string
-	Offset         string
-	Sort           string
-	SortType       string
-	Tag            []string
-	AmbiguousTitle string
+	Limit    string
+	Offset   string
+	Sort     string
+	SortType string
+	Tag      string
+	Title    string
 }
 
 func (c Condition) String() string {
@@ -74,18 +55,10 @@ Tag: %s
 		c.Sort, c.Limit, c.Offset, c.SortType, c.Tag)
 }
 func (c *Condition) Init(e *gin.Context) {
-
 	c.Limit = e.DefaultQuery("limit", "1000000")
 	c.Offset = e.DefaultQuery("offset", "0")
 	c.Sort = e.DefaultQuery("sort", "desc")
 	c.SortType = e.DefaultQuery("sortType", "id")
-	c.AmbiguousTitle = e.DefaultQuery("AmbiguousTitle", "")
-	arrStr := strings.Split(e.DefaultQuery("tag", ""), ",")
-
-	if arrStr[0] == "" {
-		c.Tag = []string{}
-	} else {
-		c.Tag = arrStr
-	}
-
+	c.Title = e.DefaultQuery("Title", "")
+	c.Tag = e.DefaultQuery("Title", "")
 }

@@ -1,12 +1,8 @@
 package routers
 
 import (
-	pg "github.com/Jansora/pancake/backend/postgres"
-	"github.com/Jansora/pancake/backend/postgres/account"
+	"github.com/Jansora/pancake/backend/tools"
 	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
-	"strconv"
 )
 
 func InitAuth(r *gin.Engine) {
@@ -17,88 +13,33 @@ func Login(r *gin.Engine) {
 
 	r.POST("/Golang/Login", func(c *gin.Context) {
 		var j LoginStruct
-		if c.BindJSON(&j) == nil {
-
+		if c.BindJSON(&j) != nil {
+			ReturnFalse(c, JSON_ERROR)
+			return
 		}
-		if c.BindJSON(&j) == nil {
-			if ValidateLogin(j) {
-				SetLoginCookie(c)
-				return
-			}
-			u := account.Login(
-				pg.Client, account.Account{Name: j.UserName, Password: j.PassWord})
-
-			authority := "guest"
-			if u.Id > 0 {
-				if u.Admin {
-					authority = "admin"
-				}
-				SetLoginCookie(c, u)
-				c.JSON(http.StatusOK, gin.H{
-					"ret":              true,
-					"currentAuthority": authority,
-					"id":               u.Id,
-					"name":             u.Name,
-				})
-			} else {
-				log.Println("/Login" + "-----  account not found -----")
-				Return(c, false, "")
-			}
-		} else {
-			log.Println("/Login" + "-----  Decode json error -----")
-			Return(c, false, "数据格式错误")
+		if ValidateLogin(j) {
+			AddLoginCookie(c)
+			ReturnTrue(c, tools.Conf.ADMIN)
+			return
 		}
+		ReturnFalse(c, "登录失败")
+		return
 	})
 
 	r.POST("/Golang/Logout", func(c *gin.Context) {
-		authority := "guest"
-		SetLoginCookie(c, account.Account{})
-		c.JSON(http.StatusOK, gin.H{
-			"currentAuthority": authority,
-			"ret":              true,
-		})
+
+		RemoveLoginCookie(c)
+		ReturnTrue(c, nil)
 	})
 
 	// 获取登录信息
 	r.GET("/Golang/GetUserInfo", func(c *gin.Context) {
-
-		IdString, err := c.Cookie("Id")
-		if err != nil {
-			Return(c, false, "无Cookie信息，请重新登陆")
+		if ValidateLoginStatus(c) {
+			ReturnTrue(c, tools.Conf.ADMIN)
 			return
 		}
-		Id, err := strconv.Atoi(IdString)
-		if err != nil {
-			log.Println("/Login/Check" + "-----   Cookie to Int error -----")
-			Return(c, false, "Cookie无效，请重新登陆")
-			return
-		}
-		token, err := c.Cookie("token")
-		if err != nil {
-			log.Println("/Login/Check" + "-----  get Cookie token error -----")
-			Return(c, false, "令牌无效，请重新登陆")
-			return
-		}
-		u := account.GetUserInfo(
-			pg.Client, account.Account{Id: Id, Password: token})
-
-		authority := "guest"
-		if u.Id > 0 {
-			if u.Admin {
-				authority = "admin"
-			}
-			c.JSON(http.StatusOK, gin.H{
-				"ret":              true,
-				"currentAuthority": authority,
-				"id":               u.Id,
-				"name":             u.Name,
-			})
-		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"ret":              false,
-				"currentAuthority": authority,
-			})
-		}
+		ReturnFalse(c, "")
+		return
 	})
 
 }

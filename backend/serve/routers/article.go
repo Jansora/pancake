@@ -15,42 +15,37 @@ func InitArticle(r *gin.Engine) {
 }
 
 func Article(r *gin.Engine) {
-	r.GET("/Golang/Article/:Url", func(c *gin.Context) {
-
-		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
-			c.JSON(http.StatusOK, gin.H{"ret": true, "res": a})
-		} else {
-			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "获取Article信息失败！" + err.Error()})
-		}
-	})
-
-	r.POST("/Golang/Article/Insert", func(c *gin.Context) {
-		var j InsertArticleType
-
-		if err := c.BindJSON(&j); err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"ret": false,
-				"res": "Decode json error！" + err.Error(),
-			})
+	r.GET("/Golang/Article/:id", func(c *gin.Context) {
+		if a, err := article.Select(pg.Client, c.Param("id"), !ValidateLoginStatus(c)); err == nil {
+			ReturnTrue(c, a)
 			return
 		}
+		ReturnFalse(c, "")
+	})
+
+	r.POST("/Golang/Article", func(c *gin.Context) {
 		if !ValidateLoginStatus(c) {
+			return
+		}
+		var j InsertArticleType
+		if c.BindJSON(&j) != nil {
+			ReturnFalse(c, JSON_ERROR)
 			return
 		}
 		a := article.Article{
 			Author:      j.Author,
-			Create_time: time.Now(),
-			Modify_time: time.Now(),
+			CreateAt:    time.Now(),
+			UpdateAt:    time.Now(),
 			Site:        j.Site,
-			Read_num:    0,
-			Like_num:    0,
-			Tags:        j.Tags,
+			ReadNum:     0,
+			LikeNum:     0,
+			Tag:         j.Tags,
 			Url:         j.Url,
-			Is_public:   j.IsPublic,
-			Logo_url:    j.LogoUrl,
+			Enabled:     j.IsPublic,
+			Logo:        j.LogoUrl,
 			Title:       j.Title,
-			Summary:     j.Summary,
-			Content:     j.Content,
+			Description: j.Summary,
+			Raw:         j.Content,
 			Html:        j.Html,
 		}
 		if err := article.Insert(pg.Client, a); err != nil {
@@ -79,7 +74,7 @@ func Article(r *gin.Engine) {
 			return
 		}
 		if a, err := article.Select(pg.Client, c.Param("Url"), false); err == nil {
-			a.Content = j.Content
+			a.Raw = j.Content
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
 					"ret": false, "res": "更新失敗！" + err.Error(),
@@ -114,13 +109,13 @@ func Article(r *gin.Engine) {
 			a.Title = j.Title
 			a.Url = j.Url
 			a.Author = j.Author
-			a.Modify_time = time.Now()
+			a.UpdateAt = time.Now()
 			a.Site = j.Site
-			a.Tags = j.Tags
-			a.Is_public = j.IsPublic
-			a.Logo_url = j.LogoUrl
-			a.Summary = j.Summary
-			a.Content = j.Content
+			a.Tag = j.Tags
+			a.Enabled = j.IsPublic
+			a.Logo = j.LogoUrl
+			a.Description = j.Summary
+			a.Raw = j.Content
 			a.Html = j.Html
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
@@ -140,7 +135,7 @@ func Article(r *gin.Engine) {
 
 	r.POST("/Golang/Article/UpdateLike/:Url", func(c *gin.Context) {
 		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
-			a.Like_num += 1
+			a.LikeNum += 1
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
 					"ret": false, "res": "更新失敗！" + err.Error(),
@@ -212,7 +207,7 @@ func Article(r *gin.Engine) {
 
 func GetTagList(r *gin.Engine) {
 
-	r.GET("/Golang/Tags", func(c *gin.Context) {
+	r.GET("/Golang/Tag", func(c *gin.Context) {
 
 		if as, err := article.SelectTags(pg.Client, !ValidateLoginStatus(c)); err == nil {
 			Return(c, true, as)

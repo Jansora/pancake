@@ -2,14 +2,14 @@ package routers
 
 type InsertArticleType struct {
 	Author   string   `json:"Author"`
-	Content  string   `json:"Content"`
+	Content  string   `json:"Raw"`
 	IsPublic bool     `json:"isPublic"`
 	LogoUrl  string   `json:"logoUrl"`
 	Url      string   `json:"Url"`
 	Site     string   `json:"site"`
-	Summary  string   `json:"Summary"`
+	Summary  string   `json:"Description"`
 	Html     string   `json:"Html"`
-	Tags     []string `json:"Tags"`
+	Tags     []string `json:"Tag"`
 	Title    string   `json:"Title"`
 	Toc      []string `json:"Toc"`
 }
@@ -23,3 +23,5 @@ type LoginCheckType struct {
 	LoginUser  string `json:"loginUser"`
 	LoginToken string `json:"loginToken"`
 }
+
+var JSON_ERROR = "JSON 解析失败"

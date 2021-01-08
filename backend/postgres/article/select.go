@@ -13,31 +13,31 @@ func Select(db *sql.DB, Url string, IsPublic bool) (Article, error) {
 
 	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
-Id , Author,Content,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
-Title, Summary
+Id , Author,Raw,CreateAt, UpdateAt, Site, Url, ReadNum, LikeNum, Tag, Enabled, Logo,
+Title, Description
 FROM Article WHERE Url = '%s' `, Url)
 	if IsPublic {
-		querySql += "AND Is_public=true"
+		querySql += "AND Enabled=true"
 	}
 
 	err := db.QueryRow(querySql).Scan(
 		&A.Id,
 		&A.Author,
-		&A.Content,
-		&A.Create_time,
-		&A.Modify_time,
+		&A.Raw,
+		&A.CreateAt,
+		&A.UpdateAt,
 		&A.Site,
 		&A.Url,
-		&A.Read_num,
-		&A.Like_num,
-		pq.Array(&A.Tags),
-		&A.Is_public,
-		&A.Logo_url,
+		&A.ReadNum,
+		&A.LikeNum,
+		pq.Array(&A.Tag),
+		&A.Enabled,
+		&A.Logo,
 		&A.Title,
-		&A.Summary,
+		&A.Description,
 	)
 	if IsPublic {
-		UpdateReadNum(db, A.Read_num+1, A.Id)
+		UpdateReadNum(db, A.ReadNum+1, A.Id)
 	}
 
 	return A, err
@@ -45,20 +45,20 @@ FROM Article WHERE Url = '%s' `, Url)
 
 func SelectsLength(db *sql.DB, c Condition, IsPublic bool) (int, error) {
 
-	querySql := `SELECT COUNT (Id) FROM Article WHERE $1 <@ Tags `
+	querySql := `SELECT COUNT (Id) FROM Article WHERE $1 <@ Tag `
 
 	length := 0
 
 	if IsPublic {
-		querySql += " and Is_public=true "
+		querySql += " and Enabled=true "
 	}
 	arr := []string{}
 	if len(c.Tag) > 0 {
 		arr = c.Tag
 	}
 
-	if c.AmbiguousTitle != "" {
-		querySql += " and Title ILIKE '%" + c.AmbiguousTitle + "%'  "
+	if c.Title != "" {
+		querySql += " and Title ILIKE '%" + c.Title + "%'  "
 	}
 
 	err := db.QueryRow(querySql, pq.Array(arr)).Scan(
@@ -76,15 +76,15 @@ func Selects(db *sql.DB, c Condition, IsPublic bool) ([]Article, error) {
 
 	As := []Article{}
 
-	querySql := `SELECT Id, Author, Create_time, Modify_time, Site, Url,  Read_num, Like_num, Tags, Logo_url,
-	Title, Summary, Is_public FROM Article WHERE $1 <@ Tags `
+	querySql := `SELECT Id, Author, CreateAt, UpdateAt, Site, Url,  ReadNum, LikeNum, Tag, Logo,
+	Title, Description, Enabled FROM Article WHERE $1 <@ Tag `
 
-	if c.AmbiguousTitle != "" {
-		querySql += " and Title ILIKE '%" + c.AmbiguousTitle + "%'  "
+	if c.Title != "" {
+		querySql += " and Title ILIKE '%" + c.Title + "%'  "
 	}
 
 	if IsPublic {
-		querySql += " and Is_public=true "
+		querySql += " and Enabled=true "
 	}
 	querySql += " ORDER BY " + c.SortType + " " + c.Sort
 	querySql += " LIMIT " + c.Limit + " OFFSET " + c.Offset
@@ -104,17 +104,17 @@ func Selects(db *sql.DB, c Condition, IsPublic bool) ([]Article, error) {
 		r.Scan(
 			&A.Id,
 			&A.Author,
-			&A.Create_time,
-			&A.Modify_time,
+			&A.CreateAt,
+			&A.UpdateAt,
 			&A.Site,
 			&A.Url,
-			&A.Read_num,
-			&A.Like_num,
-			pq.Array(&A.Tags),
-			&A.Logo_url,
+			&A.ReadNum,
+			&A.LikeNum,
+			pq.Array(&A.Tag),
+			&A.Logo,
 			&A.Title,
-			&A.Summary,
-			&A.Is_public,
+			&A.Description,
+			&A.Enabled,
 		)
 
 		As = append(As, A)
@@ -127,31 +127,31 @@ func SelectById(db *sql.DB, Id string, IsPublic bool) (Article, error) {
 
 	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
-Id , Author,Content,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
-Title, Summary
+Id , Author,Raw,CreateAt, UpdateAt, Site, Url, ReadNum, LikeNum, Tag, Enabled, Logo,
+Title, Description
 FROM Article WHERE Id = '%s' `, Id)
 	if IsPublic {
-		querySql += "AND Is_public=true"
+		querySql += "AND Enabled=true"
 	}
 
 	err := db.QueryRow(querySql).Scan(
 		&A.Id,
 		&A.Author,
-		&A.Content,
-		&A.Create_time,
-		&A.Modify_time,
+		&A.Raw,
+		&A.CreateAt,
+		&A.UpdateAt,
 		&A.Site,
 		&A.Url,
-		&A.Read_num,
-		&A.Like_num,
-		pq.Array(&A.Tags),
-		&A.Is_public,
-		&A.Logo_url,
+		&A.ReadNum,
+		&A.LikeNum,
+		pq.Array(&A.Tag),
+		&A.Enabled,
+		&A.Logo,
 		&A.Title,
-		&A.Summary,
+		&A.Description,
 	)
 	if IsPublic {
-		_ = UpdateReadNum(db, A.Read_num+1, A.Id)
+		_ = UpdateReadNum(db, A.ReadNum+1, A.Id)
 	}
 
 	return A, err
@@ -167,8 +167,8 @@ func SelectsByIds(db *sql.DB, as []string, IsPublic bool) ([]Article, error) {
 			var m map[string]interface{}
 			_ = json.Unmarshal([]byte(a), &m)
 			A, _ := SelectById(db, strconv.Itoa(int(m["id"].(float64))), IsPublic)
-			A.Content = ""
-			A.Summary = ""
+			A.Raw = ""
+			A.Description = ""
 			As = append(As, A)
 		} else {
 			As = append(As, Article{})
@@ -182,9 +182,9 @@ func SelectsByIds(db *sql.DB, as []string, IsPublic bool) ([]Article, error) {
 func SelectTags(db *sql.DB, IsPublic bool) ([][]string, error) {
 
 	Tags := [][]string{}
-	querySql := fmt.Sprintf(`SELECT Tags FROM Article `)
+	querySql := fmt.Sprintf(`SELECT Tag FROM Article `)
 	if IsPublic {
-		querySql += " Where Is_public=true;"
+		querySql += " Where Enabled=true;"
 	}
 
 	r, err := db.Query(querySql)
