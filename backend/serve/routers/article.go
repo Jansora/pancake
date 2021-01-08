@@ -11,14 +11,13 @@ import (
 
 func InitArticle(r *gin.Engine) {
 	Article(r)
-	UpdateComment(r)
 	GetTagList(r)
 }
 
 func Article(r *gin.Engine) {
 	r.GET("/Golang/Article/:Url", func(c *gin.Context) {
 
-		if a, err := article.Select(pg.Client, c.Param("Url"), !LoginStatus(c)); err == nil {
+		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": a})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "获取Article信息失败！" + err.Error()})
@@ -35,7 +34,7 @@ func Article(r *gin.Engine) {
 			})
 			return
 		}
-		if !LoginStatus(c) {
+		if !ValidateLoginStatus(c) {
 			return
 		}
 		a := article.Article{
@@ -53,8 +52,6 @@ func Article(r *gin.Engine) {
 			Summary:     j.Summary,
 			Content:     j.Content,
 			Html:        j.Html,
-			Comment:     []string{},
-			Toc:         j.Toc,
 		}
 		if err := article.Insert(pg.Client, a); err != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -77,7 +74,7 @@ func Article(r *gin.Engine) {
 			})
 			return
 		}
-		if !LoginStatus(c) {
+		if !ValidateLoginStatus(c) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
 		}
@@ -108,7 +105,7 @@ func Article(r *gin.Engine) {
 			})
 			return
 		}
-		if !LoginStatus(c) {
+		if !ValidateLoginStatus(c) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
 		}
@@ -123,7 +120,6 @@ func Article(r *gin.Engine) {
 			a.Is_public = j.IsPublic
 			a.Logo_url = j.LogoUrl
 			a.Summary = j.Summary
-			a.Toc = j.Toc
 			a.Content = j.Content
 			a.Html = j.Html
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
@@ -143,7 +139,7 @@ func Article(r *gin.Engine) {
 	})
 
 	r.POST("/Golang/Article/UpdateLike/:Url", func(c *gin.Context) {
-		if a, err := article.Select(pg.Client, c.Param("Url"), !LoginStatus(c)); err == nil {
+		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
 			a.Like_num += 1
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
 				c.JSON(http.StatusOK, gin.H{
@@ -162,7 +158,7 @@ func Article(r *gin.Engine) {
 	})
 
 	r.DELETE("/Golang/Article/:Url", func(c *gin.Context) {
-		if !LoginStatus(c) {
+		if !ValidateLoginStatus(c) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
 		}
@@ -178,8 +174,8 @@ func Article(r *gin.Engine) {
 
 		var con article.Condition
 		con.Init(c)
-		if as, err := article.Selects(pg.Client, con, !LoginStatus(c)); err == nil {
-			length, _ := article.SelectsLength(pg.Client, con, !LoginStatus(c))
+		if as, err := article.Selects(pg.Client, con, !ValidateLoginStatus(c)); err == nil {
+			length, _ := article.SelectsLength(pg.Client, con, !ValidateLoginStatus(c))
 			c.JSON(http.StatusOK, gin.H{"ret": true, "res": as, "total": length})
 		} else {
 			Return(c, false, "get Article failed！"+err.Error())
@@ -190,7 +186,7 @@ func Article(r *gin.Engine) {
 
 		var con article.Condition
 		con.Init(c)
-		if length, err := article.SelectsLength(pg.Client, con, !LoginStatus(c)); err == nil {
+		if length, err := article.SelectsLength(pg.Client, con, !ValidateLoginStatus(c)); err == nil {
 			Return(c, true, length)
 		} else {
 			Return(c, false, "get Article length failed！"+err.Error())
@@ -205,7 +201,7 @@ func Article(r *gin.Engine) {
 			return
 		}
 
-		if as, err := article.SelectsByIds(pg.Client, arrStr, !LoginStatus(c)); err == nil {
+		if as, err := article.SelectsByIds(pg.Client, arrStr, !ValidateLoginStatus(c)); err == nil {
 			Return(c, true, as)
 		} else {
 			Return(c, false, "get Article failed！"+err.Error())
@@ -218,7 +214,7 @@ func GetTagList(r *gin.Engine) {
 
 	r.GET("/Golang/Tags", func(c *gin.Context) {
 
-		if as, err := article.SelectTags(pg.Client, !LoginStatus(c)); err == nil {
+		if as, err := article.SelectTags(pg.Client, !ValidateLoginStatus(c)); err == nil {
 			Return(c, true, as)
 		} else {
 			Return(c, false, "获取 tag 失败！"+err.Error())

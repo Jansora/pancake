@@ -16,9 +16,15 @@ func InitAuth(r *gin.Engine) {
 func Login(r *gin.Engine) {
 
 	r.POST("/Golang/Login", func(c *gin.Context) {
-		var j LoginType
+		var j LoginStruct
 		if c.BindJSON(&j) == nil {
 
+		}
+		if c.BindJSON(&j) == nil {
+			if ValidateLogin(j) {
+				SetLoginCookie(c)
+				return
+			}
 			u := account.Login(
 				pg.Client, account.Account{Name: j.UserName, Password: j.PassWord})
 
@@ -95,8 +101,4 @@ func Login(r *gin.Engine) {
 		}
 	})
 
-}
-
-func LoginStatus(c *gin.Context) bool {
-	return account.CheckLoginStatus(pg.Client, GetLoginCookie(c))
 }

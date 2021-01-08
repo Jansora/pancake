@@ -8,7 +8,7 @@ import (
 
 func client() *sql.DB {
 
-	db, err := sql.Open("postgres", tools.Conf.PG.Connect())
+	db, err := sql.Open("postgres", tools.Conf.PG.ConnectString)
 
 	if err != nil {
 		panic(err)

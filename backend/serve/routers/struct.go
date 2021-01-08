@@ -14,9 +14,9 @@ type InsertArticleType struct {
 	Toc      []string `json:"Toc"`
 }
 
-type LoginType struct {
-	UserName string `json:"userName"`
-	PassWord string `json:"password"`
+type LoginStruct struct {
+	Name  string `json:"name"`
+	Token string `json:"token"`
 }
 type LoginCheckType struct {
 	LoginId    int    `json:"loginId"`

@@ -13,8 +13,8 @@ func Select(db *sql.DB, Url string, IsPublic bool) (Article, error) {
 
 	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
-Id , Author,Content, Html,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
-Title, Summary,Comment, Toc 
+Id , Author,Content,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
+Title, Summary
 FROM Article WHERE Url = '%s' `, Url)
 	if IsPublic {
 		querySql += "AND Is_public=true"
@@ -24,7 +24,6 @@ FROM Article WHERE Url = '%s' `, Url)
 		&A.Id,
 		&A.Author,
 		&A.Content,
-		&A.Html,
 		&A.Create_time,
 		&A.Modify_time,
 		&A.Site,
@@ -36,8 +35,6 @@ FROM Article WHERE Url = '%s' `, Url)
 		&A.Logo_url,
 		&A.Title,
 		&A.Summary,
-		pq.Array(&A.Comment),
-		pq.Array(&A.Toc),
 	)
 	if IsPublic {
 		UpdateReadNum(db, A.Read_num+1, A.Id)
@@ -130,8 +127,8 @@ func SelectById(db *sql.DB, Id string, IsPublic bool) (Article, error) {
 
 	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
-Id , Author,Content, Html,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
-Title, Summary,Comment, Toc 
+Id , Author,Content,Create_time, Modify_time, Site, Url, Read_num, Like_num, Tags, Is_public, Logo_url,
+Title, Summary
 FROM Article WHERE Id = '%s' `, Id)
 	if IsPublic {
 		querySql += "AND Is_public=true"
@@ -141,7 +138,6 @@ FROM Article WHERE Id = '%s' `, Id)
 		&A.Id,
 		&A.Author,
 		&A.Content,
-		&A.Html,
 		&A.Create_time,
 		&A.Modify_time,
 		&A.Site,
@@ -153,8 +149,6 @@ FROM Article WHERE Id = '%s' `, Id)
 		&A.Logo_url,
 		&A.Title,
 		&A.Summary,
-		pq.Array(&A.Comment),
-		pq.Array(&A.Toc),
 	)
 	if IsPublic {
 		_ = UpdateReadNum(db, A.Read_num+1, A.Id)
@@ -175,7 +169,6 @@ func SelectsByIds(db *sql.DB, as []string, IsPublic bool) ([]Article, error) {
 			A, _ := SelectById(db, strconv.Itoa(int(m["id"].(float64))), IsPublic)
 			A.Content = ""
 			A.Summary = ""
-			A.Comment = []string{}
 			As = append(As, A)
 		} else {
 			As = append(As, Article{})
