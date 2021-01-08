@@ -43,6 +43,7 @@ func Login(r *gin.Engine) {
 			Ret(c, false, "数据格式错误")
 		}
 	})
+
 	r.POST("/Golang/Logout", func(c *gin.Context) {
 		authority := "guest"
 		SetLoginCookie(c, account.Account{})
@@ -51,6 +52,7 @@ func Login(r *gin.Engine) {
 			"ret":              true,
 		})
 	})
+
 	// 获取登录信息
 	r.GET("/Golang/GetUserInfo", func(c *gin.Context) {
 

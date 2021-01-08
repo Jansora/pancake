@@ -5,8 +5,6 @@ import (
 	"github.com/Jansora/pancake/backend/postgres"
 	"github.com/Jansora/pancake/backend/postgres/account"
 	"github.com/Jansora/pancake/backend/postgres/article"
-	"github.com/Jansora/pancake/backend/postgres/project"
-	"github.com/Jansora/pancake/backend/postgres/topic"
 	"github.com/Jansora/pancake/backend/serve"
 )
 
@@ -14,8 +12,6 @@ func dbOp() {
 
 	account.Create(postgres.Client)
 	article.Create(postgres.Client)
-	topic.Create(postgres.Client)
-	project.Create(postgres.Client)
 	account.InsertAdminUser(postgres.Client)
 
 }
