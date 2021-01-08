@@ -15,7 +15,7 @@ func InitArticle(r *gin.Engine) {
 }
 
 func Article(r *gin.Engine) {
-	r.GET("/Golang/Article/:id", func(c *gin.Context) {
+	r.GET("/api/v2/Article/:id", func(c *gin.Context) {
 		if a, err := article.Select(pg.Client, c.Param("id"), !ValidateLoginStatus(c)); err == nil {
 			ReturnTrue(c, a)
 			return
@@ -23,7 +23,7 @@ func Article(r *gin.Engine) {
 		ReturnFalse(c, "")
 	})
 
-	r.POST("/Golang/Article", func(c *gin.Context) {
+	r.POST("/api/v2/Article", func(c *gin.Context) {
 		if !ValidateLoginStatus(c) {
 			return
 		}
@@ -59,7 +59,7 @@ func Article(r *gin.Engine) {
 			"ret": true, "res": "文章发表成功！",
 		})
 	})
-	r.POST("/Golang/Article/UpdateDoc/:Url", func(c *gin.Context) {
+	r.POST("/api/v2/Article/UpdateDoc/:Url", func(c *gin.Context) {
 		var j InsertArticleType
 
 		if err := c.BindJSON(&j); err != nil {
@@ -91,7 +91,7 @@ func Article(r *gin.Engine) {
 
 	})
 
-	r.POST("/Golang/Article/Update/:Url", func(c *gin.Context) {
+	r.POST("/api/v2/Article/Update/:Url", func(c *gin.Context) {
 		var j InsertArticleType
 		if err := c.BindJSON(&j); err != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -133,7 +133,7 @@ func Article(r *gin.Engine) {
 
 	})
 
-	r.POST("/Golang/Article/UpdateLike/:Url", func(c *gin.Context) {
+	r.POST("/api/v2/Article/UpdateLike/:Url", func(c *gin.Context) {
 		if a, err := article.Select(pg.Client, c.Param("Url"), !ValidateLoginStatus(c)); err == nil {
 			a.LikeNum += 1
 			if err := article.Update(pg.Client, a, c.Param("Url")); err != nil {
@@ -152,7 +152,7 @@ func Article(r *gin.Engine) {
 
 	})
 
-	r.DELETE("/Golang/Article/:Url", func(c *gin.Context) {
+	r.DELETE("/api/v2/Article/:Url", func(c *gin.Context) {
 		if !ValidateLoginStatus(c) {
 			c.JSON(http.StatusOK, gin.H{"ret": false, "res": "没有操作权限"})
 			return
@@ -165,7 +165,7 @@ func Article(r *gin.Engine) {
 
 	})
 
-	r.GET("/Golang/Article", func(c *gin.Context) {
+	r.GET("/api/v2/Article", func(c *gin.Context) {
 
 		var con article.Condition
 		con.Init(c)
@@ -177,7 +177,7 @@ func Article(r *gin.Engine) {
 		}
 	})
 
-	r.GET("/Golang/ArticleLength", func(c *gin.Context) {
+	r.GET("/api/v2/ArticleLength", func(c *gin.Context) {
 
 		var con article.Condition
 		con.Init(c)
@@ -188,7 +188,7 @@ func Article(r *gin.Engine) {
 		}
 	})
 
-	r.GET("/Golang/ArticleByIds", func(c *gin.Context) {
+	r.GET("/api/v2/ArticleByIds", func(c *gin.Context) {
 
 		arrStr := strings.Split(c.DefaultQuery("ids", ""), ",")
 		if arrStr[0] == "" {
@@ -207,7 +207,7 @@ func Article(r *gin.Engine) {
 
 func GetTagList(r *gin.Engine) {
 
-	r.GET("/Golang/Tag", func(c *gin.Context) {
+	r.GET("/api/v2/Tag", func(c *gin.Context) {
 
 		if as, err := article.SelectTags(pg.Client, !ValidateLoginStatus(c)); err == nil {
 			Return(c, true, as)

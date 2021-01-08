@@ -25,7 +25,7 @@ func InitUtils(r *gin.Engine) {
 
 func Utils(r *gin.Engine) {
 
-	r.POST("/Golang/Upload", func(c *gin.Context) {
+	r.POST("/api/v2/Upload", func(c *gin.Context) {
 
 		file, _ := c.FormFile("file")
 

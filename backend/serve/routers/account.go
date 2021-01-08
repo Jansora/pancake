@@ -11,7 +11,7 @@ func InitAuth(r *gin.Engine) {
 
 func Login(r *gin.Engine) {
 
-	r.POST("/Golang/Login", func(c *gin.Context) {
+	r.POST("/api/v2/Login", func(c *gin.Context) {
 		var j LoginStruct
 		if c.BindJSON(&j) != nil {
 			ReturnFalse(c, JSON_ERROR)
@@ -26,14 +26,14 @@ func Login(r *gin.Engine) {
 		return
 	})
 
-	r.POST("/Golang/Logout", func(c *gin.Context) {
+	r.POST("/api/v2/Logout", func(c *gin.Context) {
 
 		RemoveLoginCookie(c)
 		ReturnTrue(c, nil)
 	})
 
 	// 获取登录信息
-	r.GET("/Golang/GetUserInfo", func(c *gin.Context) {
+	r.GET("/api/v2/GetUserInfo", func(c *gin.Context) {
 		if ValidateLoginStatus(c) {
 			ReturnTrue(c, tools.Conf.ADMIN)
 			return
