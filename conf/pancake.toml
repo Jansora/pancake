@@ -3,7 +3,7 @@ User = "postgres"
 Password = "pancake"
 Host = "localhost"
 Port = 5432
-DataBase = "postgres"
+DataBase = "pancake"
 SSLmode = "disable"
 
 [ADMIN]
