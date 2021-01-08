@@ -12,9 +12,9 @@ import {useHistory} from "react-router-dom";
  */
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [keepLogin, setKeepLogin] = useState(true);
+  const [Name, setName] = useState('');
+  const [Token, setToken] = useState('');
+
 
   const { theme, dispatch } = useContext(GlobalStore);
   const history = useHistory();
@@ -27,7 +27,7 @@ const Login = (props) => {
 
   const signIn = () => {
 
-    const data = { username, password, keepLogin };
+    const data = {  Name, Token };
     setLoading(true);
     UserLogin(data, setLoading, setUser);
   }
@@ -37,14 +37,10 @@ const Login = (props) => {
         <Form.Input
             required
             label='用户名' placeholder='请输入你的用户名(登录时使用)' type='text'
-            value={username} onChange={e => setUsername(e.target.value)}/>
-        <Form.Input label='密码' type="password" placeholder='请输入你的密码' value={password}
-                    onChange={e => setPassword(e.target.value)}/>
-        <Form.Checkbox
-            // on
-            onChange={()=>setKeepLogin(!keepLogin)}
-            checked={keepLogin}
-            inline label='保持登录状态' />
+            value={Name} onChange={e => setName(e.target.value)}/>
+        <Form.Input label='密码' type="password" placeholder='请输入你的密码' value={Token}
+                    onChange={e => setToken(e.target.value)}/>
+
         <Divider style={{margin: '20px 0 12px 0'}}/>
 
         <Button fluid color={theme} content='登录' onClick={() => signIn()}/>

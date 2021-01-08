@@ -11,36 +11,21 @@ import {defaultValue} from "../store/global";
 
 
 export const FetchCurrentUser = (setUser) => {
-    client.get("user/fetchCurrentUser")
+    client.get("fetchCurrentUser")
         .then(setUser)
 };
 
 
-export const UserRegister = (data, setLoading, callback) => {
-
-    setLoading(true);
-    client.post('user/register', data)
-        .then(response =>  {
-          callback(response)
-          message.success(`注册成功~ ${data.data.alias}`)
-
-        }).catch( e => {
-    }).finally(()=> {
-        setLoading(false);
-    })
-
-
-    return null;
-};
 
 export const UserLogin = (data, setLoading, callback) => {
 
     setLoading(true);
-    client.post('user/login', data)
+    client.post('login', data)
         .then(response =>  {
           callback(response)
-          message.success(`欢迎回来~ ${data.data.alias}`)
+          message.success(`欢迎回来~ ${data.Name}`)
         }).catch( e => {
+          message.error("登录失败")
     }).finally(()=> {
         setLoading(false);
     })
@@ -51,22 +36,9 @@ export const UserLogin = (data, setLoading, callback) => {
 
 
 export const UserLogout = (callback) => {
-    client.post("user/logout")
+    client.post("logout")
         .then( response => {
-
           callback(defaultValue)
         })
     return null;
-};
-
-export const UpdateUser = (data, setOpen, setUser) => {
-    client.post("user/update", data)
-        .then( response => {
-            const { data } = response;
-            if(data.status){
-                setOpen(false)
-                setUser(data.data)
-                message.success("更新成功")
-            }
-        })
 };

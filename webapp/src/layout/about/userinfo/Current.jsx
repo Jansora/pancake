@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {GlobalStore} from "../../../components/store/global";
 import {UserLogout} from "../../../components/request/user";
-import {Button, Card} from "semantic-ui-react";
+import {Button, Divider} from "semantic-ui-react";
 import GetCurrentUser from "../../../components/hooks/GetCurrentUser";
 import {StyledDescription} from "../../../components/styled/common";
 import {useHistory} from "react-router-dom";
@@ -32,16 +32,12 @@ const Current = (props) => {
   }
   return <React.Fragment>
     <h3>当前用户信息</h3>
-    <Card fluid loading={loading.toString()}>
-      <Card.Content>
-        <Card.Header content={<>{user.alias} <StyledDescription>{user.username}</StyledDescription></>} />
-        <Card.Meta content='Musicians' />
-        <Card.Description content={user.description} />
-        <Button fluid color={theme} content='退出登录' onClick={() => signOut()}/>
-
-      </Card.Content>
-    </Card>
-
+    <Divider />
+    <h4> <StyledDescription>用户名: </StyledDescription> {user.name} </h4>
+    <h4> <StyledDescription>别名: </StyledDescription> {user.alias} </h4>
+    <h4> <StyledDescription>凭据(token): </StyledDescription> {user.token} </h4>
+    <Divider />
+    <Button fluid color={theme} content='退出登录' onClick={() => signOut()}/>
 
 
   </React.Fragment>;

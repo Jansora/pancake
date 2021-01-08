@@ -2,7 +2,6 @@ import React from 'react';
 import {Head, Section} from "../../../components/styled/frameworks";
 import {Route, Switch} from "react-router-dom";
 import Login from "./Login";
-import Register from "./Register";
 import Current from "./Current";
 
 /**
@@ -17,11 +16,11 @@ const UserInfo = (props) => {
     <Head>
       <h3> 用户信息 </h3>
     </Head>
-    <Section style={{padding: "100px 10%"}}>
+    <Section style={{padding: "100px 20%"}}>
 
       <Switch>
         <Route path="/about/user/signin" component={() => <Login  />} exact={false}/>
-        <Route path="/about/user/signup" component={() => <Register  />} exact={false}/>
+
         <Route path="/about/user/current" component={() => <Current  />} exact={false}/>
 
 

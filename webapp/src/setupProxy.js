@@ -1,9 +1,7 @@
 const proxy = require('http-proxy-middleware');
 module.exports = function(app) {
   app.use(proxy('/api', {
-    target: 'http://localhost:51001/',
-    // target: 'http://jansora.com:9008/',
-    // target: 'https://jansora.com/',
+    target: 'http://localhost:8083/',
     changeOrigin: true,
   }));
 };

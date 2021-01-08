@@ -3,7 +3,7 @@ import {message} from "antd";
 
 export const client = axios.create(
   {
-    baseURL: "/api/",
+    baseURL: "/api/v2/",
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
@@ -24,20 +24,17 @@ client.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   // console.log("response", response)
 
-  // 特殊处理
-  if(response.config.url.startsWith("playground")) return response.data;
-
   if(response.data.status) {
     return response.data.data;
   }
-  message.error(response.data.errorDesc)
+  // message.error("请求返回错误: " + response.data.message)
   return Promise.reject(response);
 }, function (error) {
   // 对响应错误做点什么
   const {response} = error;
   // console.log(error, response)
   if(response && response.data &&  response.data.status === false) {
-    message.error(response.data.errorDesc)
+    message.error(response.data.message)
   } else {
     message.error(`请求时出现异常, HTTP状态码: ${response.status}, ${response.statusText}`)
   }

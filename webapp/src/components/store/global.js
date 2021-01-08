@@ -5,13 +5,9 @@ import {THEME} from "../constants";
 export const defaultValue = {
     // 登录用户信息
     user: { //
-        id: "",
-        username: "",
-        description: "",
-        updatedAt: "",
-        createdAt: "",
-        avatar: "",
-        role: "",
+        name: "",
+        alias: "",
+        token: "",
     },
     // 主题色
     theme: localStorage.getItem(THEME) ? localStorage.getItem(THEME) : 'violet',

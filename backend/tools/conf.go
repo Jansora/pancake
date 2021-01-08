@@ -42,6 +42,7 @@ var Conf = GetConfiguration()
 
 type Account struct {
 	Name  string `json:"name"`
+	Alias  string `json:"alias"`
 	Token string `json:"token"`
 }
 

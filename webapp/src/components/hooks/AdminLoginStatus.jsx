@@ -13,7 +13,7 @@ const AdminLoginStatus = () => {
   const {user} = useContext(GlobalStore);
   useEffect(() => {
 
-      setStatus((user.id !== undefined && user.id !== "" && user.role === "admin"))
+      setStatus((user.name !== ""))
   }, [user]);
 
 

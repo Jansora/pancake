@@ -44,7 +44,6 @@ const About = (props) => {
         !status ? <React.Fragment>
               <LinkItem to="/about/user/signin" className={GetPath() === "/about/user/signin" ? 'active' : ''}><Icon name="sign in" />   账户登录</LinkItem>
               <LinkItem to="/about/user/oauth" className={GetPath() === "/about/user/oauth" ? 'active' : ''}><Icon name="sign in" />   第三方账户登录</LinkItem>
-              <LinkItem to="/about/user/signup" className={GetPath() === "/about/user/signup" ? 'active' : ''}><Icon name="sign in" />   注册</LinkItem>
         </React.Fragment> :
             <LinkItem to="/about/user/current" className={GetPath() === "/about/user/current" ? 'active' : ''}>
               <Icon name="circle" color="green" /> {user.alias} <StyledDescription>已登录</StyledDescription>

@@ -74,7 +74,7 @@ func (c *Condition) Init(e *gin.Context) {
 }
 
 func ReturnFalse(c *gin.Context, message string) {
-	Return(c, true, nil, message)
+	Return(c, false, nil, message)
 	return
 }
 func ReturnTrue(c *gin.Context, data interface{}) {

@@ -5,10 +5,7 @@ import NavBar from "./layout/navbar";
 import Notes from "./layout/notes/index";
 import About from "./layout/about";
 import Hooks from "./components/hooks";
-import KnowledgeGraph from "./layout/knowledge-graph";
-import InnerApps from "./layout/app-store";
 import {configResponsive} from 'ahooks';
-import Inspiration from "./layout/inspiration";
 import GetPath from "./components/hooks/GetPath";
 
 configResponsive({
@@ -53,11 +50,6 @@ const App = () => {
             <Route path="/about" component={About} exact={false}/>
 
 
-            <Route path="/inspiration" component={Inspiration} exact={false}/>
-
-            <Route path="/KnowledgeGraph" component={KnowledgeGraph} exact={true}/>
-            <Route path="/app-store" component={InnerApps} exact={true}/>
-            <Route path="/app-store/:id" component={InnerApps} exact={false}/>
           </Switch>
         </LayoutWrapper>
         <Hooks/>

@@ -12,7 +12,7 @@ const LoginStatus = () => {
   const [status, setStatus] = useState(false);
   const {user} = useContext(GlobalStore);
   useEffect(() => {
-    setStatus(!!user.id)
+    setStatus((user.name !== ""))
   }, [user]);
 
 
