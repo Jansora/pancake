@@ -1,4 +1,4 @@
-ARG UBUNTU_VERSION=20.04
+ARG UBUNTU_VERSION=18.04
 FROM ubuntu:${UBUNTU_VERSION}
 ENV GIN_MODE release
 
@@ -25,10 +25,10 @@ ARG ldc=pancake
 ENV ldc=$ldc
 
 
-
+RUN ls -l /app
 WORKDIR /app
 
 RUN chmod 755 server/pancake
 
-CMD ["sh","-c", "service nginx restart && server/pancake --conf=server/conf/${ldc}.toml --port=8080"]
+CMD ["sh","-c", "service nginx restart && server/app --conf=server/conf/${ldc}.toml --port=8080"]
 
