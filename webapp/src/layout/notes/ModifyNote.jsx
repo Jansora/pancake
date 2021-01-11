@@ -17,6 +17,7 @@ import GetTheme from "../../components/hooks/GetTheme";
 import {StyledDescription} from "../../components/styled/common";
 import {useTitle} from "ahooks";
 import {message} from "antd";
+import {IsNumber} from "../../components/utils";
 
 /**
  * <Description> <br>
@@ -74,7 +75,7 @@ const ModifyNote = (props) => {
 
   const save = () => {
     const args = {
-      Enabled: enabled, Classify: classify, Id: id,
+      Enabled: enabled, Classify: classify, Id: IsNumber(id) ? parseInt(id) : undefined,
       Title: title, Description: description, Tag: `${!!tag ? tag.join(",") : ''}`, logo, raw
     };
     const callback = (data) => history.push(`/notes/${data.id}`);
@@ -84,17 +85,6 @@ const ModifyNote = (props) => {
       UpdateNote(args, callback);
     }
   }
-  const autoSaveFn = () => {
-    const args = {
-      Enabled: enabled, Classify: classify, Id: id, version: 'AUTO_CREATED',
-      title, description, tag: `${!!tag ? tag.join(",") : ''}`, logo, raw
-    };
-    const callback = message.success("自动保存成功");
-    if(!!id) {
-      UpdateNote(args, callback);
-    }
-  }
-
 
   useTitle(!id ? "新建笔记" : `更新笔记 - ${title}`)
 
@@ -105,7 +95,6 @@ const ModifyNote = (props) => {
   }
 
 
-  console.log(classifies)
   return <React.Fragment>
 
     <Head marginLeft={false}>
@@ -145,20 +134,40 @@ const ModifyNote = (props) => {
                 <StyledDropdown
                     loading={classifiesLoading}
                     onAddItem={(e, { value }) => {
-                      console.log(value)
-                      if(classifies.filter(l => l.value === value).length === 0) {
-                        setClassifies(classifies.concat([{ value, classify: value, key: value}]))
+                      // setTags(tags.concat([value]));
+                      if(classifies.filter(c => c[0] === value).length === 0) {
+                        setClassifies(classifies.concat([[value, 1]]))
                       }
+                      // options.push({key: value, text: value, value})
                     }}
-                    onChange={(e, { value }) => console.log(value) ||setClassify(value)}
-                    options={classifies.map((classify_, index) => ({key: classify_.classify,  value: classify_.classify, text: classify_.classify}))}
+                    onChange={(e, { value }) => setClassify(value)  }
+                    options={classifies.map(c => {return {key: c[0], text: c[0], value: c[0]}})}
                     placeholder='请选择分类'
                     search
                     selection
+                    // multiple
                     allowAdditions
-                    additionLabel={<StyledDescription>新增分类</StyledDescription>}
+                    additionLabel={<StyledDescription>自定义标签</StyledDescription>}
                     value={classify}
+                    renderLabel={(label) => ({ content: label.text,})}
                 />
+                {/*<StyledDropdown*/}
+                {/*    loading={classifiesLoading}*/}
+                {/*    onAddItem={(e, { value }) => {*/}
+                {/*      console.log(value)*/}
+                {/*      if(classifies.filter(l => l.value === value).length === 0) {*/}
+                {/*        setClassifies(classifies.concat([{ value, classify: value, key: value}]))*/}
+                {/*      }*/}
+                {/*    }}*/}
+                {/*    onChange={(e, { value }) => console.log(value) ||setClassify(value)}*/}
+                {/*    options={classifies.map((classify_, index) => ({key: classify_.classify,  value: classify_.classify, text: classify_.classify}))}*/}
+                {/*    placeholder='请选择分类'*/}
+                {/*    search*/}
+                {/*    selection*/}
+                {/*    allowAdditions*/}
+                {/*    additionLabel={<StyledDescription>新增分类</StyledDescription>}*/}
+                {/*    value={classify}*/}
+                {/*/>*/}
               </Form.Field>
             </Grid.Column>
             <Grid.Column width={5}>

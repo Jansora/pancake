@@ -185,39 +185,26 @@ func InsertArticle( A *Article) error {
 
 	return err
 }
-//
-//func InsertArticle( A Article) error {
-//
-//	sql := `INSERT INTO Article
-//(classify, tag, logo, title, description, raw, enabled, createAt, updateAt) VALUES
-//($1, $2,  $3, $4, $5, $6, $7, $8, $9);`
-//
-//	A.CreateAt = time.Now().Format("2006-01-02 15:04:05")
-//	A.UpdateAt = A.CreateAt
-//	_, err := client.Exec(sql,
-//		A.Classify,
-//		A.Tag,
-//		A.Logo,
-//		A.Title,
-//		A.Description,
-//		A.Raw,
-//		A.Enabled,
-//		A.CreateAt,
-//		A.UpdateAt,
-//	)
-//
-//	return err
-//}
 
 
 func UpdateArticle( A Article) error {
 
-	sql := `UPDATE Article SET
-  UpdateAt = NOW(), CLassify = $1
-Tag= $2, Enabled= $3,  Logo= $4,Title= $5, Description= $6, Raw= $7
-WHERE Id = $8;`
+	//sql := `INSERT INTO Article ( Logo) VALUES (?);`
 
-	_, err := client.Exec(sql,
+	prepared, err := client.Prepare(`
+UPDATE Article SET
+CLassify = ?,
+Tag= ?, Enabled= ?,  Logo= ?,Title= ?, Description= ?, Raw= ?, UpdateAt= ?
+WHERE Id = ?;`)
+
+	if err != nil {
+		return err
+	}
+
+	A.CreateAt = time.Now().Format("2006-01-02 15:04:05")
+	A.UpdateAt = A.CreateAt
+
+	result, err2 := prepared.Exec(
 		A.Classify,
 		A.Tag,
 		A.Enabled,
@@ -225,13 +212,47 @@ WHERE Id = $8;`
 		A.Title,
 		A.Description,
 		A.Raw,
+		A.UpdateAt,
 		A.Id,
 	)
+	if err2 != nil {
+		return err2
+	}
+
+	id, err3 := result.LastInsertId()
+	if err3 != nil {
+		return err3
+	}
+	A.Id = id
 
 	return err
 }
 
-
+//func UpdateArticle( A Article) error {
+//
+//	sql := `UPDATE Article SET
+// CLassify = $1,
+//Tag= $2, Enabled= $3,  Logo= $4,Title= $5, Description= $6, Raw= $7
+//WHERE Id = $8;`
+//	A.UpdateAt = time.Now().Format("2006-01-02 15:04:05")
+//
+//	_, err := client.Exec(sql,
+//		A.Classify,
+//		A.Tag,
+//		A.Enabled,
+//		A.Logo,
+//		A.Title,
+//		A.Description,
+//		A.Raw,
+//		A.UpdateAt,
+//		A.Id,
+//
+//	)
+//
+//	return err
+//}
+//
+//
 
 func DeleteArticle( Id string) error {
 
@@ -284,27 +305,60 @@ func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 	return Tags, err
 }
 
-func FetchLogos( Enabled bool) ([]string, error) {
+func FetchLogos(Enabled bool) ([]Article, error) {
 
-	Arrs := []string{}
-	querySql := fmt.Sprintf(`SELECT DISTINCT Logo FROM Article `)
+	As := []Article{}
+
+	querySql := `SELECT logo, title FROM Article WHERE 1 = 1 `
+
 	if Enabled {
-		querySql += " Where Enabled=true;"
+		querySql += " AND Enabled=true "
 	}
 
 	r, err := client.Query(querySql)
-
 	if err != nil {
-		return Arrs, err
+		fmt.Println(err)
 	}
 	defer r.Close()
+
 	for r.Next() {
-		element := ""
-		r.Scan(&element)
-		Arrs = append(Arrs, element)
+		var A Article
+		r.Scan(
+			&A.Logo,
+			&A.Title,
+		)
+
+		As = append(As, A)
 	}
-	return Arrs, err
+
+	return As, err
 }
+//
+//func FetchLogos( Enabled bool) ([]string, error) {
+//
+//	Arrs := []string{}
+//	querySql := fmt.Sprintf(`SELECT DISTINCT Logo, title FROM Article `)
+//	if Enabled {
+//		querySql += " Where Enabled=true;"
+//	}
+//
+//	r, err := client.Query(querySql)
+//
+//	if err != nil {
+//		return Arrs, err
+//	}
+//	defer r.Close()
+//
+//	var logo string
+//	var title string
+//	for r.Next() {
+//
+//		r.Scan(&logo)
+//		r.Scan(&title)
+//		Arrs = append(Arrs, element)
+//	}
+//	return Arrs, err
+//}
 
 func FetchClassifies( Enabled bool) (map[string]int, error) {
 

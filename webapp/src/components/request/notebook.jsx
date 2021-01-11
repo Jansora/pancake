@@ -18,7 +18,8 @@ export const FetchClassifies = () => {
   useEffect(()=> {
     if(loading) {
       client.get(`classifies`)
-          .then(setClassifies).finally(()=> {  setLoading(false)
+          .then(data => setClassifies(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
+          .finally(()=> {  setLoading(false)
       })
     }
 
@@ -75,7 +76,7 @@ export const FetchTags = () => {
   useEffect(()=> {
     if(loading) {
       client.get(`tags`)
-          .then(setTags)
+          .then(data => setTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
           .finally(()=> {  setLoading(false)
       })
     }
@@ -94,7 +95,7 @@ export const FetchRelationTags = (classify) => {
   const [relationTagsLoading, setLoading] = useState(true);
   useEffect(()=> {
 
-      client.get(`notes/tags?${stringify({classify})}`)
+      client.get(`tags?${stringify({classify})}`)
           .then(data => setRelationTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
           .finally(()=> {  setLoading(false)
           })
@@ -158,13 +159,6 @@ export const FetchNote = (id) => {
   return [note, loading];
 };
 
-export const ImportNote = (resource, callback) => {
-
-
-      client.get(`note/importNote/${resource}`)
-          .then(callback)
-
-}
 
 
 export const FetchNotes = (classify, tag, title, offset, orderBy, sort, setOffset) => {
@@ -213,43 +207,3 @@ export const DeleteNote = (id, callback) => {
   return null;
 };
 
-
-export const FetchNotebooks = () => {
-
-
-  const [notebooks, setNotebooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(()=> {
-    if(loading) {
-      client.get(`notebook`)
-           .then(data => setNotebooks(data.sort((a,b) => a.dataIndex - b.dataIndex).map(tag => tag)))
-          .finally(()=> {  setLoading(false)
-      })
-    }
-
-  }, [loading]);
-
-
-
-  return [notebooks, loading];
-};
-
-export const FetchInnerApps = () => {
-
-
-  const [innerApps, setInnerApps] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(()=> {
-    if(loading) {
-      client.get(`innerApp`)
-          .then(data => setInnerApps(data.sort((a,b) => a.dataIndex - b.dataIndex).map(tag => tag)))
-          .finally(()=> {  setLoading(false)
-      })
-    }
-
-  }, [loading]);
-
-
-
-  return [innerApps, setInnerApps, loading];
-};

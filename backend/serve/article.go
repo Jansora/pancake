@@ -15,10 +15,10 @@ func InitArticle(r *gin.Engine) {
 	})
 
 	r.POST("/api/v2/Article", func(c *gin.Context) {
-		//if !ValidateLoginStatus(c) {
-		//	ReturnFalse(c, FORBIDDEN)
-		//	return
-		//}
+		if !ValidateLoginStatus(c) {
+			ReturnFalse(c, FORBIDDEN)
+			return
+		}
 		var j Article
 		if c.BindJSON(&j) != nil {
 			ReturnFalse(c, JSON_ERROR)

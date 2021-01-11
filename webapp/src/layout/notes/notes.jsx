@@ -44,10 +44,8 @@ const Notes = (props) => {
   const [orderBy, setOrderBy] = useState('update_at');
   const [sort, setSort] = useState('DESC');
 
-  const [classifies, classifiesLoading] = FetchClassifies();
+  const [classifies, setClassifies, classifiesLoading] = FetchClassifies();
   const [relationTags, relationTagsLoading] = FetchRelationTags(classify);
-
-  const [classifyCounts] = FetchClassifyCount();
 
 
   const [notes, setNotes, total, setLock, loading] = FetchNotes(classify, tag, title, offset, orderBy, sort, setOffset);
@@ -59,11 +57,11 @@ const Notes = (props) => {
       setTag("")
     }
   }, [pathname])
-  const getCount = (name) => {
-    const filters = classifyCounts.filter(classifyCount => classifyCount.name === name);
-    if(filters.length > 0) return filters[0].count;
-    return 0;
-  }
+  // const getCount = (name) => {
+  //   const filters = classifyCounts.filter(classifyCount => classifyCount.name === name);
+  //   if(filters.length > 0) return filters[0].count;
+  //   return 0;
+  // }
   const autoSearch = (value) => {
     setTitle(value)
     setNotes([]);setOffset(0);setLock(false)
@@ -104,27 +102,23 @@ const Notes = (props) => {
     <Aside Display={responsive.middle}>
       <CustomLabel> 笔记 </CustomLabel>
       <LinkItem to="/notes" className={tag === '' && classify === null ? 'active' : ''} onClick={() => setTag('') || setClassify(null)}
-      > <Icon name="th" /> 查看所有 <Label size="tiny">{classifyCounts.map(classifyCount => classifyCount.count).reduce((a,b ) => a + b, 0)}</Label></LinkItem>
+      > <Icon name="th" /> 查看所有 <Label size="tiny">{classifies.map(classify_ => classify_[1]).reduce((a,b ) => a + b, 0)}</Label></LinkItem>
       <CustomLabel> 分类 </CustomLabel>
       <Dimmer active={classifiesLoading || relationTagsLoading} inverted>
         <Loader active inline='centered' />
       </Dimmer>
-
       {
-        classifies.map((item, index)=> <LinkItem
-            to="/notes"
-            key={item.id}
-            onClick={() => setClassify(item.id)}
-            className={item.id === classify ? 'active' : ''}
+        classifies.map((classify_, index) => <Item
+            key={classify_[0]}
+            onClick={() => setClassify(classify_[0])}
+            className={tag === classify_[0] ? 'active' : ''}
         >
-          <Icon name={item.icon} /> {item.name}
-          <Label size="tiny">{getCount(item.name)}</Label>
-        </LinkItem>)
+          <Icon name={Icons[index % Icons.length]} /> {classify_[0]}     <Label size="tiny">{classify_[1]}</Label>
+
+        </Item>)
       }
 
       <div style={{flex: '1 1 auto'}} />
-      {/*<Divider style={{margin: 0}} />*/}
-
 
     </Aside>
     <Aside Display={responsive.large} right={true}>
@@ -169,9 +163,9 @@ const Notes = (props) => {
 
       <Bootstrap style={{margin:responsive.large ? "0 -84px 20px " : " 0 -32px 20px", height: 200}}>
         <h1>检索笔记</h1>
-        <StyledDescription style={{marginLeft: 0}}>这里汇集了众多的闪光点</StyledDescription>
+        <StyledDescription style={{marginBottom: 20}}>基于标题模糊搜索</StyledDescription>
         <Input
-            // size="mini"
+            size="mini"
             style={{width: responsive.middle ? "350px" :"100%"}}
             icon={
               <Icon name="search"
