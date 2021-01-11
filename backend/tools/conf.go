@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 )
+type Server struct {
+	Port int
+}
 
 type Mysql struct {
 	ConnectString string
@@ -27,6 +30,7 @@ type Config struct {
 	Mysql   Mysql
 	Account Account
 	Storage Storage
+	Server Server
 }
 
 

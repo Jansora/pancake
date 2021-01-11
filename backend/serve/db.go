@@ -26,8 +26,8 @@ func CreateTable() {
 	s := `
 CREATE TABLE IF NOT EXISTS Article(
 	Id 			INT        PRIMARY KEY  NOT NULL auto_increment,
-	CreateAt    VARCHAR(20)               NOT NULL,
-	UpdateAt    VARCHAR(20)               NOT NULL,
+	CreateAt    VARCHAR(50)               NOT NULL,
+	UpdateAt    VARCHAR(50)               NOT NULL,
 	Classify    TEXT                    NOT NULL,
 	Tag         TEXT                            ,
 	Enabled     tinyint(1)                 NOT NULL,
@@ -68,6 +68,7 @@ func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 	r, err := client.Query(querySql)
 	if err != nil {
 		fmt.Println(err)
+		return As, err
 	}
 	defer r.Close()
 
@@ -260,6 +261,7 @@ func DeleteArticle( Id string) error {
 	res, err := client.Exec(querySql)
 
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	_, err = res.RowsAffected()
@@ -278,12 +280,13 @@ func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 	}
 
 	if Enabled {
-		querySql += " Enabled=true; "
+		querySql += " AND Enabled=true; "
 	}
 
 	r, err := client.Query(querySql)
 
 	if err != nil {
+		fmt.Println(err)
 		return Tags, err
 	}
 	defer r.Close()
@@ -302,6 +305,7 @@ func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 		}
 
 	}
+
 	return Tags, err
 }
 
@@ -371,6 +375,7 @@ func FetchClassifies( Enabled bool) (map[string]int, error) {
 	r, err := client.Query(querySql)
 
 	if err != nil {
+		fmt.Println(err)
 		return Arrs, err
 	}
 	defer r.Close()

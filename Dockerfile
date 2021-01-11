@@ -28,7 +28,7 @@ ENV ldc=$ldc
 RUN ls -l /app
 WORKDIR /app
 
-RUN chmod 755 server/pancake
+RUN chmod 755 server/app
 
-CMD ["sh","-c", "service nginx restart && server/app --conf=server/conf/${ldc}.toml --port=8080"]
+CMD ["sh","-c", "service nginx restart && server/app --conf=server/conf/${ldc}.toml"]
 

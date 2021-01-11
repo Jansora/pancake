@@ -23,7 +23,7 @@ func main() {
 	serve.InitArticle(r)
 	serve.InitUtils(r)
 
-	port := fmt.Sprintf(":%d", tools.Port)
+	port := fmt.Sprintf(":%d", tools.Conf.Server.Port)
 	_ = r.Run(port) // listen and serve on 0.0.0.0:8080
 
 }
