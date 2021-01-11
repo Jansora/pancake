@@ -11,7 +11,6 @@ import 'highlight.js/styles/vs.css';
 import './override.css'
 import {UploadFile} from "../../request/utils";
 import copy from 'copy-to-clipboard';
-import {useDebounceFn} from "ahooks";
 
 // import frontmatter from "@bytemd/plugin-frontmatter"
 // import gemoji from    "@bytemd/plugin-gemoji"
@@ -51,22 +50,12 @@ const plugins = [
 
 
 export const Editor = ({value, setValue}) => {
-  const { run } = useDebounceFn(
-      setValue,
-      {
-        wait: 1000,
-      },
-  );
 
   return (
       <ByteEditor
-          // mode="tab"
-          // id="222"
           value={value}
           plugins={plugins}
-          onChange={(v) => {
-            run(v);
-          }}
+          onChange={setValue}
           editorConfig={{}}
       />
   )

@@ -21,9 +21,14 @@ COPY ./deploy/app /app/
 COPY ./deploy/dependencies/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY deploy/dependencies/nginx/sites-enabled/app.conf /etc/nginx/sites-enabled/app.conf
 
+ARG ldc=pancake
+ENV ldc=$ldc
+
+
+
 WORKDIR /app
 
 RUN chmod 755 server/pancake
 
-CMD ["sh","-c", "service nginx restart && server/pancake --conf=server/conf/pancake.toml --port=8080"]
+CMD ["sh","-c", "service nginx restart && server/pancake --conf=server/conf/${ldc}.toml --port=8080"]
 

@@ -36,3 +36,4 @@ backend/src/golang.org/x/time/
 backend/src/github.com/aliyun/aliyun-oss-go-sdk
 /webapp/update.py
 /webapp/node_modules/
+/deploy/app/server/conf/prod.toml
