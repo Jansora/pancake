@@ -1,35 +1,23 @@
-[PG]
-User = "postgres"
-Password = "postgres"
-Host = "172.17.0.1"
-Port = 5432
-DataBase = "pancake"
-SSLmode = "disable"
+[Mysql]
+ConnectString = "root@tcp(localhost:3306)/mysql"
 
-[ADMIN]
-Admin = true
+[Account]
+
 Name = "admin"
-Password = "admin"
-
-Website = "https://example.org"
-Email = "test@gmail.com"
-
-
-[DOMAIN]
-AppDomain = "pancake.jansora.com"
-AdminDOmain = "admin.pancake.jansora.com"
+Token = "admin"
+Alias = "Jansora"
 
 [Storage]
-UseOss = false
-
-EndPoint = ""
-AccessKeyId = ""
-AccessKeySecret = ""
-Bucket = ""
-AliasDomain = "https://pancake.jansora.com"
+UseOss = true
+EndPoint = "oss-cn-shanghai.aliyuncs.com"
+AccessKeyId = "----"
+AccessKeySecret = "----"
+Bucket = "jansora"
+# default domain is oss-cn-shanghai.aliyuncs.com
+# if you want hidden the oss domain, use your domain instead. for example https://cdn.jansora.com
+AliasDomain = "https://cdn.jansora.com"
 OssPrefix = "Pancake/"
 
-
-LocalSavePrefix = "/resource/"
-LocalReturnPrefix = "/resource"
+LocalSavePrefix = "/static/"
+LocalReturnPrefix = "/static/"
 

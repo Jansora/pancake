@@ -1,0 +1,16 @@
+.bytemd-body {
+    height: calc(100vh - 300px);
+}
+.markdown-body > img {
+    max-height: 400px !important;
+}
+
+.bytemd-toolbar svg{
+
+    width: 24px;
+    height: 24px;
+}
+
+.bytemd-toolbar {
+    display: flex;
+}

@@ -1,0 +1,143 @@
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+body{
+
+
+  --header-width: 50px;
+  --header-height: 43px;
+  --active-header-width: 200px;
+  --aside-width: 250px;
+
+  font-size: 14px;
+  margin: 0;
+  overflow: auto;
+  overflow-x: hidden;
+
+  scroll-behavior: smooth;
+  color: #595959;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(  --primary-color);
+  color: white;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+  border: 3px;
+}
+::-webkit-scrollbar-thumb {
+  width:6px;
+  background-color: var(  --primary-color) !important;
+  -webkit-border-radius: 2px;
+  outline: 1px solid  var(  --primary-color);
+  outline-offset: -2px;
+  border: 3px solid  var(  --primary-color);
+}
+
+::-webkit-scrollbar-track {
+  /*display: none;*/
+}
+
+::-webkit-scrollbar {
+  /*display: none;*/
+}
+a{
+  color: rgba(0,0,0, 0.87);
+  text-decoration: none !important;
+}
+a:hover, a:checked{
+  color: var(--active-color);
+}
+a:active, a.active{
+  color: var(  --primary-color);
+}
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+
+.red {
+
+  --primary-color: #db2828;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(219, 40, 40, .1);
+}
+.orange {
+
+  --primary-color: #f2711c;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(242, 113, 28, .1);
+}
+.yellow {
+
+  --primary-color: #fbbd08;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(251, 189, 8, .1);
+}
+.olive {
+
+  --primary-color: #b5cc18;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(181, 204, 24, .1);
+}
+.green {
+
+  --primary-color: #21ba45;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(33, 186, 69, .1);
+}
+.teal {
+
+  --primary-color: #00b5ad;
+  --active-backgroud-color: rgba(0,0,0,.04);
+
+  --active-color:  #00b5ad;
+}
+.blue {
+
+  --primary-color: #2185d0;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color:  #00b5ad;
+}
+
+.violet {
+
+  --primary-color: #6435c9;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: #FF9001;
+}
+.purple {
+
+  --primary-color: #a333c8;
+  --active-backgroud-color: rgba(0,0,0,.04);
+  --active-color: rgba(163, 51, 200, .1);
+}
+.pink {
+
+  --primary-color: #e03997;
+  --active-backgroud-color: rgba(224, 57, 151, .08);
+  --active-color: rgba(224, 57, 151, .1);
+}
+.brown {
+
+  --primary-color: #a5673f;
+  --active-backgroud-color: rgba(165, 103, 63, .08);
+  --active-color: rgba(165, 103, 63, .1);
+}
+.grey {
+
+  --primary-color: #767676;
+  --active-backgroud-color: rgba(118, 118, 118, .08);
+  --active-color:rgba(118, 118, 118, .1);
+}

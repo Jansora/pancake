@@ -1,2 +1,2 @@
 cd ..
-docker build -t jansora/pancake:v1 .
+docker build  --build-arg ldc -t  jansora/pancake:v1 .

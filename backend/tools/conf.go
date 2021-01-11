@@ -3,16 +3,13 @@ package tools
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
-	"github.com/Jansora/pancake/backend/serve/routes"
 )
+type Server struct {
+	Port int
+}
 
-type Postgres struct {
+type Mysql struct {
 	ConnectString string
-	Password      string
-	Host          string
-	Port          int
-	DataBase      string
-	SSLmode       string
 }
 
 
@@ -30,15 +27,12 @@ type Storage struct {
 }
 
 type Config struct {
-	PG      Postgres
-	Account routes.Account
-
-	STORAGE Storage
+	Mysql   Mysql
+	Account Account
+	Storage Storage
+	Server Server
 }
 
-func (c Config) String() string {
-	return c.PG.ConnectString
-}
 
 func GetConfiguration() Config {
 	var conf Config
@@ -49,3 +43,10 @@ func GetConfiguration() Config {
 }
 
 var Conf = GetConfiguration()
+
+type Account struct {
+	Name  string `json:"name"`
+	Alias  string `json:"alias"`
+	Token string `json:"token"`
+}
+

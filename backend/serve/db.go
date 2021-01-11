@@ -3,15 +3,15 @@ package serve
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Jansora/pancake/backend/serve/routes"
 	"github.com/Jansora/pancake/backend/tools"
 	_ "github.com/go-sql-driver/mysql"
+	"strings"
 	"time"
 )
 
 func getClient() *sql.DB {
 
-	db, err := sql.Open("mysql", tools.Conf.PG.ConnectString)
+	db, err := sql.Open("mysql", tools.Conf.Mysql.ConnectString)
 
 	if err != nil {
 		panic(err)
@@ -25,16 +25,16 @@ var client = getClient()
 func CreateTable() {
 	s := `
 CREATE TABLE IF NOT EXISTS Article(
-	Id 			SERIAL     PRIMARY KEY  NOT NULL,
-	CreateAt    TIMESTAMP               NOT NULL,
-	UpdateAt    TIMESTAMP               NOT NULL,
+	Id 			INT        PRIMARY KEY  NOT NULL auto_increment,
+	CreateAt    VARCHAR(50)               NOT NULL,
+	UpdateAt    VARCHAR(50)               NOT NULL,
 	Classify    TEXT                    NOT NULL,
 	Tag         TEXT                            ,
-	Enabled     BOOLEAN                 NOT NULL,
+	Enabled     tinyint(1)                 NOT NULL,
 	Logo        TEXT                    NOT NULL,
 	Title       TEXT                    NOT NULL,
 	Description TEXT                            ,
-	Raw         TEXT                            ,	
+	Raw         TEXT                            
 );`
 	_, err := client.Exec(s)
 	if err != nil {
@@ -43,22 +43,22 @@ CREATE TABLE IF NOT EXISTS Article(
 }
 
 
-func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
+func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 
-	As := []routes.Article{}
+	As := []Article{}
 
-	querySql := `SELECT Id, CLassify, CreateAt, UpdateAt, Tag, Logo, Title, Description, Enabled FROM Article WHERE 1 = 1 `
+	querySql := `SELECT id,  classify, tag, logo, title, description, createAt, updateAt, (enabled = 1) enabled  FROM Article WHERE 1 = 1 `
 
 	if Enabled {
 		querySql += " AND Enabled=true "
 	}
 
 	if c.Tag != "" {
-		querySql += " AND Tag ILIKE '%" + c.Tag + "%'  "
+		querySql += " AND Tag LIKE '%" + c.Tag + "%'  "
 	}
 
 	if c.Title != "" {
-		querySql += " AND Title ILIKE '%" + c.Title + "%'  "
+		querySql += " AND Title LIKE '%" + c.Title + "%'  "
 	}
 	querySql += " ORDER BY " + c.SortType + " " + c.Sort
 	querySql += " LIMIT " + c.Limit + " OFFSET " + c.Offset
@@ -68,20 +68,22 @@ func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
 	r, err := client.Query(querySql)
 	if err != nil {
 		fmt.Println(err)
+		return As, err
 	}
 	defer r.Close()
 
 	for r.Next() {
-		var A routes.Article
+		var A Article
 		r.Scan(
 			&A.Id,
 			&A.Classify,
-			&A.CreateAt,
-			&A.UpdateAt,
+
 			&A.Tag,
 			&A.Logo,
 			&A.Title,
 			&A.Description,
+			&A.CreateAt,
+			&A.UpdateAt,
 			&A.Enabled,
 		)
 
@@ -91,9 +93,9 @@ func FetchArticles(c routes.Condition, Enabled bool) ([]routes.Article, error) {
 	return As, err
 }
 
-func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
+func FetchArticlesCount(c Condition, Enabled bool) (int, error) {
 
-	querySql := `SELECT COUNT (1) FROM Article WHERE 1 = 1 `
+	querySql := `SELECT COUNT(1) FROM Article WHERE 1 = 1 `
 
 	length := 0
 
@@ -102,11 +104,11 @@ func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
 	}
 
 	if c.Tag != "" {
-		querySql += " AND Tag ILIKE '%" + c.Tag + "%'  "
+		querySql += " AND Tag LIKE '%" + c.Tag + "%'  "
 	}
 
 	if c.Title != "" {
-		querySql += " AND Title ILIKE '%" + c.Title + "%'  "
+		querySql += " AND Title LIKE '%" + c.Title + "%'  "
 	}
 
 	err := client.QueryRow(querySql).Scan(
@@ -121,11 +123,11 @@ func FetchArticlesCount(c routes.Condition, Enabled bool) (int, error) {
 }
 
 
-func FetchArticle( Id string, Enabled bool) (routes.Article, error) {
+func FetchArticle( Id string, Enabled bool) (Article, error) {
 
-	A := routes.Article{}
+	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
-Id, Classify,  Raw, CreateAt, UpdateAt, Tag, Enabled, Logo, Title, Description
+id, classify,  raw, createAt, updateAt, tag, enabled, logo, title, description
 FROM Article WHERE id = '%s' `, Id)
 	if Enabled {
 		querySql += "AND Enabled=true"
@@ -148,40 +150,62 @@ FROM Article WHERE id = '%s' `, Id)
 }
 
 
+func InsertArticle( A *Article) error {
 
-func InsertArticle( A routes.Article) error {
+	//sql := `INSERT INTO Article ( Logo) VALUES (?);`
 
-	sql := `INSERT INTO Article
-(CreateAt, UpdateAt, Classify, Tag, Enabled, Logo, Title, Description, Raw) VALUES
-($1, $2,  $3, $4, $5, $6, $7, $8, $9);`
+	prepared, err := client.Prepare(`INSERT INTO Article ( classify, tag, logo, title, description, raw, enabled, createAt, updateAt ) VALUES (?, ?,?,?,?,?,?,?,?);`)
 
-	_, err := client.Exec(sql,
-		time.Now(),
-		time.Now(),
-		&A.Classify,
-		A.Tag,
+	if err != nil {
+		return err
+	}
 
-		A.Enabled,
-		A.Logo,
-		A.Title,
-		A.Description,
-		A.Raw,
+	A.CreateAt = time.Now().Format("2006-01-02 15:04:05")
+	A.UpdateAt = A.CreateAt
+
+	result, err2 := prepared.Exec(
+				A.Classify,
+				A.Tag,
+				A.Logo,
+				A.Title,
+				A.Description,
+				A.Raw,
+				A.Enabled,
+				A.CreateAt,
+				A.UpdateAt,
 	)
+	if err2 != nil {
+		return err2
+	}
+
+	id, err3 := result.LastInsertId()
+	if err3 != nil {
+		return err3
+	}
+	A.Id = id
 
 	return err
 }
 
 
-func UpdateArticle( A routes.Article) error {
+func UpdateArticle( A Article) error {
 
-	sql := `UPDATE Article SET
- CreateAt= $1, UpdateAt = $2, CLassify = $3
-Tag= $4, Enabled= $5,  Logo= $6,Title= $7, Description= $8, Raw= $9
-WHERE Id = $10;`
+	//sql := `INSERT INTO Article ( Logo) VALUES (?);`
 
-	_, err := client.Exec(sql,
-		A.CreateAt,
-		time.Now(),
+	prepared, err := client.Prepare(`
+UPDATE Article SET
+CLassify = ?,
+Tag= ?, Enabled= ?,  Logo= ?,Title= ?, Description= ?, Raw= ?, UpdateAt= ?
+WHERE Id = ?;`)
+
+	if err != nil {
+		return err
+	}
+
+	A.CreateAt = time.Now().Format("2006-01-02 15:04:05")
+	A.UpdateAt = A.CreateAt
+
+	result, err2 := prepared.Exec(
 		A.Classify,
 		A.Tag,
 		A.Enabled,
@@ -189,13 +213,47 @@ WHERE Id = $10;`
 		A.Title,
 		A.Description,
 		A.Raw,
+		A.UpdateAt,
 		A.Id,
 	)
+	if err2 != nil {
+		return err2
+	}
+
+	id, err3 := result.LastInsertId()
+	if err3 != nil {
+		return err3
+	}
+	A.Id = id
 
 	return err
 }
 
-
+//func UpdateArticle( A Article) error {
+//
+//	sql := `UPDATE Article SET
+// CLassify = $1,
+//Tag= $2, Enabled= $3,  Logo= $4,Title= $5, Description= $6, Raw= $7
+//WHERE Id = $8;`
+//	A.UpdateAt = time.Now().Format("2006-01-02 15:04:05")
+//
+//	_, err := client.Exec(sql,
+//		A.Classify,
+//		A.Tag,
+//		A.Enabled,
+//		A.Logo,
+//		A.Title,
+//		A.Description,
+//		A.Raw,
+//		A.UpdateAt,
+//		A.Id,
+//
+//	)
+//
+//	return err
+//}
+//
+//
 
 func DeleteArticle( Id string) error {
 
@@ -203,31 +261,135 @@ func DeleteArticle( Id string) error {
 	res, err := client.Exec(querySql)
 
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	_, err = res.RowsAffected()
 	return  err
 }
 
+func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 
-func FetchTags( Enabled bool) ([][]string, error) {
 
-	Tags := [][]string{}
-	querySql := fmt.Sprintf(`SELECT DISTINCT Tag FROM Article `)
+	var Tags = map[string]int{}
+	querySql := fmt.Sprintf(`SELECT DISTINCT Tag FROM Article WHERE 1=1 `)
+
+	if(classify != "") {
+		querySql += " AND  classify=" + classify
+
+	}
+
 	if Enabled {
-		querySql += " Where Enabled=true;"
+		querySql += " AND Enabled=true; "
 	}
 
 	r, err := client.Query(querySql)
 
 	if err != nil {
+		fmt.Println(err)
 		return Tags, err
 	}
 	defer r.Close()
 	for r.Next() {
-		tag := []string{}
-		r.Scan(&tag)
-		Tags = append(Tags, tag)
+		element := ""
+		r.Scan(&element)
+		tags := strings.Split(element, ",")
+
+		for _, tag := range tags {
+			if value, ok := Tags[tag]; ok {
+				Tags[tag] = value + 1
+			} else {
+				Tags[tag] = 0
+			}
+
+		}
+
 	}
+
 	return Tags, err
+}
+
+func FetchLogos(Enabled bool) ([]Article, error) {
+
+	As := []Article{}
+
+	querySql := `SELECT logo, title FROM Article WHERE 1 = 1 `
+
+	if Enabled {
+		querySql += " AND Enabled=true "
+	}
+
+	r, err := client.Query(querySql)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer r.Close()
+
+	for r.Next() {
+		var A Article
+		r.Scan(
+			&A.Logo,
+			&A.Title,
+		)
+
+		As = append(As, A)
+	}
+
+	return As, err
+}
+//
+//func FetchLogos( Enabled bool) ([]string, error) {
+//
+//	Arrs := []string{}
+//	querySql := fmt.Sprintf(`SELECT DISTINCT Logo, title FROM Article `)
+//	if Enabled {
+//		querySql += " Where Enabled=true;"
+//	}
+//
+//	r, err := client.Query(querySql)
+//
+//	if err != nil {
+//		return Arrs, err
+//	}
+//	defer r.Close()
+//
+//	var logo string
+//	var title string
+//	for r.Next() {
+//
+//		r.Scan(&logo)
+//		r.Scan(&title)
+//		Arrs = append(Arrs, element)
+//	}
+//	return Arrs, err
+//}
+
+func FetchClassifies( Enabled bool) (map[string]int, error) {
+
+	Arrs := map[string]int{}
+	querySql := fmt.Sprintf(`SELECT classify  FROM Article  WHERE 1 = 1 `)
+	if Enabled {
+		querySql += " AND Enabled=true "
+	}
+
+	r, err := client.Query(querySql)
+
+	if err != nil {
+		fmt.Println(err)
+		return Arrs, err
+	}
+	defer r.Close()
+
+	var classify string
+	for r.Next() {
+		r.Scan(&classify)
+		if value, ok := Arrs[classify]; ok {
+			Arrs[classify] = value + 1
+		} else {
+			Arrs[classify] = 0
+		}
+
+	}
+	return Arrs, err
+
 }

@@ -30,7 +30,10 @@ backend/src/github.com/ugorji/go/codec/go.sum
 backend/src/github.com/ugorji/go/go.sum
 
 backend/src/gopkg.in/yaml.v2/go.sum
-application/package-lock.json
+webapp/package-lock.json
 
 backend/src/golang.org/x/time/
 backend/src/github.com/aliyun/aliyun-oss-go-sdk
+/webapp/update.py
+/webapp/node_modules/
+/deploy/app/server/conf/prod.toml
