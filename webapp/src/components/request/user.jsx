@@ -25,7 +25,7 @@ export const UserLogin = (data, setLoading, callback) => {
           callback(response)
           message.success(`欢迎回来~ ${data.Name}`)
         }).catch( e => {
-          message.error("登录失败")
+
     }).finally(()=> {
         setLoading(false);
     })

@@ -27,6 +27,9 @@ client.interceptors.response.use(function (response) {
   if(response.data.status) {
     return response.data.data;
   }
+  // 特殊处理
+  if(!response.config.url.endsWith("fetchCurrentUser") && !response.data.status)
+      message.error("请求返回错误: " + response.data.message)
   // message.error("请求返回错误: " + response.data.message)
   return Promise.reject(response);
 }, function (error) {

@@ -105,6 +105,7 @@ const ModifyNote = (props) => {
   }
 
 
+  console.log(classifies)
   return <React.Fragment>
 
     <Head marginLeft={false}>
@@ -144,12 +145,13 @@ const ModifyNote = (props) => {
                 <StyledDropdown
                     loading={classifiesLoading}
                     onAddItem={(e, { value }) => {
+                      console.log(value)
                       if(classifies.filter(l => l.value === value).length === 0) {
-                        setClassifies(classifies.concat([{ value, title: value}]))
+                        setClassifies(classifies.concat([{ value, classify: value, key: value}]))
                       }
                     }}
                     onChange={(e, { value }) => console.log(value) ||setClassify(value)}
-                    options={classifies.map(classify_ => ({key: classify_.id, text: classify_.name, value: classify_.id}))}
+                    options={classifies.map((classify_, index) => ({key: classify_.classify,  value: classify_.classify, text: classify_.classify}))}
                     placeholder='请选择分类'
                     search
                     selection

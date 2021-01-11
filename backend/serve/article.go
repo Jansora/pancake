@@ -15,16 +15,17 @@ func InitArticle(r *gin.Engine) {
 	})
 
 	r.POST("/api/v2/Article", func(c *gin.Context) {
-		if !ValidateLoginStatus(c) {
-			return
-		}
+		//if !ValidateLoginStatus(c) {
+		//	ReturnFalse(c, FORBIDDEN)
+		//	return
+		//}
 		var j Article
 		if c.BindJSON(&j) != nil {
 			ReturnFalse(c, JSON_ERROR)
 			return
 		}
 
-		if err := InsertArticle( j); err != nil {
+		if err := InsertArticle(&j); err != nil {
 			ReturnFalse(c, err.Error())
 			return
 		}
@@ -43,7 +44,7 @@ func InitArticle(r *gin.Engine) {
 		}
 
 		if err := UpdateArticle(j); err != nil {
-			ReturnFalse(c, "")
+			ReturnFalse(c, err.Error())
 			return
 
 		}
@@ -59,10 +60,10 @@ func InitArticle(r *gin.Engine) {
 		}
 
 		if err := DeleteArticle( c.Param("id")); err != nil {
-			ReturnTrue(c, "")
+			ReturnFalse(c, err.Error())
 			return
 		}
-		ReturnFalse(c, FORBIDDEN)
+		ReturnTrue(c, "")
 		return
 
 	})
@@ -83,7 +84,9 @@ func InitArticle(r *gin.Engine) {
 
 	r.GET("/api/v2/tags", func(c *gin.Context) {
 
-		if tags, err := FetchTags(!ValidateLoginStatus(c)); err == nil {
+		classify := c.DefaultQuery("classify", "")
+
+		if tags, err := FetchTags(classify, !ValidateLoginStatus(c)); err == nil {
 			ReturnTrue(c, tags)
 			return
 		}
