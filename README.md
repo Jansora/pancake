@@ -40,7 +40,7 @@
 ## 功能对比
 | 功能清单 | v 1.0 | v2.0 (开发中) |
 | :--- | :--- | :--- |
-| 存储 | PostgreSQL + 阿里云对象存储/本地 | PostgreSQL  + 阿里云对象存储/本地 |
+| 存储 | PostgreSQL + 阿里云对象存储/本地 | MySQL  + 阿里云对象存储/本地 |
 | 后端服务 | Golang + Gin | Golang + Gin |
 | 前端实现 | React + Material UI / React+ Ant Design Pro | React + Semantic UI |
 | 版本控制 | 无 | 支持文档历史版本查看 |

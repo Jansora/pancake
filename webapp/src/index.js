@@ -10,11 +10,12 @@ import {message} from "antd";
 
 message.config({
   // top: 0,
-  duration: 2,
-  maxCount: 1,
-  rtl: true,
+  // duration: 2,
+  // maxCount: 1,
+  // rtl: true,
   // prefixCls: 'my-message',
 });
+
 ReactDOM.render(
   <React.Fragment>
     <GlobalStoreProvider>

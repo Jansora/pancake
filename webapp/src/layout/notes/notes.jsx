@@ -79,6 +79,9 @@ const Notes = (props) => {
 
   const theme = GetTheme();
   useTitle("笔记列表")
+
+
+  console.log(classifies)
   return <React.Fragment>
     <Head responsive={responsive}>
 
@@ -111,7 +114,7 @@ const Notes = (props) => {
         classifies.map((classify_, index) => <Item
             key={classify_[0]}
             onClick={() => setClassify(classify_[0])}
-            className={tag === classify_[0] ? 'active' : ''}
+            className={classify === classify_[0] ? 'active' : ''}
         >
           <Icon name={Icons[index % Icons.length]} /> {classify_[0]}     <Label size="tiny">{classify_[1]}</Label>
 

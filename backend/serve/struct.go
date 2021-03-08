@@ -10,15 +10,8 @@ var JSON_ERROR = "JSON 解析失败"
 var FORBIDDEN = "没有访问权限"
 
 type Article struct {
-	//Id          int
-	//Classify    string
-	//Tag         string
-	//Enabled     bool
-	//Logo        string
-	//Description string
-	//Title       string
-	//Raw         string
-	Id          int64       `json:"id"`
+
+	Id          int64     `json:"id"`
 	Classify    string    `json:"classify"`
 	Tag         string    `json:"tag"`
 	Enabled     bool      `json:"enabled"`
