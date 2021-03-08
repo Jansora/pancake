@@ -21,7 +21,6 @@ func getClient() *sql.DB {
 
 var client = getClient()
 
-
 func CreateTable() {
 	s := `
 CREATE TABLE IF NOT EXISTS Article(
@@ -42,7 +41,6 @@ CREATE TABLE IF NOT EXISTS Article(
 	}
 }
 
-
 func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 
 	As := []Article{}
@@ -51,6 +49,10 @@ func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 
 	if Enabled {
 		querySql += " AND Enabled=true "
+	}
+
+	if c.Classify != "" {
+		querySql += " AND Classify='" + c.Classify + "' "
 	}
 
 	if c.Tag != "" {
@@ -62,8 +64,6 @@ func FetchArticles(c Condition, Enabled bool) ([]Article, error) {
 	}
 	querySql += " ORDER BY " + c.SortType + " " + c.Sort
 	querySql += " LIMIT " + c.Limit + " OFFSET " + c.Offset
-
-
 
 	r, err := client.Query(querySql)
 	if err != nil {
@@ -103,6 +103,10 @@ func FetchArticlesCount(c Condition, Enabled bool) (int, error) {
 		querySql += " AND Enabled=true "
 	}
 
+	if c.Classify != "" {
+		querySql += " AND Classify='" + c.Classify + "' "
+	}
+
 	if c.Tag != "" {
 		querySql += " AND Tag LIKE '%" + c.Tag + "%'  "
 	}
@@ -122,8 +126,7 @@ func FetchArticlesCount(c Condition, Enabled bool) (int, error) {
 	return length, err
 }
 
-
-func FetchArticle( Id string, Enabled bool) (Article, error) {
+func FetchArticle(Id string, Enabled bool) (Article, error) {
 
 	A := Article{}
 	querySql := fmt.Sprintf(`SELECT 
@@ -149,8 +152,7 @@ FROM Article WHERE id = '%s' `, Id)
 	return A, err
 }
 
-
-func InsertArticle( A *Article) error {
+func InsertArticle(A *Article) error {
 
 	//sql := `INSERT INTO Article ( Logo) VALUES (?);`
 
@@ -164,15 +166,15 @@ func InsertArticle( A *Article) error {
 	A.UpdateAt = A.CreateAt
 
 	result, err2 := prepared.Exec(
-				A.Classify,
-				A.Tag,
-				A.Logo,
-				A.Title,
-				A.Description,
-				A.Raw,
-				A.Enabled,
-				A.CreateAt,
-				A.UpdateAt,
+		A.Classify,
+		A.Tag,
+		A.Logo,
+		A.Title,
+		A.Description,
+		A.Raw,
+		A.Enabled,
+		A.CreateAt,
+		A.UpdateAt,
 	)
 	if err2 != nil {
 		return err2
@@ -187,8 +189,7 @@ func InsertArticle( A *Article) error {
 	return err
 }
 
-
-func UpdateArticle( A Article) error {
+func UpdateArticle(A Article) error {
 
 	//sql := `INSERT INTO Article ( Logo) VALUES (?);`
 
@@ -255,7 +256,7 @@ WHERE Id = ?;`)
 //
 //
 
-func DeleteArticle( Id string) error {
+func DeleteArticle(Id string) error {
 
 	querySql := fmt.Sprintf(`DELETE FROM Article WHERE id = '%s' `, Id)
 	res, err := client.Exec(querySql)
@@ -265,17 +266,16 @@ func DeleteArticle( Id string) error {
 		return err
 	}
 	_, err = res.RowsAffected()
-	return  err
+	return err
 }
 
 func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 
-
 	var Tags = map[string]int{}
-	querySql := fmt.Sprintf(`SELECT DISTINCT Tag FROM Article WHERE 1=1 `)
+	querySql := fmt.Sprintf(`SELECT Tag FROM Article WHERE 1=1 `)
 
-	if(classify != "") {
-		querySql += " AND  classify=" + classify
+	if classify != "" {
+		querySql += " AND  classify='" + classify + "' "
 
 	}
 
@@ -299,7 +299,7 @@ func FetchTags(classify string, Enabled bool) (map[string]int, error) {
 			if value, ok := Tags[tag]; ok {
 				Tags[tag] = value + 1
 			} else {
-				Tags[tag] = 0
+				Tags[tag] = 1
 			}
 
 		}
@@ -337,6 +337,7 @@ func FetchLogos(Enabled bool) ([]Article, error) {
 
 	return As, err
 }
+
 //
 //func FetchLogos( Enabled bool) ([]string, error) {
 //
@@ -364,7 +365,7 @@ func FetchLogos(Enabled bool) ([]Article, error) {
 //	return Arrs, err
 //}
 
-func FetchClassifies( Enabled bool) (map[string]int, error) {
+func FetchClassifies(Enabled bool) (map[string]int, error) {
 
 	Arrs := map[string]int{}
 	querySql := fmt.Sprintf(`SELECT classify  FROM Article  WHERE 1 = 1 `)
@@ -386,7 +387,7 @@ func FetchClassifies( Enabled bool) (map[string]int, error) {
 		if value, ok := Arrs[classify]; ok {
 			Arrs[classify] = value + 1
 		} else {
-			Arrs[classify] = 0
+			Arrs[classify] = 1
 		}
 
 	}
