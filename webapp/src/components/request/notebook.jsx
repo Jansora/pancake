@@ -76,7 +76,7 @@ export const FetchTags = () => {
   useEffect(()=> {
     if(loading) {
       client.get(`tags`)
-          .then(data => setTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
+          .then(data => setTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag).filter(d => !!d[0])))
           .finally(()=> {  setLoading(false)
       })
     }
@@ -96,7 +96,7 @@ export const FetchRelationTags = (classify) => {
   useEffect(()=> {
 
       client.get(`tags?${stringify({classify})}`)
-          .then(data => setRelationTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag)))
+          .then(data => setRelationTags(Object.entries(data).sort((a,b) => b[1] - a[1]).map(tag => tag).filter(d => !!d[0])))
           .finally(()=> {  setLoading(false)
           })
 
