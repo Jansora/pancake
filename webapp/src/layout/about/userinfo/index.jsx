@@ -1,5 +1,5 @@
 import React from 'react';
-import {Head, Section} from "../../../components/styled/frameworks";
+import {SubHead, Section} from "../../../components/styled/frameworks";
 import {Route, Switch} from "react-router-dom";
 import Login from "./Login";
 import Current from "./Current";
@@ -13,9 +13,9 @@ import Current from "./Current";
 const UserInfo = (props) => {
 
   return <React.Fragment>
-    <Head>
+    <SubHead>
       <h3> 用户信息 </h3>
-    </Head>
+    </SubHead>
     <Section style={{padding: "100px 20%"}}>
 
       <Switch>

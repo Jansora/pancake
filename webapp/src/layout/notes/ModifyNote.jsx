@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Checkbox, Dimmer, Dropdown, Form, Grid, Input, Loader, TextArea} from "semantic-ui-react";
 import {useHistory, useParams} from 'react-router-dom';
 
-import {Head, Section} from "../../components/styled/frameworks";
+import {SubHead, Section} from "../../components/styled/frameworks";
 import {Editor} from "../../components/editor/bytemd";
 import {
   FetchClassifies,
@@ -97,7 +97,7 @@ const ModifyNote = (props) => {
 
   return <React.Fragment>
 
-    <Head marginLeft={false}>
+    <SubHead marginLeft={false}>
       <h3>{!id? "新建笔记" : `更新笔记 - ${title}`}</h3>
       <div style={{flex:"1 1 auto"}}>
       </div>
@@ -112,7 +112,7 @@ const ModifyNote = (props) => {
             onClick={() => save()}
         />
 
-    </Head>
+    </SubHead>
     <Section marginLeft={false} marginRight={false}>
 
         <Form style={{padding: 16}}>
