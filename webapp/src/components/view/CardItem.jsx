@@ -10,31 +10,41 @@ import {StyledDescription} from "../styled/common";
  * @author zhang.yangyuan (jansora)
  2020/12/27 16:21:02
  */
-const StyledA = styled.a`
-     margin-bottom: 20px;
-   img {
-    height: 140px;
-   }
+
+
+const StyledWrapper = styled.div`
+  > a {
+    margin-bottom: 20px;
+    img {
+      height: 150px !important;
+    }
+    .header {
+      font-size: 1.2rem !important;
+    }
+    .header, .description {  
+      overflow-x: hidden;
+      text-overflow:ellipsis; //溢出用省略号显示
+      white-space:nowrap; //溢出不换行
+    }
+    .description {
+      -webkit-line-clamp:2;
+    }
+  }
 `
-const StyledLink = styled(Link)`
-   margin-bottom: 20px;
-   img {
-    height: 140px;
-   }
-`
+
 const CardItem = (props) => {
-  console.log(props)
+
   const {image, title, description} = props;
 
 
-  return<Wrapper {...props}>
-    <Card>
+  return<Wrapper {...props} >
+    <Card centered title={description}>
       <Image src={image} wrapped ui={false} />
       <Card.Content>
-        <Card.Header>{title}</Card.Header>
+        <Card.Header as={"h3"}>{title}</Card.Header>
         {/*<Card.Meta>Joined in 2016</Card.Meta>*/}
         <Card.Description>
-          <StyledDescription>{description} </StyledDescription>
+          <StyledDescription>{description || "......"}  </StyledDescription>
         </Card.Description>
       </Card.Content>
     </Card>
@@ -44,18 +54,22 @@ const CardItem = (props) => {
 
 const Wrapper = (props) => {
 
-  // const {image, title, description} = props;
 
   const {href, extra, children, disabled} = props;
   const target = href.startsWith("http") ? "_blank" : "_self";
   if(extra) {
-    return <StyledA target={target} rel='noopener noreferrer' href={href} disabled={disabled}>
+    return <StyledWrapper>
+      <a target={target} rel='noopener noreferrer' href={href} disabled={disabled}>
       {children}
-    </StyledA>
+    </a>
+    </StyledWrapper>
   }
-  return <StyledLink to={href} disabled={disabled}>
-    {children}
-  </StyledLink>
+  return <StyledWrapper>
+    <Link to={href} disabled={disabled}>
+      {children}
+    </Link>
+  </StyledWrapper>
+
 }
 
 export default CardItem;

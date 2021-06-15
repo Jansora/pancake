@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom'
+import {NavLink, Redirect, Route, Switch} from 'react-router-dom'
 import styled from "styled-components";
-import NavBar from "./layout/navbar";
 import Notes from "./layout/notes/index";
 import About from "./layout/about";
 import Hooks from "./components/hooks";
 import {configResponsive} from 'ahooks';
 import GetPath from "./components/hooks/GetPath";
+import Aside from "./layout/aside";
+import StyledHeader from "./components/styled/StyledHeader";
+import {Header, Icon} from "semantic-ui-react";
+import {LinkItem} from "./components/styled/frameworks";
 
 configResponsive({
   small: 0,
@@ -14,19 +17,20 @@ configResponsive({
   large: 1200,
 });
 
-
-
 const LayoutWrapper = styled.main`
   padding-top: var(--header-height);
   height: 100%;
-  margin-left: ${props => props.activeNav ? "var(--active-header-width)" : "var(--header-width)"};
+
+  //margin-left:  var(--header-width);
+  
   transition:  margin-left 500ms;
 
-  > header {
-    width: calc(100vw - ${props => props.activeNav ? "var(--active-header-width)" : "var(--header-width)"} );
-    transition: width 500ms;
-  }
+  //> header {
+  //  width: calc(100vw - var(--header-width) );
+  //  transition: width 500ms;
+  //}
 `;
+
 
 const App = () => {
   const [activeNav, setActiveNav] = useState(false);
@@ -39,8 +43,8 @@ const App = () => {
   }
   return (
       <React.Fragment>
-        <NavBar activeNav={activeNav} setActiveNav={setActiveNavHandle} />
-        <LayoutWrapper activeNav={activeNav}>
+
+        <LayoutWrapper >
           <Switch>
             <Redirect from="/" to="/notes" exact={true} />
             <Redirect from="/post/:resource" to="/notes/:resource"/>

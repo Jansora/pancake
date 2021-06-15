@@ -1,6 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Aside, Head, Item, Label as CustomLabel, LinkItem, Section} from "../../components/styled/frameworks";
-import {Button, Dimmer, Header, Icon, Input, Label, Loader, Placeholder, Segment} from "semantic-ui-react";
+import {Aside, SubHead, Item, Label as CustomLabel, LinkItem, Section} from "../../components/styled/frameworks";
+import {
+  Button,
+  Dimmer,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Input,
+  Label,
+  Loader,
+  Placeholder,
+  Segment
+} from "semantic-ui-react";
 import NoteListItem from "./NoteListItem";
 import {Link, useLocation} from "react-router-dom";
 import AdminLoginStatus from "../../components/hooks/AdminLoginStatus";
@@ -11,6 +23,8 @@ import {FetchClassifies, FetchClassifyCount, FetchNotes, FetchRelationTags} from
 import {useDebounceFn, useResponsive, useTitle} from "ahooks";
 import {Bootstrap} from "../../components/styled/bootstrap";
 import {StyledDescription} from "../../components/styled/common";
+import StyledHeader from "../../components/styled/StyledHeader";
+import CardItem from "../../components/view/CardItem";
 
 /**
  * <Description> <br>
@@ -67,7 +81,7 @@ const Notes = (props) => {
     setNotes([]);setOffset(0);setLock(false)
   }
 
-  const { run } = useDebounceFn(
+  const { run: search } = useDebounceFn(
       autoSearch,
       {
         wait: 1000,
@@ -83,11 +97,16 @@ const Notes = (props) => {
 
   console.log(classifies)
   return <React.Fragment>
-    <Head responsive={responsive}>
+    {/*<StyledHeader fixed>*/}
+    {/*  <Header as={"h4"} style={{margin: "0 20px 0 0"}}>个人博客</Header>*/}
+    {/*  */}
+    {/*</StyledHeader>*/}
+    <SubHead responsive={responsive}>
 
       {
         responsive.middle && <>
-          <h3>笔记列表</h3>
+          {/*<h3>笔记列表</h3>*/}
+          <Header as={"h4"} style={{margin: "0 20px 0 0"}}>笔记列表</Header>
           <div style={{flex: '1 1 auto'}} />
 
           {
@@ -101,8 +120,26 @@ const Notes = (props) => {
 
 
 
-    </Head>
+    </SubHead>
     <Aside Display={responsive.middle}>
+
+      <React.Fragment>
+        <CustomLabel> 检索 </CustomLabel>
+        <Input
+          size="mini"
+          fluid
+          icon={
+            <Icon name="search"
+                  style={{cursor: "pointer"}}
+            />
+          }
+          placeholder="请输入标题来进行模糊搜索"
+          loading={loading}
+          // value={title}
+          onChange={event => search(event.target.value)}
+        />
+        <Divider />
+      </React.Fragment>
       <CustomLabel> 笔记 </CustomLabel>
       <LinkItem to="/notes" className={tag === '' && classify === null ? 'active' : ''} onClick={() => setTag('') || setClassify(null)}
       > <Icon name="th" /> 查看所有 <Label size="tiny">{classifies.map(classify_ => classify_[1]).reduce((a,b ) => a + b, 0)}</Label></LinkItem>
@@ -163,71 +200,50 @@ const Notes = (props) => {
 
 
     <Section style={{padding: responsive.large ? "0 84px" : " 0 32px"}} marginRight={responsive.large}  marginLeft={responsive.middle}>
-
-      <Bootstrap style={{margin:responsive.large ? "0 -84px 20px " : " 0 -32px 20px", height: 200}}>
-        <h1>检索笔记</h1>
-        <StyledDescription style={{marginBottom: 20}}>基于标题模糊搜索</StyledDescription>
-        <Input
-            size="mini"
-            style={{width: responsive.middle ? "350px" :"100%"}}
-            icon={
-              <Icon name="search"
-                    style={{cursor: "pointer"}}
-              />
-            }
-            placeholder="请输入标题来进行模糊搜索"
-            loading={loading}
-            // value={title}
-            onChange={event => run(event.target.value)}
-        />
-
-      </Bootstrap>
-
       <InfiniteScroll
-          pageStart={0}
-          loadMore={()=> setOffset(notes.length)}
-          hasMore={notes.length < total}
-          loader={ [1,2,3].map(index =>
-              <Segment raised key={index}>
-                <Placeholder>
-                  <Placeholder.Header image>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                  </Placeholder.Header>
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line length='medium' />
-                    <Placeholder.Line length='short' />
-                  </Placeholder.Paragraph>
-                </Placeholder>
-              </Segment>
-          )}
-      >
-        {
-          notes.map(note =>  <NoteListItem setTag={setTag} key={note.id} note={note}/>)
+        pageStart={0}
+        loadMore={()=> setOffset(notes.length)}
+        hasMore={notes.length < total}
+        loader={
+          <Grid key={1} relaxed columns={responsive.large ? 4 : (responsive.middle ? 3 : 2)}>
+            {[1, 2, 3, 5].map(index =>
+              <Grid.Column key={index}>
+                <Segment raised>
+                  <Placeholder>
+                    <Placeholder.Header image>
+                      <Placeholder.Line/>
+                      <Placeholder.Line/>
+                    </Placeholder.Header>
+                    <Placeholder.Paragraph>
+                      <Placeholder.Line length='medium'/>
+                      <Placeholder.Line length='short'/>
+                    </Placeholder.Paragraph>
+                  </Placeholder>
+                </Segment>
+              </Grid.Column>
+            )}
+          </Grid>
         }
+      >
+        <Grid key={2} relaxed columns={responsive.large ? 4 : (responsive.middle ? 3 : 2)}>
+          {
+            notes.map(note =>
+              <Grid.Column key={note.id} style={{background: note.enabled ? "none" : "var(--active-backgroud-color)"}}>
+                <CardItem
+                  image={note.logo}
+                  extra={false}
+                  title={note.title}
+                  description={note.description}
+                  href={`/notes/${note.id}`}
+                />
+              </Grid.Column>
+            )
+          }
+        </Grid>
       </InfiniteScroll>
 
 
-      {
-          !loading && notes.length === total &&
-          <Segment placeholder>
-            <Header icon>
-              <Icon name='search' />
-              {/*已经找不到更多笔记了,*/}
-              没有了, 真的到底了 :)
-              {/*We don't have any documents matching your query.*/}
-            </Header>
-            <Segment.Inline>
-              {/*<Button primary>Clear Query</Button>*/}
-              {
-                adminLoginStatus  &&  <Button color={theme} as={Link} to="/notes/new">Add Document</Button>
 
-              }
-
-            </Segment.Inline>
-          </Segment>
-
-      }
     </Section>
 
 

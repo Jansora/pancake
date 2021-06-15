@@ -1,5 +1,5 @@
 import React from 'react';
-import {Aside, Head, Label, LinkItem} from "../../components/styled/frameworks";
+import {Aside, SubHead, Label, LinkItem} from "../../components/styled/frameworks";
 import {Divider, Icon} from "semantic-ui-react";
 import GetPath from "../../components/hooks/GetPath";
 import {Route, Switch} from "react-router-dom";
@@ -22,9 +22,9 @@ const About = (props) => {
   const user = GetCurrentUser();
 
   return <React.Fragment>
-    <Head>
+    <SubHead>
       <h3>关于</h3>
-    </Head>
+    </SubHead>
     <Aside>
       <Label>个性化</Label>
       <LinkItem to="/about/theme" className={GetPath() === "/about/theme" ? 'active' : ''}><Icon name="gem" />   主题 </LinkItem>

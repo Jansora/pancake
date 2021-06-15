@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {DeleteNote, FetchNote} from "../../components/request/notebook";
 import {Link, useHistory, useParams} from 'react-router-dom';
-import {Aside, Head, Label as CustomLabel, Section} from "../../components/styled/frameworks";
+import {Aside, SubHead, Label as CustomLabel, Section} from "../../components/styled/frameworks";
 import styled from "styled-components";
 import {Viewer} from "../../components/editor/bytemd";
-import {Button, Icon} from "semantic-ui-react";
+import {Button, Header, Icon} from "semantic-ui-react";
 import AdminLoginStatus from "../../components/hooks/AdminLoginStatus";
 import Confirm from "../../components/Confirm";
 import {useResponsive, useTitle} from "ahooks";
@@ -122,8 +122,8 @@ const Note = (props) => {
           })
         }
       </Aside>
-      <Head marginLeft={responsive.middle}>
-        <h3>{note.title}</h3>
+      <SubHead marginLeft={responsive.middle}>
+        <Header as={"h4"} style={{margin: "0 20px 0 0"}}>{note.title}</Header>
         <div style={{flex:"1 1 auto"}} />
         {/*{*/}
         {/*  isOwner && menus*/}
@@ -137,7 +137,7 @@ const Note = (props) => {
           </React.Fragment>
 
         }
-      </Head>
+      </SubHead>
       <Section style={{padding: "16px 10%"}} marginLeft={responsive.middle} marginRight={false}>
 
         <Viewer value={note.raw} />

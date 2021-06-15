@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {GlobalStore} from "../../components/store/global";
 import {Button, Container} from "semantic-ui-react";
-import {Head, Section} from "../../components/styled/frameworks";
+import {SubHead, Section} from "../../components/styled/frameworks";
 import GetTheme from "../../components/hooks/GetTheme";
 
 /**
@@ -32,9 +32,9 @@ const Theme = (props) => {
   const toggle = theme =>  dispatch({ type: 'theme', payload: theme });
 
   return <React.Fragment>
-    <Head>
+    <SubHead>
       <h3> 主题色 </h3>
-    </Head>
+    </SubHead>
   <Section marginRight={false}>
 
     <Container fluid  style={{padding: "16px 32px"}}>
