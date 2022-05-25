@@ -6,21 +6,20 @@ import (
 	"net/http"
 )
 
-var JSON_ERROR = "JSON 解析失败"
+var JsonError = "JSON 解析失败"
 var FORBIDDEN = "没有访问权限"
 
 type Article struct {
-
-	Id          int64     `json:"id"`
-	Classify    string    `json:"classify"`
-	Tag         string    `json:"tag"`
-	Enabled     bool      `json:"enabled"`
-	Logo        string    `json:"logo"`
-	Description string    `json:"description"`
-	Title       string    `json:"title"`
-	Raw         string    `json:"raw"`
-	CreateAt    string    `json:"createAt"`
-	UpdateAt    string    `json:"updateAt"`
+	Id          int64  `json:"id"`
+	Classify    string `json:"classify"`
+	Tag         string `json:"tag"`
+	Enabled     bool   `json:"enabled"`
+	Logo        string `json:"logo"`
+	Description string `json:"description"`
+	Title       string `json:"title"`
+	Raw         string `json:"raw"`
+	CreateAt    string `json:"createAt"`
+	UpdateAt    string `json:"updateAt"`
 }
 
 func (a Article) String() string {

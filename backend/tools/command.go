@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func ReadCommand() (string) {
+func ReadCommand() string {
 
 	conf := flag.String("conf", "null", "configure path to parse. default /app/pancake.toml")
 
@@ -16,7 +16,7 @@ func ReadCommand() (string) {
 		*conf = "/app/pancake.toml"
 	}
 
-	return  *conf
+	return *conf
 
 }
 

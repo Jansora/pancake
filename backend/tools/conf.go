@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 )
+
 type Server struct {
 	Port int
 }
@@ -11,7 +12,6 @@ type Server struct {
 type Mysql struct {
 	ConnectString string
 }
-
 
 type Storage struct {
 	UseOss          bool
@@ -30,9 +30,8 @@ type Config struct {
 	Mysql   Mysql
 	Account Account
 	Storage Storage
-	Server Server
+	Server  Server
 }
-
 
 func GetConfiguration() Config {
 	var conf Config
@@ -46,7 +45,6 @@ var Conf = GetConfiguration()
 
 type Account struct {
 	Name  string `json:"name"`
-	Alias  string `json:"alias"`
+	Alias string `json:"alias"`
 	Token string `json:"token"`
 }
-
