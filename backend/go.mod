@@ -8,8 +8,9 @@ require (
 	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-redis/redis v6.15.8+incompatible
-	github.com/go-sql-driver/mysql v1.5.0
-	github.com/lib/pq v1.7.0
+	//github.com/go-sql-driver/mysql v1.6.0
+	//github.com/go-sql-driver/mysql v1.5.0
+	github.com/lib/pq v1.10.7
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899

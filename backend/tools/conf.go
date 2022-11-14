@@ -4,14 +4,19 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 )
+
 type Server struct {
 	Port int
 }
 
-type Mysql struct {
-	ConnectString string
+type Postgres struct {
+	User     string
+	Password string
+	Host     string
+	Port     int
+	DataBase string
+	SSLmode  string
 }
-
 
 type Storage struct {
 	UseOss          bool
@@ -27,12 +32,16 @@ type Storage struct {
 }
 
 type Config struct {
-	Mysql   Mysql
-	Account Account
-	Storage Storage
-	Server Server
+	Postgresql Postgres
+	Account    Account
+	Storage    Storage
+	Server     Server
 }
 
+func (p Postgres) Connect() string {
+	return fmt.Sprintf(`postgres://%s:%s@%s:%d/%s?sslmode=%s`,
+		p.User, p.Password, p.Host, p.Port, p.DataBase, p.SSLmode)
+}
 
 func GetConfiguration() Config {
 	var conf Config
@@ -46,7 +55,6 @@ var Conf = GetConfiguration()
 
 type Account struct {
 	Name  string `json:"name"`
-	Alias  string `json:"alias"`
+	Alias string `json:"alias"`
 	Token string `json:"token"`
 }
-

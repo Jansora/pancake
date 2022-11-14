@@ -5,21 +5,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 func InitAuth(r *gin.Engine) {
 
 	r.POST("/api/v2/login", func(c *gin.Context) {
 		var j tools.Account
 		if c.BindJSON(&j) != nil {
 			ReturnFalse(c, JSON_ERROR)
-			return
-		}
-		if ValidateLogin(j) {
+		} else if ValidateLogin(j) {
 			AddLoginCookie(c)
 			ReturnTrue(c, tools.Conf.Account)
-			return
+		} else {
+			ReturnFalse(c, "登录失败")
 		}
-		ReturnFalse(c, "登录失败")
+
 	})
 
 	r.POST("/api/v2/logout", func(c *gin.Context) {

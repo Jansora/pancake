@@ -1,25 +1,11 @@
 package serve
 
 import (
-	"database/sql"
 	"fmt"
-	"github.com/Jansora/pancake/backend/tools"
 	_ "github.com/go-sql-driver/mysql"
 	"strings"
 	"time"
 )
-
-func getClient() *sql.DB {
-
-	db, err := sql.Open("mysql", tools.Conf.Mysql.ConnectString)
-
-	if err != nil {
-		panic(err)
-	}
-	return db
-}
-
-var client = getClient()
 
 func CreateTable() {
 	s := `

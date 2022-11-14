@@ -2,8 +2,13 @@
 Port = 8093
 
 
-[Mysql]
-ConnectString = "root@tcp(localhost:3306)/mysql"
+[Postgres]
+User = "postgres"
+Password = "pancake"
+Host = "localhost"
+Port = 5432
+DataBase = "postgres"
+SSLmode = "disable"
 
 [Account]
 
