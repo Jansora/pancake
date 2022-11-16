@@ -1,14 +1,10 @@
-package serve
+package handler
 
 import (
 	"github.com/Jansora/pancake/backend/tools"
+	"github.com/Jansora/pancake/backend/web"
 	"github.com/gin-gonic/gin"
 )
-
-
-
-
-
 
 func InitUtils(r *gin.Engine) {
 
@@ -18,11 +14,11 @@ func InitUtils(r *gin.Engine) {
 		result := tools.Upload(src, file.Filename)
 
 		if len(result) > 0 {
-			ReturnTrue(c, result)
+			web.ReturnTrue(c, result)
 			return
 		}
 
-		ReturnFalse(c, "")
+		web.ReturnFalse(c, "")
 	})
 
 }

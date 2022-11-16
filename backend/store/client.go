@@ -8,8 +8,8 @@ import (
 
 func client() *sql.DB {
 
-	db, err := sql.Open("postgres", tools.Conf.Postgresql.Connect())
-
+	db, err := sql.Open("postgres", tools.Conf.Postgres.Connect())
+	db.Ping()
 	if err != nil {
 		panic(err)
 	}

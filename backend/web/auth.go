@@ -1,4 +1,4 @@
-package serve
+package web
 
 import (
 	"github.com/Jansora/pancake/backend/tools"

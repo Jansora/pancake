@@ -32,10 +32,10 @@ type Storage struct {
 }
 
 type Config struct {
-	Postgresql Postgres
-	Account    Account
-	Storage    Storage
-	Server     Server
+	Postgres Postgres
+	Account  Account
+	Storage  Storage
+	Server   Server
 }
 
 func (p Postgres) Connect() string {
