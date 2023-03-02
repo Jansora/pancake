@@ -5,8 +5,7 @@
 *.ali
 
 .idea
-main
-main.exe
+
 
 yarn.lock
 
