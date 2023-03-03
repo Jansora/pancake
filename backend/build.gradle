@@ -9,12 +9,37 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
+	maven {
+		url 'https://maven.aliyun.com/repository/public'
+	}
+
 	mavenCentral()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.slf4j:slf4j-api:1.7.36'
+	implementation 'javax.persistence:persistence-api:1.0.2'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// mysql
+	implementation 'io.mybatis:mybatis-mapper:1.2.2'
+	implementation 'io.mybatis:mybatis-provider:1.1.1'
+	implementation 'io.mybatis:mybatis-service:1.2.2'
+	implementation 'io.mybatis:mybatis-activerecord:1.2.2'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.28'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+
+	// aliyun oss
+	implementation 'com.aliyun.oss:aliyun-sdk-oss:3.8.1'
 }
 
 tasks.named('test') {
