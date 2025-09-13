@@ -1,39 +1,43 @@
-# Object file
-*.o
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Ada Library Information
-*.ali
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 .idea
-main
-main.exe
-
-yarn.lock
-
-
-node_modules
-
-.ftpconfig
-
-.umi
-/src/pages/.umi
-.temp
-
-pkg
-
-
-dist
-build
-backend/src/github.com/go-redis/redis/
-backend/src/github.com/ugorji/go/codec/codecgen/go.sum
-backend/src/github.com/ugorji/go/codec/go.sum
-backend/src/github.com/ugorji/go/go.sum
-
-backend/src/gopkg.in/yaml.v2/go.sum
-webapp/package-lock.json
-
-backend/src/golang.org/x/time/
-backend/src/github.com/aliyun/aliyun-oss-go-sdk
-/webapp/update.py
-/webapp/node_modules/
-/deploy/app/server/conf/prod.toml
