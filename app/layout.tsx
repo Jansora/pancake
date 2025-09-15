@@ -23,7 +23,7 @@ export default async function Layout({children,}: Readonly<{ children: React.Rea
     return (
 
         <RootLayout>
-            <SessionProvider session={session}>
+            <SessionProvider session={session} basePath="/api/v1/auth/next_auth">
                 <GlobalStoreProvider initialData={initialData(session)}>
                     <MountBreadcrumb breadcrumb={{level: 1,
                         children:
@@ -33,9 +33,9 @@ export default async function Layout({children,}: Readonly<{ children: React.Rea
                         ,
                         href: "/"
                     }}/>
-                    <PageLayout>
+                    <>
                         {children}
-                    </PageLayout>
+                    </>
                 </GlobalStoreProvider>
             </SessionProvider>
 

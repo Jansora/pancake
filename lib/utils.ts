@@ -146,6 +146,3 @@ export function calculatePercentage(part:number, total:number) {
 
 
 
-export function uuid() {
-  return crypto.randomUUID()
-}

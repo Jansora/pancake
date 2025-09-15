@@ -1,105 +1,105 @@
 // import ldap from "ldapjs"
-import NextAuth from "next-auth"
+import NextAuth, { CredentialsSignin } from "next-auth"
 import "next-auth/jwt"
 
 import CredentialsProvider from "next-auth/providers/credentials"
+import * as bcrypt from "bcrypt";
+import { fetch_simple_account_by_name } from "../database/account";
+import { AccountSimpleProps, NotFoundError, PasswordError } from "../declares/account";
+
 // import {fetchUser} from "@/lib/fetch/client/fetch-user";
-import {ResultDto} from "@/lib/fetch";
-import {UserProps} from "@/lib/declares/user";
 
+// @ts-ignore
 export const { handlers, auth, signIn, signOut } = NextAuth({
-    basePath: "/api/auth",
-    session: { strategy: "jwt" },
-    providers: [
-        CredentialsProvider({
-            name: "LDAP",
-            credentials: {
-                username: { label: "Username", type: "text", placeholder: "" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials, req) {
+  basePath: "/api/v1/auth/next_auth",
+  session: { strategy: "jwt" },
+  providers: [
+    CredentialsProvider({
+      name: "LOCAL_AUTH",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        console.info("xxx", credentials)
+        const username = credentials.username as string
+        const password = credentials.password as string
+        if (process.env.ADMIN_NAME !== username) {
+          console.info("process.env.ADMIN_NAME is not equal to username", new NotFoundError().message)
+          throw new NotFoundError()
+        }
+        if (process.env.ADMIN_PASSWORD !== password) {
+          console.info("process.env.ADMIN_PASSWORD is not equal to password", new PasswordError().message)
+          throw new PasswordError()
+        }
+        const account = await fetch_simple_account_by_name(username)
+        if (!account) {
+          console.info("account is not found in database", new NotFoundError().message)
+          throw new NotFoundError()
+        }
+        return {
+          id: account.id,
+          name: account.name,
+          image: account.avatar,
+          homepage: account.homepage,
+          description: account.description,
+          created_at: account.created_at,
+        }
+      },
 
-                // @ts-ignore
-                const username = credentials.username
-                // @ts-ignore
-                const password = credentials.password
+      // @ts-ignore
+      jwt({ token, trigger, session, account }) {
+        if (trigger === "update") token.name = session.user.name
+        return token
+      }
+    }),
+  ],
+  callbacks: {
+    async signIn(user) {
+      // 如果登录失败，返回 false 并设置错误信息
+      const isSignIn = user ? true : false
 
-                console.log(`${username}  is trying login. verified by custom.`)
-                // You might want to pull this call out so we're not making a new LDAP client on every login attemp
-                // const client = ldap.createClient({
-                //     // url: process.env.LDAP_URI,
-                //     url: "ldap://www.jansora.com"
-                // })
-
-                // Essentially promisify the LDAPJS client.bind function
-                return new Promise((resolve, reject) => {
-                    // // @ts-ignore
-                    // client.bind(username, password, (error) => {
-                    //     if (error) {
-                    //         console.error(`${username} login end with failed. ${error}`)
-                    //         reject()
-                    //     } else {
-                    //         console.log(`${username}  LDAP authentication successful！try to fetch userinfo!`)
-                    //
-                    //         // NT
-                    //         // @ts-ignore
-                    //         const username = credentials.username.split("@")[0]
-                    //         fetchUser(username)
-                    //             .then((data: ResultDto<UserProps> ) => {
-                    //             if (data.status) {
-                    //                 const user = data.data
-                    //                 console.log(`${username} fetch userinfo successfully！${JSON.stringify(user)}`)
-                    //
-                    //                 console.log(`${username} login end with succeed.`)
-                    //                 resolve(user)
-                    //             }
-                    //             else {
-                    //                 console.error(`${username} login end with failed. [fetch account failed]`)
-                    //                 reject()
-                    //             }
-                    //         })
-                    //             .catch(e => {
-                    //                 reject()
-                    //             })
-                    //             .finally()
-                    //
-                    //     }
-                    // })
-                })
-            },
-            // @ts-ignore
-            jwt({ token, trigger, session, account }) {
-                if (trigger === "update") token.name = session.user.name
-                if (account?.provider === "keycloak") {
-                    return { ...token, accessToken: account.access_token }
-                }
-                return token
-            },
-        }),
-    ],
-    callbacks: {
-        async jwt({ token, user }) {
-            const isSignIn = user ? true : false
-            if (isSignIn) {
-                // console.log("jwt:", user)
-                // @ts-ignore
-                token.username = user.username
-                // @ts-ignore
-                token.email = user.email
-            }
-            return token
-        },
-        // @ts-ignore
-        async session({ session, token }) {
-            return { ...session, user: { username: token.username , ...token} }
-        },
+      if (!isSignIn) {
+        return false;
+      }
+      return true; // 登录成功
     },
-    pages: {
-        // signIn: '/auth/signin'
+    //@ts-ignore
+    async jwt({ token, user }: { token: any, user: AccountSimpleProps }) {
+      const isSignIn = user ? true : false
+      if (isSignIn) {
+        token.id = user.id
+        token.name = user.name
+        token.avatar = user.avatar
+        token.homepage = user.homepage
+        token.description = user.description
+        token.created_at = user.created_at
+      }
+      return token
     },
-    experimental: { enableWebAuthn: true },
+    // @ts-ignore
+    async session({ session, token }) {
+      return { ...session, user: { ...token } }
+    },
+  },
+  pages: {
+    signIn: '/auth/login'
+  },
+  experimental: { enableWebAuthn: true },
 
 })
 
 
 
+
+export async function hashPassword(password: string) {
+  const saltRounds = 12;
+  return bcrypt.hash(password, saltRounds);
+}
+
+export async function comparePasswordHash(
+  plainPassword: string,
+  passwordHash: string,
+): Promise<boolean> {
+  return bcrypt.compare(plainPassword, passwordHash);
+}
