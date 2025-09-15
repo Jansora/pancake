@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import RootLayout from "@/components/layout/RootLayout";
-import {auth} from "@/lib/auth/auth";
+import {auth} from "@/lib/auth/default";
 import {SessionProvider} from "next-auth/react";
 import React from "react";
 import GlobalStoreProvider from "@/lib/store/global";
@@ -23,7 +23,7 @@ export default async function Layout({children,}: Readonly<{ children: React.Rea
     return (
 
         <RootLayout>
-            <SessionProvider session={session} basePath="/api/v1/auth/next_auth">
+            <SessionProvider session={session} basePath="/api/v1/auth/default">
                 <GlobalStoreProvider initialData={initialData(session)}>
                     <MountBreadcrumb breadcrumb={{level: 1,
                         children:

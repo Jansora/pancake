@@ -3,24 +3,25 @@ import {CredentialsSignin} from "next-auth";
 
 export interface AccountProps {
     id: number
-    name?: string
+    name: string
     avatar?: string
     description?: string
     email?: string
     homepage?: string
-    role?: string
-    source?: string
-    created_at?: Date
-    updated_at?: Date
+    role: string
+    source: string
+    created_at: Date
+    updated_at: Date
 }
 
 export interface AccountSimpleProps {
-  id?: string
-  name?: string
+  id: number
+  name: string
+  role: string
   avatar?: string
   homepage?: string
   description?: string
-  created_at?: string
+  created_at: string
 }
 
 export const DEFAULT_ADMIN_ACCOUNT_ID = 1
@@ -38,6 +39,13 @@ export enum AccountSource {
   GITHUB = "github"
 }
 
+export enum LoginType {
+  DEFAULT = "default",
+  GUEST = "guest",
+  GITHUB = "github"
+}
+
+
 
 export class NotFoundError extends CredentialsSignin {
     code = "NOT_FOUND"
@@ -46,4 +54,9 @@ export class NotFoundError extends CredentialsSignin {
 export class PasswordError extends CredentialsSignin {
     code = "PASSWORD_ERROR"
     message = "密码不正确"
+}
+
+export class InvalidLoginTypeError extends CredentialsSignin {
+    code = "INVALID_LOGIN_TYPE"
+    message = "无效的类型"
 }

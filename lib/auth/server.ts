@@ -1,5 +1,5 @@
-import {auth} from "@/lib/auth/auth";
-import {UserProps} from "@/lib/declares/user";
+import {auth} from "@/lib/auth/default";
+import {AccountProps} from "../declares/account";
 
 export const isServerLogged = async () => {
     return !! await getServerUser()
@@ -12,7 +12,7 @@ export const getServerUser = async () => {
         return null
     }
     //@ts-ignore
-    const user: UserProps = session?.user
+    const user: AccountProps = session?.user
 
     return user
 }

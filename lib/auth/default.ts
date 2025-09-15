@@ -1,17 +1,18 @@
 // import ldap from "ldapjs"
-import NextAuth, { CredentialsSignin } from "next-auth"
+import NextAuth from "next-auth"
 import "next-auth/jwt"
 
 import CredentialsProvider from "next-auth/providers/credentials"
 import * as bcrypt from "bcrypt";
-import { fetch_simple_account_by_name } from "../database/account";
-import { AccountSimpleProps, NotFoundError, PasswordError } from "../declares/account";
+import {AccountSimpleProps, InvalidLoginTypeError, LoginType} from "../declares/account";
+import {login_with_default_auth} from "@/lib/database/login";
+import {formatNativeTime} from "@/lib/utils";
 
 // import {fetchUser} from "@/lib/fetch/client/fetch-user";
 
 // @ts-ignore
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  basePath: "/api/v1/auth/next_auth",
+  basePath: "/api/v1/auth/default",
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
@@ -19,32 +20,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
+        type: { label: "type", type: "text" },
       },
-      async authorize(credentials, req) {
-        console.info("xxx", credentials)
+      // @ts-ignore
+      async authorize(credentials, request) {
+        console.info("xxx", credentials, request.headers)
         const username = credentials.username as string
         const password = credentials.password as string
-        if (process.env.ADMIN_NAME !== username) {
-          console.info("process.env.ADMIN_NAME is not equal to username", new NotFoundError().message)
-          throw new NotFoundError()
+        const type = credentials.type as string
+        let account = null;
+        if (type === LoginType.DEFAULT) {
+           account = await login_with_default_auth(username, password)
         }
-        if (process.env.ADMIN_PASSWORD !== password) {
-          console.info("process.env.ADMIN_PASSWORD is not equal to password", new PasswordError().message)
-          throw new PasswordError()
+        else if (type === LoginType.GUEST) {
+           account = await login_with_default_auth(username, password)
         }
-        const account = await fetch_simple_account_by_name(username)
-        if (!account) {
-          console.info("account is not found in database", new NotFoundError().message)
-          throw new NotFoundError()
+        else if (type === LoginType.GITHUB) {
+           account = await login_with_default_auth(username, password)
         }
-        return {
+        else {
+          throw new InvalidLoginTypeError()
+        }
+
+
+        const simple : AccountSimpleProps = {
           id: account.id,
           name: account.name,
-          image: account.avatar,
+          role: account.role,
+          avatar: account.avatar,
           homepage: account.homepage,
           description: account.description,
-          created_at: account.created_at,
+          created_at: formatNativeTime(account.created_at),
         }
+        return simple
       },
 
       // @ts-ignore

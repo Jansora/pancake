@@ -16,7 +16,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {GlobalStore} from "@/lib/store/global";
 import {FCProps} from "../../../lib/declares/props";
 import {signIn} from "next-auth/react"
-import {NotFoundError, PasswordError} from "../../../lib/declares/account";
+import {LoginType, NotFoundError, PasswordError} from "../../../lib/declares/account";
 
 import {isClientLogged} from "../../../lib/auth/client";
 
@@ -71,7 +71,9 @@ export function UserAuthForm({ className,  ...props }: UserAuthFormProps) {
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         const response = await signIn("credentials", {
-          password,
+            username,
+            password,
+            type: LoginType.DEFAULT,
           redirect: false, // 登录成功后跳转
           redirectTo: callback
         }).catch(reason => {
