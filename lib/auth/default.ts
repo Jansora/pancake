@@ -12,7 +12,7 @@ import {formatNativeTime} from "@/lib/utils";
 
 // @ts-ignore
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  basePath: "/api/v1/auth/default",
+  basePath: "/api/v1/auth",
   session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
@@ -24,7 +24,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       // @ts-ignore
       async authorize(credentials, request) {
-        console.info("xxx", credentials, request.headers)
+        // console.info("xxx", credentials, request.headers)
         const username = credentials.username as string
         const password = credentials.password as string
         const type = credentials.type as string
