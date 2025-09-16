@@ -1,5 +1,5 @@
 import {AccountRole, AccountSource, DEFAULT_ADMIN_ACCOUNT_ID} from "../declares/account"
-import {fetch_simple_account_by_name, insert_account} from "./account"
+import {fetch_account_by_name, insert_account} from "./account"
 import {DB_CLIENT} from "./client"
 
 export const initialize_account = async () => {
@@ -12,7 +12,7 @@ export const initialize_account = async () => {
     throw new Error("environment variable ADMIN_PASSWORD is not set")
   }
 
-  const existing_account = await fetch_simple_account_by_name(process.env.ADMIN_USERNAME!)
+  const existing_account = await fetch_account_by_name(process.env.ADMIN_USERNAME!)
   if (existing_account) {
     return
   }

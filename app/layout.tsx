@@ -20,6 +20,7 @@ export default async function Layout({children,}: Readonly<{ children: React.Rea
 
     const session = await auth()
 
+    console.log("session", session)
     return (
 
         <RootLayout>

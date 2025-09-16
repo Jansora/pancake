@@ -13,7 +13,6 @@ import {formatNativeTime} from "@/lib/utils";
 // @ts-ignore
 export const { handlers, auth, signIn, signOut } = NextAuth({
   basePath: "/api/v1/auth",
-  session: { strategy: "jwt" },
   providers: [
     CredentialsProvider({
       name: "LOCAL_AUTH",
@@ -87,9 +86,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     // @ts-ignore
     async session({ session, token }) {
+      // @ts-ignore
       return { ...session, user: { ...token } }
     },
   },
+  session: {
+    // 1) 选用 JWT 方式才能自定义过期时间
+    strategy: 'jwt',
+    // 2) 控制会话最长存活期（秒）
+    maxAge: 60 * 60 * 24 * 365 * 1, // 1 年
+  },
+
+  jwt: {
+    // 3) 控制 JWT 本身过期时间（秒），建议与 maxAge 保持一致
+    maxAge: 60 * 60 * 24 * 365 * 1,
+  },
+
   pages: {
     signIn: '/auth/login'
   },
